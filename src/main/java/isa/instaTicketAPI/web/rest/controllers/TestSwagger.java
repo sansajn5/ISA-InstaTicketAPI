@@ -45,7 +45,7 @@ public class TestSwagger {
 		 return temp;
 	    }
 	
-	 @ApiOperation(value="Test funckija")
+	 @ApiOperation(value="Test funckija",response = String.class)
 	 	@ApiResponses(value = {
 	            @ApiResponse(code = 200, message = "Successfully done"),
 	            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
