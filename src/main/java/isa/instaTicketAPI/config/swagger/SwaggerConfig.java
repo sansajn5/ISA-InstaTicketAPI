@@ -20,10 +20,9 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("isa.instaTicketAPI.controllers"))
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("isa.instaTicketAPI"))
+                .paths(regex("/product.*"))
                 .build()
-                .pathMapping("/api")
                 .apiInfo(metaData());
     }
     private ApiInfo metaData() {

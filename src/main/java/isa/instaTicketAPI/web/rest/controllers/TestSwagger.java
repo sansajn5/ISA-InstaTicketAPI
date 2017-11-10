@@ -19,8 +19,8 @@ import io.swagger.annotations.ApiResponses;
 import isa.instaTicketAPI.services.UserService;
 
 @RestController
-@RequestMapping("/api/product")
-@Api(value="shop", description="Operations pertaining to products in online Shop")
+@RequestMapping("/product")
+@Api(value="shop")
 public class TestSwagger {
 
 	 private final Logger log = LoggerFactory.getLogger(TestSwagger.class);
@@ -46,7 +46,7 @@ public class TestSwagger {
 	    }
 	
 	 @ApiOperation(value="Test funckija")
-	 @ApiResponses(value = {
+	 	@ApiResponses(value = {
 	            @ApiResponse(code = 200, message = "Successfully done"),
 	            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 	            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
