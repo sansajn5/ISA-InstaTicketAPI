@@ -1,4 +1,4 @@
-package isa.instaTicketAPI.config.swagger;
+package isa.instaTicketAPI.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +14,14 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfiguration {
 	
 	@Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("isa.instaTicketAPI"))
-                .paths(regex("/product.*"))
+                .apis(RequestHandlerSelectors.basePackage("isa.instaTicketAPI.web.rest.controllers"))
+                .paths(regex("/api.*"))
                 .build()
                 .apiInfo(metaData());
     }
@@ -31,7 +31,7 @@ public class SwaggerConfig {
                 "Spring Boot REST API for InstaTicket",
                 "1.0",
                 "Terms of service",
-                new Contact("Nemanja Mudrinic , Dejan Mijic , Milica Kovacevic", "https://www.linkedin.com/in/nemanja-mudrinic-666334145/", "mudrinic5n@outlook.com"),
+                new Contact("Nemanja Mudrinic , Dejan Mijic , Milica Kovacevic", "https://github.com/sansajn5", "mudrinic5n@outlook.com"),
                "Apache License Version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0");
         return apiInfo;
