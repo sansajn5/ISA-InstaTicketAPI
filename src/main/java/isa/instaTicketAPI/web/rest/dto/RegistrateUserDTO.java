@@ -13,6 +13,12 @@ public class RegistrateUserDTO {
 	private String password;
 	@Getter @Setter
 	private String authority;
+	@Getter @Setter
+	private String name;
+	@Getter @Setter
+	private String lastName;
+	
+	
 	
 	public RegistrateUserDTO() { super(); }
 	

@@ -72,7 +72,7 @@ public class EntryContoller {
 			@ApiResponse(code = 488, message = "Username allready exist"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
 	@Transactional
-	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	@RequestMapping(value = "/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseMessage> registrate(@RequestBody RegistrateUserDTO registrateUser) {
 
 		User user = new User();
@@ -80,6 +80,8 @@ public class EntryContoller {
 		user.setEmail(registrateUser.getEmail());
 		user.setPassword(passwordEncoder.encode(registrateUser.getPassword()));
 		user.setStatus(UserStatus.DISABLED);
+		user.setName(registrateUser.getName());
+		user.setLastName(registrateUser.getLastName());
 
 		if (userService.findByUsername(registrateUser.getUsername()) != null) {
 			return new ResponseEntity<ResponseMessage>(new ResponseMessage("Username allready exist"),

@@ -58,5 +58,13 @@ public class User {
 	@Getter @Setter
 	private String confirmationLink;
 	
+	@Column(name = "Name")
+	@Getter@Setter
+	private String name;
+	
+	@Column(name = "LastName")
+	@Getter@Setter
+	private String lastName;
+	
 	
 }
