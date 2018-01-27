@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
@@ -19,6 +20,7 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration
+@EnableJpaRepositories
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class InstaticketapiApplication {
 

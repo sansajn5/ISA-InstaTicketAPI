@@ -4,6 +4,7 @@ import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(DomainUserDetailsService.class);
 
+    @Autowired
     private final UserRepository userRepository;
 
     public DomainUserDetailsService(UserRepository userRepository) {
