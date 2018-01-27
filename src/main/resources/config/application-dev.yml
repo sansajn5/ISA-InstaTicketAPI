@@ -1,0 +1,87 @@
+logging:
+    level:
+        ROOT: DEBUG
+        com.isa: DEBUG
+        io.github.jhipster: DEBUG
+
+spring:
+    profiles:
+        active: dev
+        include: swagger
+    jackson:
+        serialization.indent_output: true
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mariadb://localhost:3306/InstaTicketApi
+        username: root
+        password: root
+        hikari:
+            data-source-properties:
+                cachePrepStmts: true
+                prepStmtCacheSize: 250
+                prepStmtCacheSqlLimit: 2048
+                useServerPrepStmts: true
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database: MYSQL
+        show-sql: true
+        properties:
+            hibernate.id.new_generator_mappings: true
+            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: true
+    mail:
+        host: localhost
+        port: 25
+        username:
+        password:
+    messages:
+        cache-seconds: 1
+    thymeleaf:
+        cache: false
+
+liquibase:
+    contexts: dev
+
+server:
+    port: 8090
+
+application:
+    http:
+        version: V_1_1
+    cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+        allowed-headers: "*"
+        exposed-headers: "Authorization,Link,X-Total-Count"
+        allow-credentials: true
+        max-age: 1800
+    security:
+        authentication:
+            jwt:
+                secret: isa
+                token-validity-in-seconds: 86400
+                token-validity-in-seconds-for-remember-me: 2592000
+    mail:
+        from: Instaticketapi@localhost
+        base-url: http://127.0.0.1:8080
+    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+        jmx.enabled: true
+        graphite:
+            enabled: false
+            host: localhost
+            port: 2003
+            prefix: Instaticketapi
+        prometheus:
+            enabled: false
+            endpoint: /prometheusMetrics
+        logs:
+            enabled: false
+            report-frequency: 60
+    logging:
+        logstash:
+            enabled: false
+            host: localhost
+            port: 5000
+            queue-size: 512
+
