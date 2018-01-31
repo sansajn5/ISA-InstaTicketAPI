@@ -76,7 +76,6 @@ public class WebConfigurerTest {
 //        assertThat(servletContext.getAttribute(MetricsServlet.METRICS_REGISTRY)).isEqualTo(metricRegistry);
 //        verify(servletContext).addFilter(eq("webappMetricsFilter"), any(InstrumentedFilter.class));
 //        verify(servletContext).addServlet(eq("metricsServlet"), any(MetricsServlet.class));
-        verify(servletContext, never()).addFilter(eq("cachingHttpHeadersFilter"), any(CachingHttpHeadersFilter.class));
     }
 
     @Test

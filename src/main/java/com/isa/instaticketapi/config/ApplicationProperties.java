@@ -1,13 +1,9 @@
 package com.isa.instaticketapi.config;
 
-import java.util.List;
-import java.util.Map;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * Properites specific to InstaTicketApi
@@ -17,45 +13,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
-    @Getter
-    @Setter
     private final Async async = new Async();
 
-    @Getter
-    @Setter
     private final Http http = new Http();
 
-    @Getter
-    @Setter
-    private final Cache cache = new Cache();
-
-    @Getter
-    @Setter
     private final Mail mail = new Mail();
 
-    @Getter
-    @Setter
     private final Security security = new Security();
 
-    @Getter
-    @Setter
     private final Swagger swagger = new Swagger();
 
-    @Getter
-    @Setter
     private final Metrics metrics = new Metrics();
 
-    @Getter
-    @Setter
     private final Logging logging = new Logging();
 
-    @Getter
-    @Setter
     private final CorsConfiguration cors = new CorsConfiguration();
-
-    private final Ribbon ribbon = new Ribbon();
-
-    private final Registry registry = new Registry();
 
     public Async getAsync() {
         return async;
@@ -63,10 +35,6 @@ public class ApplicationProperties {
 
     public Http getHttp() {
         return http;
-    }
-
-    public Cache getCache() {
-        return cache;
     }
 
     public Mail getMail() {
@@ -91,14 +59,6 @@ public class ApplicationProperties {
 
     public CorsConfiguration getCors() {
         return cors;
-    }
-
-    public Ribbon getRibbon() {
-        return ribbon;
-    }
-
-    public Registry getRegistry() {
-        return registry;
     }
 
     public static class Async {
@@ -138,16 +98,7 @@ public class ApplicationProperties {
 
         public enum Version {V_1_1, V_2_0}
 
-        private final Cache cache = new Cache();
-
-        /**
-         * HTTP version, must be "V_1_1" (for HTTP/1.1) or V_2_0 (for (HTTP/2)
-         */
         public Version version = ApplicationDefaults.Http.version;
-
-        public Cache getCache() {
-            return cache;
-        }
 
         public Version getVersion() {
             return version;
@@ -157,248 +108,6 @@ public class ApplicationProperties {
             this.version = version;
         }
 
-        public static class Cache {
-
-            private int timeToLiveInDays = ApplicationDefaults.Http.Cache.timeToLiveInDays;
-
-            public int getTimeToLiveInDays() {
-                return timeToLiveInDays;
-            }
-
-            public void setTimeToLiveInDays(int timeToLiveInDays) {
-                this.timeToLiveInDays = timeToLiveInDays;
-            }
-        }
-    }
-
-
-    public static class Cache {
-
-        private final Hazelcast hazelcast = new Hazelcast();
-
-        private final Ehcache ehcache = new Ehcache();
-
-        private final Infinispan infinispan = new Infinispan();
-
-        public Hazelcast getHazelcast() {
-            return hazelcast;
-        }
-
-        public Ehcache getEhcache() {
-            return ehcache;
-        }
-
-        public Infinispan getInfinispan() {
-            return infinispan;
-        }
-
-        public static class Hazelcast {
-
-            private int timeToLiveSeconds = ApplicationDefaults.Cache.Hazelcast.timeToLiveSeconds;
-
-            private int backupCount = ApplicationDefaults.Cache.Hazelcast.backupCount;
-
-            private final ManagementCenter managementCenter = new ManagementCenter();
-
-            public ManagementCenter getManagementCenter() {
-                return managementCenter;
-            }
-
-            public static class ManagementCenter {
-
-                private boolean enabled = ApplicationDefaults.Cache.Hazelcast.ManagementCenter.enabled;
-
-                private int updateInterval = ApplicationDefaults.Cache.Hazelcast.ManagementCenter.updateInterval;
-
-                private String url = ApplicationDefaults.Cache.Hazelcast.ManagementCenter.url;
-
-                public boolean isEnabled() {
-                    return enabled;
-                }
-
-                public void setEnabled(boolean enabled) {
-                    this.enabled = enabled;
-                }
-
-                public int getUpdateInterval() {
-                    return updateInterval;
-                }
-
-                public void setUpdateInterval(int updateInterval) {
-                    this.updateInterval = updateInterval;
-                }
-
-                public String getUrl() {
-                    return url;
-                }
-
-                public void setUrl(String url) {
-                    this.url = url;
-                }
-
-            }
-
-            public int getTimeToLiveSeconds() {
-                return timeToLiveSeconds;
-            }
-
-            public void setTimeToLiveSeconds(int timeToLiveSeconds) {
-                this.timeToLiveSeconds = timeToLiveSeconds;
-            }
-
-            public int getBackupCount() {
-                return backupCount;
-            }
-
-            public void setBackupCount(int backupCount) {
-                this.backupCount = backupCount;
-            }
-        }
-
-        public static class Ehcache {
-
-            private int timeToLiveSeconds = ApplicationDefaults.Cache.Ehcache.timeToLiveSeconds;
-
-            private long maxEntries = ApplicationDefaults.Cache.Ehcache.maxEntries;
-
-            public int getTimeToLiveSeconds() {
-                return timeToLiveSeconds;
-            }
-
-            public void setTimeToLiveSeconds(int timeToLiveSeconds) {
-                this.timeToLiveSeconds = timeToLiveSeconds;
-            }
-
-            public long getMaxEntries() {
-                return maxEntries;
-            }
-
-            public void setMaxEntries(long maxEntries) {
-                this.maxEntries = maxEntries;
-            }
-        }
-
-        public static class Infinispan {
-
-            private String configFile = ApplicationDefaults.Cache.Infinispan.configFile;
-
-            private boolean statsEnabled = ApplicationDefaults.Cache.Infinispan.statsEnabled;
-
-            private final Local local = new Local();
-
-            private final Distributed distributed = new Distributed();
-
-            private final Replicated replicated = new Replicated();
-
-            public String getConfigFile() {
-                return configFile;
-            }
-
-            public void setConfigFile(String configFile) {
-                this.configFile = configFile;
-            }
-
-            public boolean isStatsEnabled() {
-                return statsEnabled;
-            }
-
-            public void setStatsEnabled(boolean statsEnabled) {
-                this.statsEnabled = statsEnabled;
-            }
-
-            public Local getLocal() {
-                return local;
-            }
-
-            public Distributed getDistributed() {
-                return distributed;
-            }
-
-            public Replicated getReplicated() {
-                return replicated;
-            }
-
-            public static class Local {
-
-                private long timeToLiveSeconds = ApplicationDefaults.Cache.Infinispan.Local.timeToLiveSeconds;
-
-                private long maxEntries = ApplicationDefaults.Cache.Infinispan.Local.maxEntries;
-
-                public long getTimeToLiveSeconds() {
-                    return timeToLiveSeconds;
-                }
-
-                public void setTimeToLiveSeconds(long timeToLiveSeconds) {
-                    this.timeToLiveSeconds = timeToLiveSeconds;
-                }
-
-                public long getMaxEntries() {
-                    return maxEntries;
-                }
-
-                public void setMaxEntries(long maxEntries) {
-                    this.maxEntries = maxEntries;
-                }
-
-            }
-
-            public static class Distributed {
-
-                private long timeToLiveSeconds = ApplicationDefaults.Cache.Infinispan.Distributed.timeToLiveSeconds;
-
-                private long maxEntries = ApplicationDefaults.Cache.Infinispan.Distributed.maxEntries;
-
-                private int instanceCount = ApplicationDefaults.Cache.Infinispan.Distributed.instanceCount;
-
-                public long getTimeToLiveSeconds() {
-                    return timeToLiveSeconds;
-                }
-
-                public void setTimeToLiveSeconds(long timeToLiveSeconds) {
-                    this.timeToLiveSeconds = timeToLiveSeconds;
-                }
-
-                public long getMaxEntries() {
-                    return maxEntries;
-                }
-
-                public void setMaxEntries(long maxEntries) {
-                    this.maxEntries = maxEntries;
-                }
-
-                public int getInstanceCount() {
-                    return instanceCount;
-                }
-
-                public void setInstanceCount(int instanceCount) {
-                    this.instanceCount = instanceCount;
-                }
-            }
-
-            public static class Replicated {
-
-                private long timeToLiveSeconds = ApplicationDefaults.Cache.Infinispan.Replicated.timeToLiveSeconds;
-
-                private long maxEntries = ApplicationDefaults.Cache.Infinispan.Replicated.maxEntries;
-
-                public long getTimeToLiveSeconds() {
-                    return timeToLiveSeconds;
-                }
-
-                public void setTimeToLiveSeconds(long timeToLiveSeconds) {
-                    this.timeToLiveSeconds = timeToLiveSeconds;
-                }
-
-                public long getMaxEntries() {
-                    return maxEntries;
-                }
-
-                public void setMaxEntries(long maxEntries) {
-                    this.maxEntries = maxEntries;
-                }
-
-            }
-        }
     }
 
     public static class Mail {
@@ -426,14 +135,49 @@ public class ApplicationProperties {
 
     public static class Security {
 
-        private final ClientAuthorization clientAuthorization = new ClientAuthorization();
+        private String accessTokenUri = ApplicationDefaults.Security.ClientAuthorization.accessTokenUri;
+
+        private String tokenServiceId = ApplicationDefaults.Security.ClientAuthorization.tokenServiceId;
+
+        private String clientId = ApplicationDefaults.Security.ClientAuthorization.clientId;
+
+        private String clientSecret = ApplicationDefaults.Security.ClientAuthorization.clientSecret;
 
         private final Authentication authentication = new Authentication();
 
         private final RememberMe rememberMe = new RememberMe();
 
-        public ClientAuthorization getClientAuthorization() {
-            return clientAuthorization;
+
+        public String getAccessTokenUri() {
+            return accessTokenUri;
+        }
+
+        public void setAccessTokenUri(String accessTokenUri) {
+            this.accessTokenUri = accessTokenUri;
+        }
+
+        public String getTokenServiceId() {
+            return tokenServiceId;
+        }
+
+        public void setTokenServiceId(String tokenServiceId) {
+            this.tokenServiceId = tokenServiceId;
+        }
+
+        public String getClientId() {
+            return clientId;
+        }
+
+        public void setClientId(String clientId) {
+            this.clientId = clientId;
+        }
+
+        public String getClientSecret() {
+            return clientSecret;
+        }
+
+        public void setClientSecret(String clientSecret) {
+            this.clientSecret = clientSecret;
         }
 
         public Authentication getAuthentication() {
@@ -442,49 +186,6 @@ public class ApplicationProperties {
 
         public RememberMe getRememberMe() {
             return rememberMe;
-        }
-
-        public static class ClientAuthorization {
-
-            private String accessTokenUri = ApplicationDefaults.Security.ClientAuthorization.accessTokenUri;
-
-            private String tokenServiceId = ApplicationDefaults.Security.ClientAuthorization.tokenServiceId;
-
-            private String clientId = ApplicationDefaults.Security.ClientAuthorization.clientId;
-
-            private String clientSecret = ApplicationDefaults.Security.ClientAuthorization.clientSecret;
-
-            public String getAccessTokenUri() {
-                return accessTokenUri;
-            }
-
-            public void setAccessTokenUri(String accessTokenUri) {
-                this.accessTokenUri = accessTokenUri;
-            }
-
-            public String getTokenServiceId() {
-                return tokenServiceId;
-            }
-
-            public void setTokenServiceId(String tokenServiceId) {
-                this.tokenServiceId = tokenServiceId;
-            }
-
-            public String getClientId() {
-                return clientId;
-            }
-
-            public void setClientId(String clientId) {
-                this.clientId = clientId;
-            }
-
-            public String getClientSecret() {
-                return clientSecret;
-            }
-
-            public void setClientSecret(String clientSecret) {
-                this.clientSecret = clientSecret;
-            }
         }
 
         public static class Authentication {
@@ -529,8 +230,8 @@ public class ApplicationProperties {
                     this.tokenValidityInSecondsForRememberMe = tokenValidityInSecondsForRememberMe;
                 }
             }
-        }
 
+        }
         public static class RememberMe {
 
             @NotNull
@@ -866,98 +567,6 @@ public class ApplicationProperties {
             public void setEnabled(boolean enabled) {
                 this.enabled = enabled;
             }
-        }
-    }
-
-    public static class Social {
-
-        private String redirectAfterSignIn = ApplicationDefaults.Social.redirectAfterSignIn;
-
-        public String getRedirectAfterSignIn() {
-            return redirectAfterSignIn;
-        }
-
-        public void setRedirectAfterSignIn(String redirectAfterSignIn) {
-            this.redirectAfterSignIn = redirectAfterSignIn;
-        }
-    }
-
-    public static class Gateway {
-
-        private final RateLimiting rateLimiting = new RateLimiting();
-
-        public RateLimiting getRateLimiting() {
-            return rateLimiting;
-        }
-
-        private Map<String, List<String>> authorizedMicroservicesEndpoints = ApplicationDefaults.Gateway
-                .authorizedMicroservicesEndpoints;
-
-        public Map<String, List<String>> getAuthorizedMicroservicesEndpoints() {
-            return authorizedMicroservicesEndpoints;
-        }
-
-        public void setAuthorizedMicroservicesEndpoints(Map<String, List<String>> authorizedMicroservicesEndpoints) {
-            this.authorizedMicroservicesEndpoints = authorizedMicroservicesEndpoints;
-        }
-
-        public static class RateLimiting {
-
-            private boolean enabled = ApplicationDefaults.Gateway.RateLimiting.enabled;
-
-            private long limit = ApplicationDefaults.Gateway.RateLimiting.limit;
-
-            private int durationInSeconds = ApplicationDefaults.Gateway.RateLimiting.durationInSeconds;
-
-            public boolean isEnabled() {
-                return enabled;
-            }
-
-            public void setEnabled(boolean enabled) {
-                this.enabled = enabled;
-            }
-
-            public long getLimit() {
-                return this.limit;
-            }
-
-            public void setLimit(long limit) {
-                this.limit = limit;
-            }
-
-            public int getDurationInSeconds() {
-                return durationInSeconds;
-            }
-
-            public void setDurationInSeconds(int durationInSeconds) {
-                this.durationInSeconds = durationInSeconds;
-            }
-        }
-    }
-
-    public static class Ribbon {
-
-        private String[] displayOnActiveProfiles = ApplicationDefaults.Ribbon.displayOnActiveProfiles;
-
-        public String[] getDisplayOnActiveProfiles() {
-            return displayOnActiveProfiles;
-        }
-
-        public void setDisplayOnActiveProfiles(String[] displayOnActiveProfiles) {
-            this.displayOnActiveProfiles = displayOnActiveProfiles;
-        }
-    }
-
-    public static class Registry {
-
-        private String password = ApplicationDefaults.Registry.password;
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
         }
     }
 }

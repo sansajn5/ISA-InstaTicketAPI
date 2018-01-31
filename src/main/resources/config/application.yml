@@ -4,6 +4,12 @@ spring:
     profiles:
         active:
 
+    messages:
+        basename: i18n/messages
+
+    thymeleaf:
+        mode: XHTML
+
 security:
     basic:
         enabled: false
@@ -26,7 +32,7 @@ management:
             mode: full
     health:
         mail:
-            enabled: false # When using the MailService, configure an SMTP server and set this to true
+            enabled: true
 
 application:
     async:
@@ -34,7 +40,7 @@ application:
         max-pool-size: 50
         queue-capacity: 10000
     mail:
-        from: Instaticketapi@localhost
+        from: InstaTicket
     swagger:
         default-include-pattern: /api/.*
         title: InstaTicket API
@@ -46,5 +52,3 @@ application:
         contact-email: mudrinic.nemanja@itengine.co.rs
         license:
         license-url:
-    ribbon:
-        display-on-active-profiles: dev

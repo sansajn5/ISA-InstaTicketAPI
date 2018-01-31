@@ -3,25 +3,29 @@ package com.isa.instaticketapi.security.jwt;
 import com.isa.instaticketapi.config.ApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import io.jsonwebtoken.*;
+import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Component
 public class TokenProvider {
 
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
-    private String secretKey;
+    private static final String secretKey = "isa";
 
     private long tokenValidityInMilliseconds;
 
@@ -35,8 +39,6 @@ public class TokenProvider {
 
     @PostConstruct
     public void init() {
-        this.secretKey =
-                applicationProperties.getSecurity().getAuthentication().getJwt().getSecret();
         this.tokenValidityInMilliseconds =
                 1000 * applicationProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
         this.tokenValidityInMillisecondsForRememberMe =
@@ -55,7 +57,7 @@ public class TokenProvider {
         } else {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
-
+        log.debug("Nemanja {} and ", secretKey, authorities );
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)

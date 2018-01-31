@@ -2,7 +2,6 @@ logging:
     level:
         ROOT: DEBUG
         com.isa: DEBUG
-        io.github.jhipster: DEBUG
 
 spring:
     profiles:
@@ -12,7 +11,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mariadb://db-spring:3306/InstaTicketApi
+        url: jdbc:mariadb://localhost:3306/InstaTicketApi
         username: root
         password: root
         hikari:
@@ -30,11 +29,18 @@ spring:
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
+            hibernate.hbm2ddl.auto: update
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+        host: smtp.gmail.com
+        port: 587
+        username: instaticket.isa@gmail.com
+        password: cinirdum
+        protocol: smtp
+        tls: true
+        properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.gmail.com
     messages:
         cache-seconds: 1
     thymeleaf:
@@ -58,13 +64,13 @@ application:
         max-age: 1800
     security:
         authentication:
-            jwt:
-                secret: isa
-                token-validity-in-seconds: 86400
-                token-validity-in-seconds-for-remember-me: 2592000
+          jwt:
+              secret: isa
+              token-validity-in-seconds: 86400
+              token-validity-in-seconds-for-remember-me: 2592000
     mail:
-        from: Instaticketapi@localhost
-        base-url: http://127.0.0.1:8080
+      from: InstaTicket
+      base-url: http://127.0.0.1:8080
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite:

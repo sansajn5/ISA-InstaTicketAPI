@@ -44,11 +44,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         if (environment.getActiveProfiles().length != 0)
             logger.info("Web application cofiguration, using profile: {}", (Object[]) environment.getActiveProfiles());
 
-        EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-
-        if (environment.acceptsProfiles(ApplicationConstants.SPRING_PROFILE_PRODUCTION)) {
-            initCachingHttpHeadersFilter(servletContext, disps);
-        }
         logger.info("Web application fully configured");
 
     }
@@ -91,21 +86,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
             return "";
         }
         return extractedPath.substring(0, extractionEndIndex);
-    }
-
-    /**
-     * Initializes the caching HTTP Headers Filter.
-     */
-    private void initCachingHttpHeadersFilter(ServletContext servletContext,
-                                              EnumSet<DispatcherType> disps) {
-        logger.debug("Registering Caching HTTP Headers Filter");
-        FilterRegistration.Dynamic cachingHttpHeadersFilter =
-                servletContext.addFilter("cachingHttpHeadersFilter",
-                        new CachingHttpHeadersFilter(applicationProperties));
-
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/content/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/app/*");
-        cachingHttpHeadersFilter.setAsyncSupported(true);
     }
 
     @Bean

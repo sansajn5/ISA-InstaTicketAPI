@@ -10,10 +10,11 @@ import java.io.Serializable;
 
 /**
  * An authority (a security role) used by Spring Security.
+ *
+ * @author sansajn
  */
 @Entity
-@Table(name = "jhi_authority")
-
+@Table(name = "Authority")
 public class Authority implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,14 +48,9 @@ public class Authority implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return name != null ? name.hashCode() : 0;
-    }
-
-    @Override
     public String toString() {
         return "Authority{" +
-            "name='" + name + '\'' +
-            "}";
+                "name='" + name + '\'' +
+                "}";
     }
 }

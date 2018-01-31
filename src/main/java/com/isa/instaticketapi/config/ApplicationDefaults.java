@@ -18,57 +18,6 @@ public interface ApplicationDefaults {
 
         Version version = Version.V_1_1;
 
-        interface Cache {
-
-            int timeToLiveInDays = 1461; // 4 years (including leap day)
-        }
-    }
-
-    interface Cache {
-
-        interface Hazelcast {
-
-            int timeToLiveSeconds = 3600; // 1 hour
-            int backupCount = 1;
-
-            interface ManagementCenter {
-
-                boolean enabled = false;
-                int updateInterval = 3;
-                String url = "";
-            }
-        }
-
-        interface Ehcache {
-
-            int timeToLiveSeconds = 3600; // 1 hour
-            long maxEntries = 100;
-        }
-
-        interface Infinispan {
-
-            String configFile = "default-configs/default-jgroups-tcp.xml";
-            boolean statsEnabled = false;
-
-            interface Local {
-
-                long timeToLiveSeconds = 60; // 1 minute
-                long maxEntries = 100;
-            }
-
-            interface Distributed {
-
-                long timeToLiveSeconds = 60; // 1 minute
-                long maxEntries = 100;
-                int instanceCount = 1;
-            }
-
-            interface Replicated {
-
-                long timeToLiveSeconds = 60; // 1 minute
-                long maxEntries = 100;
-            }
-        }
     }
 
     interface Mail {
@@ -91,7 +40,7 @@ public interface ApplicationDefaults {
 
             interface Jwt {
 
-                String secret = null;
+                String secret =  "isa";
                 long tokenValidityInSeconds = 1800; // 0.5 hour
                 long tokenValidityInSecondsForRememberMe = 2592000; // 30 hours;
             }
@@ -131,7 +80,7 @@ public interface ApplicationDefaults {
             boolean enabled = false;
             String host = "localhost";
             int port = 2003;
-            String prefix = "jhipsterApplication";
+            String prefix = "instaticketApplication";
         }
 
         interface Prometheus {
@@ -162,33 +111,5 @@ public interface ApplicationDefaults {
 
             boolean enabled = false;
         }
-    }
-
-    interface Social {
-
-        String redirectAfterSignIn = "/#/home";
-    }
-
-    interface Gateway {
-
-        Map<String, List<String>> authorizedMicroservicesEndpoints = new LinkedHashMap<>();
-
-        interface RateLimiting {
-
-            boolean enabled = false;
-            long limit = 100_000L;
-            int durationInSeconds = 3_600;
-
-        }
-    }
-
-    interface Ribbon {
-
-        String[] displayOnActiveProfiles = null;
-    }
-
-    interface Registry {
-
-        String password = null;
     }
 }
