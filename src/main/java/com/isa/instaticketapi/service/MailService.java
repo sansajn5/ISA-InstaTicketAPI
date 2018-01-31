@@ -128,4 +128,36 @@ public class MailService {
         sendEmailFromTemplate(user, "passwordResetEmail", "email.reset.title");
     }
 
+
+    public ApplicationProperties getApplicationProperties() {
+        return applicationProperties;
+    }
+
+    public void setApplicationProperties(ApplicationProperties applicationProperties) {
+        this.applicationProperties = applicationProperties;
+    }
+
+    public JavaMailSender getJavaMailSender() {
+        return javaMailSender;
+    }
+
+    public void setJavaMailSender(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+
+    public MessageSource getMessageSource() {
+        return messageSource;
+    }
+
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    public SpringTemplateEngine getTemplateEngine() {
+        return templateEngine;
+    }
+
+    public void setTemplateEngine(SpringTemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
+    }
 }

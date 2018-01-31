@@ -2,7 +2,7 @@ package com.isa.instaticketapi.web.rest;
 
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.security.jwt.JWTConfigurer;
+import com.isa.instaticketapi.security.DomainUserDetailsService;
 import com.isa.instaticketapi.security.jwt.TokenProvider;
 import com.isa.instaticketapi.service.MailService;
 import com.isa.instaticketapi.service.UserService;
@@ -23,10 +23,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -58,6 +61,9 @@ public class AccountResource {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private DomainUserDetailsService domainUserDetailsService;
+
 
     /**
      * POST  /signup : register new user
@@ -83,13 +89,15 @@ public class AccountResource {
 
         userRepository.findOneByUsername(userDTO.getUsername()).ifPresent( user -> {throw new IllegalArgumentException("Username is already used");});
         userRepository.findOneByEmailIgnoreCase(userDTO.getUsername()).ifPresent( user -> {throw new IllegalArgumentException("Email is already used");});
+        log.debug("before mapper {}", userDTO );
         User user = userMapper.userDTOToUser(userDTO);
+        log.debug("after mapper {}",user);
         userService.signupUser(user,userDTO.getPassword());
         mailService.sendActivationEmail(user);
     }
 
     /**
-     * POST  /signin : Authenticate user
+     * POST  /authenticate : Authenticate user
      *
      * @param loginDTO object providing information required for login
      * @return
@@ -105,20 +113,16 @@ public class AccountResource {
             @ApiResponse(code = 503, message = "Server is unavilable or under maintance")})
     @PostMapping("/authenticate")
     public ResponseEntity<JWTTokenResponse> authorize(@Valid @RequestBody LoginDTO loginDTO) {
-
+        UserDetails details = domainUserDetailsService.loadUserByUsername(loginDTO.getUsername());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
-
-        Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        //TODO implement for remamber me with shorter time limit
         boolean rememberMe = (loginDTO.isRememberMe() == null) ? false : loginDTO.isRememberMe();
-        String jwt = tokenProvider.createToken(authentication, rememberMe);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        return new ResponseEntity<>(new JWTTokenResponse(jwt), httpHeaders, HttpStatus.OK);
+        String jwt = tokenProvider.generateToken(details);
+        return new ResponseEntity<>(new JWTTokenResponse(jwt), HttpStatus.OK);
     }
-
-
 
     /**
      * GET  /authenticate : check if the user is authenticated, and return its login.
@@ -180,6 +184,24 @@ public class AccountResource {
         return userService.getUserWithAuthorities()
                 .map(UserDTO::new)
                 .orElseThrow(() -> new IllegalArgumentException("User could not be found"));
+    }
+
+    /**
+     * GET  /logout : Logout current user.
+     *
+     * @throws HttpStatus 400 (Bad Request) if the user couldn't be returned
+     */
+    @ApiOperation(value = "Loging out from SecurityContext",response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Succesfully loged out"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

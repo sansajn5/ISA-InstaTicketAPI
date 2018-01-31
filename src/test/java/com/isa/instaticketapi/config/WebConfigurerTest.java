@@ -37,8 +37,6 @@ public class WebConfigurerTest {
 
     private ApplicationProperties props;
 
-//    private MetricRegistry metricRegistry;
-
     @Before
     public void setup() {
         servletContext = spy(new MockServletContext());
@@ -51,31 +49,12 @@ public class WebConfigurerTest {
         props = new ApplicationProperties();
 
         webConfigurer = new WebConfigurer(env, props);
-//        metricRegistry = new MetricRegistry();
-//        webConfigurer.setMetricRegistry(metricRegistry);
     }
-
-//    @Test
-//    public void testStartUpProdServletContext() throws ServletException {
-//        env.setActiveProfiles(ApplicationConstants.SPRING_PROFILE_PRODUCTION);
-//        webConfigurer.onStartup(servletContext);
-//
-//        assertThat(servletContext.getAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE)).isEqualTo(metricRegistry);
-//        assertThat(servletContext.getAttribute(MetricsServlet.METRICS_REGISTRY)).isEqualTo(metricRegistry);
-//        verify(servletContext).addFilter(eq("webappMetricsFilter"), any(InstrumentedFilter.class));
-//        verify(servletContext).addServlet(eq("metricsServlet"), any(MetricsServlet.class));
-//        verify(servletContext).addFilter(eq("cachingHttpHeadersFilter"), any(CachingHttpHeadersFilter.class));
-//    }
 
     @Test
     public void testStartUpDevServletContext() throws ServletException {
         env.setActiveProfiles(ApplicationConstants.SPRING_PROFILE_DEVELOPMENT);
         webConfigurer.onStartup(servletContext);
-
-//        assertThat(servletContext.getAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE)).isEqualTo(metricRegistry);
-//        assertThat(servletContext.getAttribute(MetricsServlet.METRICS_REGISTRY)).isEqualTo(metricRegistry);
-//        verify(servletContext).addFilter(eq("webappMetricsFilter"), any(InstrumentedFilter.class));
-//        verify(servletContext).addServlet(eq("metricsServlet"), any(MetricsServlet.class));
     }
 
     @Test

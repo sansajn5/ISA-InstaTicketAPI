@@ -1,9 +1,11 @@
 package com.isa.instaticketapi.security;
 
+import com.isa.instaticketapi.domain.Authority;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,16 +25,13 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(DomainUserDetailsService.class);
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public DomainUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String username) {
-        log.debug("Authenticating {}", username);
         Optional<User> userByUsernameFromDatabase = userRepository.findOneByUsername(username);
         return userByUsernameFromDatabase.map(user -> createSpringSecurityUser(user)).orElseThrow(() ->
                 new UsernameNotFoundException("User " + username + " was not found in the " +

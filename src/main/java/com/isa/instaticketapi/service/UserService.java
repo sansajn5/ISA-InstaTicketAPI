@@ -48,13 +48,15 @@ public class UserService {
      * @param password password which will be encoded
      */
     public void signupUser(User user,String password){
-        if(user.getAuthorities() == null) {
+        log.debug("start of reg {}",user);
+
+            log.debug("binto!");
             Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
             Set<Authority> authorities = new HashSet<>();
             authorities.add(authority);
             user.setAuthorities(authorities);
-        }
 
+        log.debug("after reg {}", user);
         String encryptedPassword = passwordEncoder.encode(password);
         user.setPassword(encryptedPassword);
         user.setActivated(false);

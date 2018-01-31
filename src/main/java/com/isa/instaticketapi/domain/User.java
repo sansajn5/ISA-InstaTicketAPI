@@ -203,6 +203,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", activated='" + activated + '\'' +
                 ", activationKey='" + activationKey + '\'' +
+                ", authority='" + authorities + '\'' +
                 "}";
     }
 }
