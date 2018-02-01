@@ -11,9 +11,11 @@ import org.mockito.Captor;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
@@ -29,7 +31,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = InstaticketapiApplication.class)
 public class MailServiceTest {
 
@@ -86,7 +88,7 @@ public class MailServiceTest {
         assertThat(message.getAllRecipients()[0].toString()).isEqualTo("nemanja@test.com");
         assertThat(message.getFrom()[0].toString()).isEqualTo("InstaTicket");
         assertThat(message.getContent().getClass()).isEqualTo(String.class);
-        assertThat(message.getDataHandler().getContentType()).isEqualTo("text/html; charset=UTF-8");
+        assertThat(message.getDataHandler().getContentType()).isEqualTo("text/html;charset=UTF-8");
     }
 
     @Test
