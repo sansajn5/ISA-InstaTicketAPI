@@ -47,7 +47,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing the current user's account.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class AccountResource {
 
 	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
