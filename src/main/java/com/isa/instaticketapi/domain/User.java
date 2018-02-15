@@ -84,6 +84,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "Friends",
+            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "friend_id",referencedColumnName = "id")}
+    )
+    private Set<User> friends = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -179,6 +187,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
+
+    public void setFriends(Set<User> friends) { this.friends = friends; }
+
+    public Set<User> getFriends() { return friends; }
 
     @Override
     public boolean equals(Object o) {
