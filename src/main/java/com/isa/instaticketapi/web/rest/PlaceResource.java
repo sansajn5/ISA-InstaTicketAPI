@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiResponses;
 
 
 @RestController
-@RequestMapping("/places")
+@RequestMapping("/api/places")
 public class PlaceResource {
 	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 	
