@@ -9,10 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import com.isa.instaticketapi.config.Constants;
 
 /**
  * Model for placas
@@ -32,11 +29,11 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 
 	@NotNull
 	@Size(min = 1, max = 50)
-	@Column(name = "name",length = 50, unique = true)
+	@Column(name = "name",length = 50)
 	private String name;
 
 	@Size(min = 1, max = 50)
-	@Column(name = "address",length = 50, unique = true)
+	@Column(name = "address",length = 50)
 	private String address;
 
 	@Size(min = 1, max = 5000)

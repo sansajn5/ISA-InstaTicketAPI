@@ -167,6 +167,8 @@ public class DataLoader implements ApplicationRunner {
 
 		place.setName("Arena Cineplex");
 		place.setType("Bioskop");
+		place.setCreatedBy("Milica");
+		place.setAddress("npk");
 
 		try {
 			log.debug("test");
