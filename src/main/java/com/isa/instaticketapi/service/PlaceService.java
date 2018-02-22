@@ -26,7 +26,18 @@ public class PlaceService {
 	@Autowired
 	private PlaceRepository placeRepository;
 
+	/**
+	 * 
+	 * @return list of all cinemas
+	 */
 	public List<Place> getCinemas() {
 		return placeRepository.findAllByType(Constants.CINEMA);
+	}
+	/**
+	 * 
+	 * @return list of all theaters
+	 */
+	public List<Place> getTheaters() {
+		return placeRepository.findAllByType(Constants.THEATER);
 	}
 }
