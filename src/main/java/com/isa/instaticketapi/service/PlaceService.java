@@ -2,6 +2,7 @@ package com.isa.instaticketapi.service;
 
 import java.util.List;
 
+import com.isa.instaticketapi.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,6 @@ public class PlaceService {
 	private PlaceRepository placeRepository;
 
 	public List<Place> getCinemas() {
-		return placeRepository.findAll("Bioskop");
+		return placeRepository.findAllByType(Constants.CINEMA);
 	}
 }

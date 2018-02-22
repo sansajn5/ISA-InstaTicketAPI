@@ -12,5 +12,5 @@ import com.isa.instaticketapi.domain.Place;
  */
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Long> {
-	List<Place> findAll(String type);
+	List<Place> findAllByType(String type);
 }
