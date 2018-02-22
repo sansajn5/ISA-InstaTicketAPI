@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Entithy of user.
+ * Entity of user.
  *
  * @author sansajn
  */
