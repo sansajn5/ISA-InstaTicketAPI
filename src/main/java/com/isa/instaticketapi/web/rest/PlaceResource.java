@@ -9,12 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
+import com.isa.instaticketapi.service.dto.ChangePlaceDTO;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
@@ -71,7 +74,7 @@ public class PlaceResource {
 		List<Place> theaters = placeService.getTheaters();
 		return new ResponseEntity<>(new TheaterResponse(theaters), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * GET: /getPlace: return all data for concrete place.
 	 * 
@@ -86,10 +89,13 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("getPlace/{id}")
-	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id){
-		Place place=placeService.getPlace(id);
-		log.info(" "+ place.getName());
+	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
+		Place place = placeService.getPlace(id);
 		return new ResponseEntity<>(new PlaceResponse(place), HttpStatus.OK);
 	}
 
+	@PostMapping("/editPlace/{id}")
+	public void changePassword(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
+		placeService.changePlace(changePlaceDTO, id);
+	}
 }

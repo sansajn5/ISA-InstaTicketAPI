@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.service.dto.ChangePasswordDTO;
+import com.isa.instaticketapi.service.dto.ChangePlaceDTO;
 
 /**
  * Service for managing cinema and theatres
@@ -44,10 +46,21 @@ public class PlaceService {
 
 	/**
 	 * 
-	 * @param id 
+	 * @param id
 	 * @return cinema or theater
 	 */
 	public Place getPlace(Long id) {
 		return placeRepository.findOneById(id);
+	}
+
+	public void changePlace(ChangePlaceDTO changePlaceDTO, long id) {
+		Place place = placeRepository.findOneById(id);
+		place.setName(changePlaceDTO.getName());
+		place.setAddress(changePlaceDTO.getAddress());
+		log.info(" " + changePlaceDTO.getName());
+		log.info(" " + changePlaceDTO.getDescription());
+		place.setDescripton(changePlaceDTO.getDescription());
+
+		placeRepository.save(place);
 	}
 }
