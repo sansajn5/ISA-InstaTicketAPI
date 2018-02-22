@@ -14,6 +14,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,10 +62,14 @@ public class DataLoader implements ApplicationRunner {
         user.setName(AuthoritiesConstants.USER);
         guest.setName(AuthoritiesConstants.ANONYMOUS);
 
-        authorityRepository.save(superAdmin);
-        authorityRepository.save(admin);
-        authorityRepository.save(user);
-        authorityRepository.save(guest);
+        try {
+            authorityRepository.save(superAdmin);
+            authorityRepository.save(admin);
+            authorityRepository.save(user);
+            authorityRepository.save(guest);
+        }catch (Exception e){
+                log.debug("items (authorities) are already in database");
+        }
 
         log.info("Seeds for authority are completed");
     }
@@ -110,6 +115,7 @@ public class DataLoader implements ApplicationRunner {
         superAdmin.setActivated(true);
         superAdmin.setAuthorities(authoritiesSuperAdmin);
         superAdmin.setEmail("super@super.com");
+        superAdmin.setCreatedBy("sansajn");
 
         sansajn.setUsername("sansajn");
         sansajn.setPassword(passwordEncoder.encode("sansajn"));
@@ -118,6 +124,7 @@ public class DataLoader implements ApplicationRunner {
         sansajn.setAuthorities(authoritiesAdmin);
         sansajn.setActivated(true);
         sansajn.setEmail("sansajn@super.com");
+        sansajn.setCreatedBy("sansajn");
 
         dejan.setUsername("dejan");
         dejan.setPassword(passwordEncoder.encode("dejan"));
@@ -126,6 +133,7 @@ public class DataLoader implements ApplicationRunner {
         dejan.setAuthorities(authoritiesAdmin);
         dejan.setActivated(true);
         dejan.setEmail("dejan@super.com");
+        dejan.setCreatedBy("sansajn");
 
         milica.setUsername("milica");
         milica.setPassword(passwordEncoder.encode("milica"));
@@ -134,11 +142,16 @@ public class DataLoader implements ApplicationRunner {
         milica.setAuthorities(authoritiesAdmin);
         milica.setActivated(true);
         milica.setEmail("milica@super.com");
+        milica.setCreatedBy("sansajn");
 
-        userRepository.save(superAdmin);
-        userRepository.save(sansajn);
-        userRepository.save(milica);
-        userRepository.save(dejan);
+        try {
+            userRepository.save(superAdmin);
+            userRepository.save(sansajn);
+            userRepository.save(milica);
+            userRepository.save(dejan);
+        }catch (Exception e) {
+            log.debug("items (users) are already in database");
+        }
 
         log.info("Seeds for users are completed");
 

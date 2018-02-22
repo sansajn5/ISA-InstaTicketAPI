@@ -7,19 +7,13 @@ import com.google.common.base.Optional;
 import com.isa.instaticketapi.domain.FanZone;
 
 /**
- * 
  * @author Dejan
- * 
+ * <p>
  * Spring Data JPA repository for the FanZone entity
- *
  */
 
 @Repository
-public interface FanZoneRepository extends JpaRepository<FanZone,Long> {
+public interface FanZoneRepository extends JpaRepository<FanZone, Long> {
 
-	
-	Optional<FanZone> findOneByPlaceId(String placeID);
-	
-	
-	
+    FanZone findByPlaceID(Long id);
 }
