@@ -31,21 +31,23 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 	private Long id;
 
 	@NotNull
-	@Pattern(regexp = Constants.LOGIN_REGEX)
 	@Size(min = 1, max = 50)
-	@Column(length = 50, unique = true)
+	@Column(name = "name",length = 50, unique = true)
 	private String name;
 
 	@NotNull
-	@Pattern(regexp = Constants.LOGIN_REGEX)
 	@Size(min = 1, max = 50)
-	@Column(length = 50, unique = true)
+	@Column(name = "address",length = 50, unique = true)
 	private String address;
 
-	@Pattern(regexp = Constants.LOGIN_REGEX)
-	@Size(min = 1, max = 500)
-	@Column(length = 500)
+	@Size(min = 1, max = 5000)
+	@Column(name = "descripton",length = 5000)
 	private String descripton;
+	
+	@Size(min = 1, max = 20)
+	@Column(name = "type",length = 20)
+	private String type;
+	
 
 	public Long getId() {
 		return id;
