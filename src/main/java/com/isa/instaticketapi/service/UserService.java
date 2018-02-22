@@ -8,6 +8,7 @@ import com.isa.instaticketapi.security.AuthoritiesConstants;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.UserDTO;
 import com.isa.instaticketapi.service.util.RandomUtil;
+import com.isa.instaticketapi.web.rest.vm.UserResource.Friend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,6 +186,10 @@ public class UserService {
             log.debug("Deleting not activated user {}", user.getUsername());
             userRepository.delete(user);
         }
+    }
+
+    public List<Friend> getMyFriends() {
+//        return userRepository
     }
 
 }
