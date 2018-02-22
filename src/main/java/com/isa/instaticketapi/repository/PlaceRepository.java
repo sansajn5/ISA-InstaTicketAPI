@@ -1,11 +1,16 @@
 package com.isa.instaticketapi.repository;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.isa.instaticketapi.domain.Place;
 
 /**
  * Spring Data JPA repository for the Place entity.
  */
 @Repository
-public class PlaceRepository {
-
+public interface PlaceRepository extends JpaRepository<Place, Long> {
+	List<Place> findAll(String type);
 }
