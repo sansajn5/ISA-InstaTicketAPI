@@ -188,8 +188,8 @@ public class UserService {
         }
     }
 
-    public List<Friend> getMyFriends() {
+//    public List<Friend> getMyFriends() {
 //        return userRepository
-    }
+//    }
 
 }
