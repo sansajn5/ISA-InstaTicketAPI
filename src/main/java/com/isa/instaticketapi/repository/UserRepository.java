@@ -19,6 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByUsername(String username);
 
+    Optional<User> findOneById(Long id);
+
     Optional<User> findOneByActivationKey(String activationKey);
 
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
@@ -38,7 +40,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(attributePaths = "authorities")
     Optional<User> findOneWithAuthoritiesByEmail(String email);
 
-//    @EntityGraph(attributePaths = "friends")
-//    List<User> findAllBy
+    @EntityGraph(attributePaths = "friends")
+    List<User> findAllFriendsById(Long id);
 
 }
