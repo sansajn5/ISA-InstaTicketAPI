@@ -23,7 +23,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
 
-    Optional<User> findOneByResetKey(String resetKey);
+    List<User> findByFriends_Username(String username);
+
+    User findOneByResetKey(String resetKey);
 
     Optional<User> findOneByEmailIgnoreCase(String email);
 
