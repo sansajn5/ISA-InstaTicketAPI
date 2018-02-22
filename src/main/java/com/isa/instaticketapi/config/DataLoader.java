@@ -46,6 +46,7 @@ public class DataLoader implements ApplicationRunner {
 		seedAuthorities();
 		seedUsers();
 		seedCinema();
+		seedTheater();
 	}
 
 	/**
@@ -171,7 +172,30 @@ public class DataLoader implements ApplicationRunner {
 		place.setAddress("npk");
 
 		try {
-			log.debug("test");
+
+			placeRepository.save(place);
+
+		} catch (Exception e) {
+			log.debug("items (place) are already in database");
+		}
+
+		log.info("Seeds for place are completed");
+	}
+
+	/**
+	 * Setting up theaters for common init database
+	 */
+	public void seedTheater() {
+		log.info("Starting seed for theater");
+		Place place = new Place();
+
+		place.setName("Srpsko narodno pozoriste");
+		place.setType("Pozoriste");
+		place.setCreatedBy("Milica");
+		place.setAddress("blah");
+
+		try {
+
 			placeRepository.save(place);
 
 		} catch (Exception e) {
