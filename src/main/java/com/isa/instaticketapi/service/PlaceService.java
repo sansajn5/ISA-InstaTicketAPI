@@ -1,11 +1,15 @@
 package com.isa.instaticketapi.service;
 
+import java.util.List;
+
+import com.isa.instaticketapi.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.repository.PlaceRepository;
 
 /**
@@ -22,7 +26,7 @@ public class PlaceService {
 	@Autowired
 	private PlaceRepository placeRepository;
 
-	public void getPlaces() {
-		
+	public List<Place> getCinemas() {
+		return placeRepository.findAllByType(Constants.CINEMA);
 	}
 }
