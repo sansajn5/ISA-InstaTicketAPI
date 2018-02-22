@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -50,13 +49,11 @@ public class UserService {
     public void signupUser(User user,String password){
         log.debug("start of reg {}",user);
 
-            log.debug("binto!");
-            Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
-            Set<Authority> authorities = new HashSet<>();
-            authorities.add(authority);
-            user.setAuthorities(authorities);
+        Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(authority);
+        user.setAuthorities(authorities);
 
-        log.debug("after reg {}", user);
         String encryptedPassword = passwordEncoder.encode(password);
         user.setPassword(encryptedPassword);
         user.setActivated(false);
