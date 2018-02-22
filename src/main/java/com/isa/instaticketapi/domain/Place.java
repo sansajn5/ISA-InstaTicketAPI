@@ -35,7 +35,6 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 	@Column(name = "name",length = 50, unique = true)
 	private String name;
 
-	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "address",length = 50, unique = true)
 	private String address;
