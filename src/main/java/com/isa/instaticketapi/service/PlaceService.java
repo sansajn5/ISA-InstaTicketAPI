@@ -33,11 +33,21 @@ public class PlaceService {
 	public List<Place> getCinemas() {
 		return placeRepository.findAllByType(Constants.CINEMA);
 	}
+
 	/**
 	 * 
 	 * @return list of all theaters
 	 */
 	public List<Place> getTheaters() {
 		return placeRepository.findAllByType(Constants.THEATER);
+	}
+
+	/**
+	 * 
+	 * @param id 
+	 * @return cinema or theater
+	 */
+	public Place getPlace(Long id) {
+		return placeRepository.findOneById(id);
 	}
 }
