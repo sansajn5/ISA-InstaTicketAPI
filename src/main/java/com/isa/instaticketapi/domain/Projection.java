@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Projection")
-public class Projection {
+public class Projection extends AbstractAuditingEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
