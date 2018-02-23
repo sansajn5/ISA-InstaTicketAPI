@@ -42,13 +42,9 @@ public class Projection {
 	@Column(name = "director", length = 50)
 	private String director;
 
-	@Size(max = 50)
-	@Column(name = "duration", length = 50)
-	private double duration;
-
 	@Size(max = 5000)
 	@Column(name = "description", length = 5000)
-	private double description;
+	private String description;
 
 	public Long getId() {
 		return id;
@@ -90,20 +86,12 @@ public class Projection {
 		this.director = director;
 	}
 
-	public double getDuration() {
-		return duration;
-	}
-
-	public void setDuration(double duration) {
-		this.duration = duration;
-	}
-
-	public double getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(double description) {
-		this.description = description;
+	public void setDescription(String string) {
+		this.description = string;
 	}
 
 	public static long getSerialversionuid() {
