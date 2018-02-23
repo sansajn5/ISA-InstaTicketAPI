@@ -1,18 +1,16 @@
 package com.isa.instaticketapi.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
 
 /**
- * Spring Data JPA repository for the Place entity.
+ * Spring Data JPA repository for the Projection entity.
  */
 @Repository
-public interface PlaceRepository extends JpaRepository<Place, Long> {
-	
-	List<Place> findAllByType(String type);
-	Place findOneById(Long id);
+public interface ProjectionRepository extends JpaRepository<Projection, Long> {
+
+	Projection findOneById(Long id);
 }
