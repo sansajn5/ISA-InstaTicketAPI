@@ -42,9 +42,20 @@ public class Projection {
 	@Column(name = "director", length = 50)
 	private String director;
 
+	@Column(name = "duration", length = 4)
+	private int duration;
+
 	@Size(max = 5000)
 	@Column(name = "description", length = 5000)
 	private String description;
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
 
 	public Long getId() {
 		return id;

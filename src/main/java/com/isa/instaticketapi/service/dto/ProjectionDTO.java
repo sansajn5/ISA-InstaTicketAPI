@@ -25,12 +25,24 @@ public class ProjectionDTO {
 	@Size(max = 5000)
 	private String description;
 
+	private int duration;
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
 	public ProjectionDTO() {
 
 	}
 
-	public ProjectionDTO(Long id, String name, String actors, String type, String director, String description) {
+	public ProjectionDTO(int duration, Long id, String name, String actors, String type, String director,
+			String description) {
 		super();
+		this.duration = duration;
 		this.id = id;
 		this.name = name;
 		this.actors = actors;

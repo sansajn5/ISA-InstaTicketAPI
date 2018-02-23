@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.service.dto.ProjectionDTO;
@@ -26,7 +27,8 @@ public class ProjectionService {
 
 	/**
 	 * 
-	 * @param projectionDTO object providing information about new projection
+	 * @param projectionDTO
+	 *            object providing information about new projection
 	 */
 	public void createProjection(ProjectionDTO projectionDTO) {
 		Projection projection = new Projection();
@@ -34,11 +36,21 @@ public class ProjectionService {
 		projection.setName(projectionDTO.getName());
 		projection.setActors(projectionDTO.getActors());
 		projection.setDirector(projectionDTO.getDirector());
-
+		projection.setDuration(projectionDTO.getDuration());
 		projection.setDescription(projectionDTO.getDescription());
 		projection.setType(projectionDTO.getType());
 
 		projectionRepository.save(projection);
 
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return object projection
+	 */
+
+	public Projection getProjection(Long id) {
+		return projectionRepository.findOneById(id);
 	}
 }

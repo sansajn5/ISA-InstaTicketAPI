@@ -2,9 +2,11 @@ package com.isa.instaticketapi.config;
 
 import com.isa.instaticketapi.domain.Authority;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.AuthorityRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.AuthoritiesConstants;
 import org.slf4j.Logger;
@@ -34,6 +36,9 @@ public class DataLoader implements ApplicationRunner {
 	AuthorityRepository authorityRepository;
 
 	@Autowired
+	ProjectionRepository projectionRepository;
+
+	@Autowired
 	PlaceRepository placeRepository;
 
 	@Autowired
@@ -47,6 +52,7 @@ public class DataLoader implements ApplicationRunner {
 		seedUsers();
 		seedCinema();
 		seedTheater();
+		seedProjection();
 	}
 
 	/**
@@ -203,6 +209,42 @@ public class DataLoader implements ApplicationRunner {
 		}
 
 		log.info("Seeds for place are completed");
+	}
+
+	/**
+	 * Setting up projection for common init database
+	 */
+	public void seedProjection() {
+		log.info("Starting seed for projection");
+		Projection projection1 = new Projection();
+		Projection projection2 = new Projection();
+
+		projection1.setName("John Wick2");
+		projection1.setActors("aaaa");
+		projection1.setDescription("sssssss");
+		projection1.setActors("milica,micko,mudri");
+		projection1.setDirector("micko");
+		projection1.setType("action");
+		projection1.setDuration(170);
+
+		projection2.setName("Montevideo");
+		projection2.setActors("xxxxx");
+		projection2.setDescription("wwwww");
+		projection2.setActors("pera,laza");
+		projection2.setDirector("mudri");
+		projection2.setType("domaci");
+		projection2.setDuration(130);
+
+		try {
+
+			projectionRepository.save(projection1);
+			projectionRepository.save(projection2);
+
+		} catch (Exception e) {
+			log.debug("items (projection) are already in database");
+		}
+
+		log.info("Seeds for projection are completed");
 	}
 
 }
