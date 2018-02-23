@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.repository.PlaceRepository;
-import com.isa.instaticketapi.service.dto.ChangePasswordDTO;
 import com.isa.instaticketapi.service.dto.ChangePlaceDTO;
 
 /**
@@ -52,6 +51,14 @@ public class PlaceService {
 	public Place getPlace(Long id) {
 		return placeRepository.findOneById(id);
 	}
+
+	/**
+	 * 
+	 * @param changePlaceDTO
+	 *            object for editing
+	 * @param id
+	 *            id of object
+	 */
 
 	public void changePlace(ChangePlaceDTO changePlaceDTO, long id) {
 		Place place = placeRepository.findOneById(id);

@@ -23,11 +23,11 @@ public class ChangePlaceDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ChangePlaceDTO(String name, String address, String description, String type) {
+	public ChangePlaceDTO(String name, String address, String descripton, String type) {
 		super();
 		this.name = name;
 		this.address = address;
-		this.description = description;
+		this.descripton = descripton;
 		this.type = type;
 	}
 
@@ -48,11 +48,11 @@ public class ChangePlaceDTO {
 	}
 
 	public String getDescription() {
-		return description;
+		return descripton;
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.descripton = description;
 	}
 
 	public String getType() {

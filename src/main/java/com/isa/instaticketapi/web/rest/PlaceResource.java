@@ -42,7 +42,7 @@ public class PlaceResource {
 	 * 
 	 * @return list of all cinemas
 	 */
-	@ApiOperation(value = "Activate the registered user", response = CinemaResponse.class)
+	@ApiOperation(value = "List of all cinemas", response = CinemaResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -61,7 +61,7 @@ public class PlaceResource {
 	 * 
 	 * @return list of all theaters
 	 */
-	@ApiOperation(value = "Activate the registered user", response = TheaterResponse.class)
+	@ApiOperation(value = "List of all theaters.", response = TheaterResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -78,9 +78,10 @@ public class PlaceResource {
 	/**
 	 * GET: /getPlace: return all data for concrete place.
 	 * 
+	 * @param id id of place about whom I am looking for information
 	 * @return place(theater or cinema)
 	 */
-	@ApiOperation(value = "Activate the registered user", response = PlaceResponse.class)
+	@ApiOperation(value = "All data for place.", response = PlaceResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -93,6 +94,19 @@ public class PlaceResource {
 		Place place = placeService.getPlace(id);
 		return new ResponseEntity<>(new PlaceResponse(place), HttpStatus.OK);
 	}
+
+	/**
+	 * POST: editPlace/{id} : edit data about concrete place
+	 * @param changePlaceDTO data for editing
+	 * @param id id from place we want to change
+	 */
+	@ApiOperation(value = "Edit place", response = PlaceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@PostMapping("/editPlace/{id}")
 	public void changePassword(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
