@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.service.dto.ChangePlaceDTO;
+import com.isa.instaticketapi.service.dto.ChangeProjectionDTO;
 import com.isa.instaticketapi.service.dto.ProjectionDTO;
 
 /**
@@ -52,5 +54,25 @@ public class ProjectionService {
 
 	public Projection getProjection(Long id) {
 		return projectionRepository.findOneById(id);
+	}
+
+	/**
+	 * 
+	 * @param ChangeProjectionDTO
+	 *            object for editing
+	 * @param id
+	 *            id of object
+	 */
+
+	public void changeProjection(ChangeProjectionDTO changeProjectionDTO, long id) {
+		Projection projection = projectionRepository.findOneById(id);
+		projection.setName(changeProjectionDTO.getName());
+		projection.setActors(changeProjectionDTO.getActors());
+		projection.setDescription(changeProjectionDTO.getDescription());
+		projection.setDirector(changeProjectionDTO.getDirector());
+		projection.setDuration(changeProjectionDTO.getDuration());
+		projection.setType(changeProjectionDTO.getType());
+
+		projectionRepository.save(projection);
 	}
 }

@@ -64,10 +64,8 @@ public class PlaceService {
 		Place place = placeRepository.findOneById(id);
 		place.setName(changePlaceDTO.getName());
 		place.setAddress(changePlaceDTO.getAddress());
-		log.info(" " + changePlaceDTO.getName());
-		log.info(" " + changePlaceDTO.getDescription());
 		place.setDescripton(changePlaceDTO.getDescription());
-
+		place.setType(changePlaceDTO.getType());
 		placeRepository.save(place);
 	}
 }

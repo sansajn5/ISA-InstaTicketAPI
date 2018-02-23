@@ -100,7 +100,7 @@ public class PlaceResource {
 	 * @param changePlaceDTO data for editing
 	 * @param id id from place we want to change
 	 */
-	@ApiOperation(value = "Edit place", response = PlaceResponse.class)
+	@ApiOperation(value = "Edit place")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -109,7 +109,7 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@PostMapping("/editPlace/{id}")
-	public void changePassword(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
+	public void editPlace(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
 		placeService.changePlace(changePlaceDTO, id);
 	}
 }
