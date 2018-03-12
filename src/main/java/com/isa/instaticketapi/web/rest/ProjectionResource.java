@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.service.ProjectionService;
-import com.isa.instaticketapi.service.dto.ChangeProjectionDTO;
-import com.isa.instaticketapi.service.dto.ProjectionDTO;
+import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
+import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
 import com.isa.instaticketapi.web.rest.vm.ProjectionResponse.ProjectionResponse;
 
 import io.swagger.annotations.ApiOperation;

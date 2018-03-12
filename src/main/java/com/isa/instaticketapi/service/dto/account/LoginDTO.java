@@ -1,4 +1,4 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.account;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

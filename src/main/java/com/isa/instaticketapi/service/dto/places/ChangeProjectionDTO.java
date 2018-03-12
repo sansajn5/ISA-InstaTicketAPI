@@ -1,63 +1,49 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.places;
 
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-public class ProjectionDTO {
-
-	private Long id;
-
+public class ChangeProjectionDTO {
 	@NotBlank
-	@Size(min = 1, max = 50)
+	@Size(max = 60)
 	private String name;
 
 	@Size(max = 5000)
 	private String actors;
 
 	@NotBlank
-	@Size(min = 1, max = 50)
+	@Size(max = 50)
 	private String type;
 
 	@Size(max = 50)
 	private String director;
 
+	@Size(max = 4)
+	private int duration;
+
 	@Size(max = 5000)
 	private String description;
 
-	private int duration;
-
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
-	public ProjectionDTO() {
-
-	}
-
-	public ProjectionDTO(int duration, Long id, String name, String actors, String type, String director,
-			String description) {
+	
+	public ChangeProjectionDTO() {
 		super();
-		this.duration = duration;
-		this.id = id;
-		this.name = name;
-		this.actors = actors;
-		this.type = type;
-		this.director = director;
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -91,12 +77,12 @@ public class ProjectionDTO {
 		this.director = director;
 	}
 
-	public String getDescription() {
-		return description;
+	public int getDuration() {
+		return duration;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 }

@@ -1,9 +1,12 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.places;
 
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ *  DTO representing object for creating/edit place
+ */
 public class ChangePlaceDTO {
 	@NotBlank
 	@Size(max = 50)

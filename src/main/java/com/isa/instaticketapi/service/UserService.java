@@ -1,20 +1,18 @@
 package com.isa.instaticketapi.service;
 
-import com.isa.instaticketapi.config.ApplicationProperties;
 import com.isa.instaticketapi.domain.Authority;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.AuthorityRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.AuthoritiesConstants;
 import com.isa.instaticketapi.security.SecurityUtils;
-import com.isa.instaticketapi.service.dto.UserDTO;
+import com.isa.instaticketapi.service.dto.account.UserDTO;
 import com.isa.instaticketapi.service.util.RandomUtil;
 import com.isa.instaticketapi.web.rest.vm.UserResource.Friend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

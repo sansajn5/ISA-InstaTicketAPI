@@ -2,7 +2,7 @@ package com.isa.instaticketapi.service.mapper;
 
 import com.isa.instaticketapi.domain.Authority;
 import com.isa.instaticketapi.domain.User;
-import com.isa.instaticketapi.service.dto.UserDTO;
+import com.isa.instaticketapi.service.dto.account.UserDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
