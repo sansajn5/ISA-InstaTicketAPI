@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.isa.instaticketapi.service.dto.RequestPasswordDTO;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,9 +108,7 @@ public class AccountResource {
 		userRepository.findOneByEmailIgnoreCase(userDTO.getUsername()).ifPresent(user -> {
 			throw new IllegalArgumentException("Email is already used");
 		});
-		log.debug("before mapper {}", userDTO);
 		User user = userMapper.userDTOToUser(userDTO);
-		log.debug("after mapper {}", user);
 		userService.signupUser(user, userDTO.getPassword());
 		mailService.sendActivationEmail(user);
 	}
@@ -222,6 +222,16 @@ public class AccountResource {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	/**
+	 * POST /change-password: Change password via requesting key
+	 * @param key generated key for changing password
+	 * @param ChangePasswordDTO object with new password
+	 */
+	@ApiOperation(value = "Changing password after email", response = HttpStatus.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Succesfully cnagned password"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 400, message = "Link does not exist or passwords are not same") })
 	@PostMapping("/change-password")
 	@ResponseStatus(HttpStatus.OK)
 	public void changePassword(@RequestParam(value = "key") String key,
@@ -241,6 +251,24 @@ public class AccountResource {
 				throw new IllegalArgumentException("Passwords are not the same !");
 			}
 		}
+	}
+
+	/**
+	 * POST /request-password: Request for forgotten password
+	 * @param requestPasswordDTO object with user's email
+	 */
+	@ApiOperation(value = "Requesting new password via email", response = HttpStatus.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "ok"),
+			@ApiResponse(code = 400, message = "User with that email doesn't exist")
+	})
+	@PostMapping("request-password")
+	@ResponseStatus(HttpStatus.OK)
+	public void requestNewPassword(@RequestBody RequestPasswordDTO requestPasswordDTO) {
+		Optional<User> user = userService.requestPasswordReset(requestPasswordDTO.getEmail());
+		if(!user.isPresent())
+			throw new IllegalArgumentException("User with that email doesn't exist");
+		mailService.sendPasswordResetMail(user.get());
 	}
 
 }
