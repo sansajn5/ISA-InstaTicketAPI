@@ -6,6 +6,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.isa.instaticketapi.domain.Place;
+
 public class HallDTO {
 
 	private Long id;

@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 /**
  * 
  * @author Milica Kovacevic Entity od Hall.
@@ -39,9 +38,17 @@ public class Hall extends AbstractAuditingEntity implements Serializable {
 
 	@Column(name = "row", length = 3)
 	private int row;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Place place;
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
 
 	public Long getId() {
 		return id;
