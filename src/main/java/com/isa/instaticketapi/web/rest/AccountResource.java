@@ -224,7 +224,7 @@ public class AccountResource {
 	/**
 	 * POST /change-password: Change password via requesting key
 	 * @param key generated key for changing password
-	 * @param ChangePasswordDTO object with new password
+	 * @param changePasswordDTO object with new password
 	 */
 	@ApiOperation(value = "Changing password after email", response = HttpStatus.class)
 	@ApiResponses(value = {
@@ -234,14 +234,14 @@ public class AccountResource {
 	@PostMapping("/change-password")
 	@ResponseStatus(HttpStatus.OK)
 	public void changePassword(@RequestParam(value = "key") String key,
-			@RequestBody ChangePasswordDTO ChangePasswordDTO) {
-		if (ChangePasswordDTO.getPassword().equals(ChangePasswordDTO.getRePassword())) {
+			@RequestBody ChangePasswordDTO changePasswordDTO) {
+		if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
 			User user = userRepository.findOneByResetKey(key);
 
-			if (ChangePasswordDTO.getPassword().equals(ChangePasswordDTO.getRePassword())) {
+			if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
 				if (user != null) {
 					user.setResetKey(null);
-					String encryptedPassword = passwordEncoder.encode(ChangePasswordDTO.getPassword());
+					String encryptedPassword = passwordEncoder.encode(changePasswordDTO.getPassword());
 					user.setPassword(encryptedPassword);
 				} else {
 					throw new IllegalArgumentException("Link does not exist !");
@@ -268,6 +268,20 @@ public class AccountResource {
 		if(!user.isPresent())
 			throw new IllegalArgumentException("User with that email doesn't exist");
 		mailService.sendPasswordResetMail(user.get());
+	}
+
+	@ApiOperation(value = "Deleting user account", response = HttpStatus.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "ok"),
+			@ApiResponse(code = 400, message = "Passwords are not matching")
+	})
+	@PostMapping("delete-account")
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteAccount(@RequestBody ChangePasswordDTO changePasswordDTO){
+		if(changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())){
+			accountService.deleteAccount(changePasswordDTO.getPassword());
+		}else
+			throw new IllegalArgumentException("Passwords are not matching");
 	}
 
 }

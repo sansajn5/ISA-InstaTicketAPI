@@ -158,12 +158,15 @@ public class AccountService {
 
     /**
      * Deleting user from database
-     * @param username representing username of user which will be deleted
+     * @param password representing password of user which will be deleted
      */
-    public void deleteUser(String username) {
-        userRepository.findOneByUsername(username).ifPresent(user -> {
-            userRepository.delete(user);
-            log.debug("Deleted User: {}", user);
+    public void deleteAccount(String password) {
+        SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).ifPresent(user -> {
+            if(user.getPassword().equals(password)) {
+                userRepository.delete(user);
+                log.debug("Deleted User: {}", user);
+            }
+            throw new IllegalArgumentException("Invalid password");
         });
     }
 
