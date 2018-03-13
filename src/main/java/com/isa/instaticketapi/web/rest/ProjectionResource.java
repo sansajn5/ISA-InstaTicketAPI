@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.service.ProjectionService;
-import com.isa.instaticketapi.service.dto.ChangeProjectionDTO;
-import com.isa.instaticketapi.service.dto.ProjectionDTO;
+import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
+import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
 import com.isa.instaticketapi.web.rest.vm.ProjectionResponse.ProjectionResponse;
 
 import io.swagger.annotations.ApiOperation;
@@ -77,11 +77,14 @@ public class ProjectionResource {
 		Projection projection = projectionService.getProjection(id);
 		return new ResponseEntity<>(new ProjectionResponse(projection), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * POST: editProjection/{id} : edit data about concrete projection
-	 * @param changeProjectionDTO data for editing
-	 * @param id id from projection we want to change
+	 * 
+	 * @param changeProjectionDTO
+	 *            data for editing
+	 * @param id
+	 *            id from projection we want to change
 	 */
 	@ApiOperation(value = "Edit projection")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -94,5 +97,24 @@ public class ProjectionResource {
 	@PostMapping("/editProjection/{id}")
 	public void editProjection(@RequestBody ChangeProjectionDTO changeProjectionDTO, @PathVariable("id") Long id) {
 		projectionService.changeProjection(changeProjectionDTO, id);
+	}
+
+	/**
+	 * POST: deleteProjection/{id} : delete data about concrete projection
+	 * 
+	 * @param id
+	 *            id from projection we want to delete
+	 */
+	@ApiOperation(value = "Delete projection")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@PostMapping("/deleteProjection/{id}")
+	public void deleteProjection(@PathVariable("id") Long id) {
+		projectionService.deleteProj(id);
 	}
 }

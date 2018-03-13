@@ -1,4 +1,6 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.places;
+
+import java.time.Instant;
 
 import javax.validation.constraints.Size;
 
@@ -25,25 +27,49 @@ public class ChangeProjectionDTO {
 	@Size(max = 5000)
 	private String description;
 
-	
+	@Size(max = 256)
+	private String imageUrl;
+
+	private String lastModifiedBy;
+
+	private Instant lastModifiedDate;
+
 	public ChangeProjectionDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	public Instant getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Instant lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
 	public String getDescription() {
 		return description;
 	}
 
-
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
 
 	public String getName() {
 		return name;

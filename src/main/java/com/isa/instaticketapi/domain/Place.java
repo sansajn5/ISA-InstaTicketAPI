@@ -29,7 +29,7 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 
 	@NotNull
 	@Size(min = 1, max = 50)
-	@Column(name = "name",length = 50)
+	@Column(name = "name",length = 50, unique = true)
 	private String name;
 
 	@Size(max = 50)

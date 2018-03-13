@@ -226,6 +226,8 @@ public class DataLoader implements ApplicationRunner {
 		projection1.setDirector("micko");
 		projection1.setType("action");
 		projection1.setDuration(170);
+		projection1.setCreatedBy("Mudri");
+		projection1.setImageUrl("johnWick2.jpg");
 
 		projection2.setName("Montevideo");
 		projection2.setActors("xxxxx");
@@ -234,6 +236,8 @@ public class DataLoader implements ApplicationRunner {
 		projection2.setDirector("mudri");
 		projection2.setType("domaci");
 		projection2.setDuration(130);
+		projection2.setCreatedBy("Mudri");
+		projection2.setImageUrl("montevideo.jpg");
 
 		try {
 

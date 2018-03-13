@@ -1,4 +1,4 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.account;
 
 import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Authority;

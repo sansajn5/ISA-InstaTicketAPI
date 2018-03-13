@@ -1,9 +1,12 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.account;
 
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * DTO representing object with new password
+ */
 public class ChangePasswordDTO {
 
 	@NotBlank

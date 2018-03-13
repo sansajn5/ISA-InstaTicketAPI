@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.repository.ProjectionRepository;
-import com.isa.instaticketapi.service.dto.ChangePlaceDTO;
-import com.isa.instaticketapi.service.dto.ChangeProjectionDTO;
-import com.isa.instaticketapi.service.dto.ProjectionDTO;
+
+import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
+import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
+
 
 /**
  * Service for managing projection.
@@ -41,6 +41,9 @@ public class ProjectionService {
 		projection.setDuration(projectionDTO.getDuration());
 		projection.setDescription(projectionDTO.getDescription());
 		projection.setType(projectionDTO.getType());
+		projection.setImageUrl(projectionDTO.getImageUrl());
+		projection.setCreatedBy(projectionDTO.getCreatedBy());
+		projection.setCreatedDate(projectionDTO.getCreatedDate());
 
 		projectionRepository.save(projection);
 
@@ -72,7 +75,23 @@ public class ProjectionService {
 		projection.setDirector(changeProjectionDTO.getDirector());
 		projection.setDuration(changeProjectionDTO.getDuration());
 		projection.setType(changeProjectionDTO.getType());
+		projection.setImageUrl(changeProjectionDTO.getImageUrl());
+		projection.setLastModifiedBy(changeProjectionDTO.getLastModifiedBy());
+		projection.setLastModifiedDate(changeProjectionDTO.getLastModifiedDate());
 
 		projectionRepository.save(projection);
+	}
+
+	/**
+	 * Deleting projection from database
+	 * 
+	 * @param id
+	 *            representing id of projection which will be deleted
+	 */
+	public void deleteProj(Long id) {
+		Projection projection = projectionRepository.findOneById(id);
+		projectionRepository.delete(projection);
+		log.debug("Deleted projection.");
+
 	}
 }

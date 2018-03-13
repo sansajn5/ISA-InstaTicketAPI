@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
-import com.isa.instaticketapi.service.dto.ChangePlaceDTO;
+import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
@@ -89,7 +89,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("getPlace/{id}")
+	@GetMapping("/getPlace/{id}")
 	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
 		Place place = placeService.getPlace(id);
 		return new ResponseEntity<>(new PlaceResponse(place), HttpStatus.OK);
