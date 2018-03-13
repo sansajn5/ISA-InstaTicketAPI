@@ -1,4 +1,4 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.places;
 
 import java.time.Instant;
 

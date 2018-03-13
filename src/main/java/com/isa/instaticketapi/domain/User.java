@@ -192,6 +192,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public Set<User> getFriends() { return friends; }
 
+    public User(){
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

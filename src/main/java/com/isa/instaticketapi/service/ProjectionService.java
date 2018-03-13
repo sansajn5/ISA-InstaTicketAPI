@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.repository.ProjectionRepository;
-import com.isa.instaticketapi.service.dto.ChangeProjectionDTO;
-import com.isa.instaticketapi.service.dto.ProjectionDTO;
+
+import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
+import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
+
 
 /**
  * Service for managing projection.

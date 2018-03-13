@@ -46,10 +46,15 @@ public class UserResource {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
             @ApiResponse(code = 500, message = "Error on server side"),
             @ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
     @GetMapping("/getMyFriends")
     public  ResponseEntity<FriendsResponse> getMyFriends(){
         //TODO
         return null;
     }
+
+    /**
+     *  G
+     */
 
 }
