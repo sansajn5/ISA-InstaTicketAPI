@@ -1,10 +1,9 @@
 package com.isa.instaticketapi.web.rest;
 
 import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.service.UserService;
+import com.isa.instaticketapi.service.AccountService;
 //import com.isa.instaticketapi.web.rest.errors.EmailAlreadyUsedException;
 //import com.isa.instaticketapi.web.rest.errors.LoginAlreadyUsedException;
-import com.isa.instaticketapi.web.rest.vm.AccountResource.JWTTokenResponse;
 import com.isa.instaticketapi.web.rest.vm.UserResource.FriendsResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +29,7 @@ public class UserResource {
     private  UserRepository userRepository;
 
     @Autowired
-    private  UserService userService;
+    private AccountService accountService;
 
 
     /**

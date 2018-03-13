@@ -29,9 +29,9 @@ import java.util.Set;
  */
 @Service
 @Transactional
-public class UserService {
+public class AccountService {
 
-    private final Logger log = LoggerFactory.getLogger(UserService.class);
+    private final Logger log = LoggerFactory.getLogger(AccountService.class);
 
     @Autowired
     private UserRepository userRepository;

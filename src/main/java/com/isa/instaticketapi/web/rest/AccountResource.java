@@ -33,7 +33,7 @@ import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.DomainUserDetailsService;
 import com.isa.instaticketapi.security.jwt.TokenProvider;
 import com.isa.instaticketapi.service.MailService;
-import com.isa.instaticketapi.service.UserService;
+import com.isa.instaticketapi.service.AccountService;
 import com.isa.instaticketapi.service.dto.account.ChangePasswordDTO;
 import com.isa.instaticketapi.service.dto.account.LoginDTO;
 import com.isa.instaticketapi.service.dto.account.UserDTO;
@@ -57,7 +57,7 @@ public class AccountResource {
 	private UserRepository userRepository;
 
 	@Autowired
-	private UserService userService;
+	private AccountService accountService;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -108,7 +108,7 @@ public class AccountResource {
 			throw new IllegalArgumentException("Email is already used");
 		});
 		User user = userMapper.userDTOToUser(userDTO);
-		userService.signupUser(user, userDTO.getPassword());
+		accountService.signupUser(user, userDTO.getPassword());
 		mailService.sendActivationEmail(user);
 	}
 
@@ -177,7 +177,7 @@ public class AccountResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@GetMapping("/activate")
 	public void activateAccount(@RequestParam(value = "key") String key) {
-		Optional<User> user = userService.activateRegistration(key);
+		Optional<User> user = accountService.activateRegistration(key);
 		if (!user.isPresent()) {
 			throw new IllegalArgumentException("No user was found for this reset key");
 		}
@@ -199,7 +199,7 @@ public class AccountResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@GetMapping("/account")
 	public UserDTO getAccount() {
-		return userService.getUserWithAuthorities().map(UserDTO::new)
+		return accountService.getUserWithAuthorities().map(UserDTO::new)
 				.orElseThrow(() -> new IllegalArgumentException("User could not be found"));
 	}
 
@@ -264,7 +264,7 @@ public class AccountResource {
 	@PostMapping("request-password")
 	@ResponseStatus(HttpStatus.OK)
 	public void requestNewPassword(@RequestBody RequestPasswordDTO requestPasswordDTO) {
-		Optional<User> user = userService.requestPasswordReset(requestPasswordDTO.getEmail());
+		Optional<User> user = accountService.requestPasswordReset(requestPasswordDTO.getEmail());
 		if(!user.isPresent())
 			throw new IllegalArgumentException("User with that email doesn't exist");
 		mailService.sendPasswordResetMail(user.get());
