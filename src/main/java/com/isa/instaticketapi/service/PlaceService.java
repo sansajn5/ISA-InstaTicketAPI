@@ -66,6 +66,8 @@ public class PlaceService {
 		place.setAddress(changePlaceDTO.getAddress());
 		place.setDescripton(changePlaceDTO.getDescription());
 		place.setType(changePlaceDTO.getType());
+		place.setLastModifiedBy(changePlaceDTO.getLastModifiedBy());
+		place.setLastModifiedDate(changePlaceDTO.getLastModifiedDate());
 		placeRepository.save(place);
 	}
 }

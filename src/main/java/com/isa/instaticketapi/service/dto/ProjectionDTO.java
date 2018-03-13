@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.service.dto;
 
+import java.time.Instant;
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -13,6 +15,7 @@ public class ProjectionDTO {
 	private String name;
 
 	@Size(max = 5000)
+
 	private String actors;
 
 	@NotBlank
@@ -27,6 +30,75 @@ public class ProjectionDTO {
 
 	private int duration;
 
+	@Size(max = 256)
+	private String imageUrl;
+
+	private String createdBy;
+
+	private Instant createdDate;
+
+	private String lastModifiedBy;
+
+	private Instant lastModifiedDate;
+
+	public ProjectionDTO(Long id, String name, String actors, String type, String director, String description,
+			int duration, String imageUrl, String createdBy, Instant createdDate, String lastModifiedBy,
+			Instant lastModifiedDate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.actors = actors;
+		this.type = type;
+		this.director = director;
+		this.description = description;
+		this.duration = duration;
+		this.imageUrl = imageUrl;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+		this.lastModifiedBy = lastModifiedBy;
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public Instant getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Instant createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	public Instant getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Instant lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	public int getDuration() {
 		return duration;
 	}
@@ -37,18 +109,6 @@ public class ProjectionDTO {
 
 	public ProjectionDTO() {
 
-	}
-
-	public ProjectionDTO(int duration, Long id, String name, String actors, String type, String director,
-			String description) {
-		super();
-		this.duration = duration;
-		this.id = id;
-		this.name = name;
-		this.actors = actors;
-		this.type = type;
-		this.director = director;
-		this.description = description;
 	}
 
 	public Long getId() {

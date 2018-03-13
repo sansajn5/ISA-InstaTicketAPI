@@ -28,7 +28,7 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 
 	@NotNull
 	@Size(min = 1, max = 60)
-	@Column(name = "name", length = 60)
+	@Column(name = "name", length = 60, unique = true)
 	private String name;
 
 	@Size(max = 5000)
@@ -47,9 +47,21 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 	@Column(name = "duration", length = 4)
 	private int duration;
 
+	@Size(max = 256)
+	@Column(name = "image_url", length = 256)
+	private String imageUrl;
+
 	@Size(max = 5000)
 	@Column(name = "description", length = 5000)
 	private String description;
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
 	public int getDuration() {
 		return duration;

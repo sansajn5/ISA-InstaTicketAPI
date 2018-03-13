@@ -89,7 +89,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("getPlace/{id}")
+	@GetMapping("/getPlace/{id}")
 	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
 		Place place = placeService.getPlace(id);
 		return new ResponseEntity<>(new PlaceResponse(place), HttpStatus.OK);
