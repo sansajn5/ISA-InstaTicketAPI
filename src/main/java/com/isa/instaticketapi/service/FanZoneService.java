@@ -28,6 +28,13 @@ public class FanZoneService {
 	
 	public List<Item> getItems(Long id) {
 		
+		
+		
+		for(Item t : itemRepository.findAllByFanZone(id)) {
+			
+			System.out.println("NASAO: " + t.getName());
+		}
+		
 		return itemRepository.findAllByFanZone(id);
 	}
 
