@@ -44,6 +44,16 @@ public class MailService {
     @Autowired
     private SpringTemplateEngine templateEngine;
 
+    public MailService () {}
+
+    public MailService(ApplicationProperties applicationProperties, JavaMailSender javaMailSender,
+                       MessageSource messageSource, SpringTemplateEngine templateEngine) {
+        this.applicationProperties = applicationProperties;
+        this.javaMailSender = javaMailSender;
+        this.messageSource = messageSource;
+        this.templateEngine = templateEngine;
+    }
+
     /**
      * Seding email to cilent
      *

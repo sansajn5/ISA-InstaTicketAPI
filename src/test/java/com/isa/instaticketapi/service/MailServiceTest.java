@@ -6,17 +6,21 @@ import com.isa.instaticketapi.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import javax.mail.Multipart;
@@ -31,8 +35,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = InstaticketapiApplication.class)
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = InstaticketapiApplication.class, loader = AnnotationConfigContextLoader.class)
 public class MailServiceTest {
 
     @Autowired
@@ -50,20 +54,25 @@ public class MailServiceTest {
     @Captor
     private ArgumentCaptor messageCaptor;
 
-    @Autowired
     private MailService mailService;
 
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-        doNothing().when(javaMailSender).send(any(MimeMessage.class));
-        mailService = new MailService();
+        this.mailService = new MailService();
+        this.javaMailSender = new JavaMailSenderImpl();
+
+        mailService.setJavaMailSender(javaMailSender);
+        //        MockitoAnnotations.initMocks(this);
+//        mailService = Mockito.mock(MailService.class);
+//        doNothing().when(javaMailSender).send(any(MimeMessage.class));
+////        mailService = new MailService();
         mailService.setApplicationProperties(applicationProperties);
         mailService.setJavaMailSender(javaMailSender);
         mailService.setMessageSource(messageSource);
         mailService.setTemplateEngine(springTemplateEngine);
     }
+
 
     @Test
     public void testSendEmail() throws Exception {
