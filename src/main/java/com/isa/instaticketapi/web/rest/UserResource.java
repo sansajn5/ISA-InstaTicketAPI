@@ -7,6 +7,7 @@ import com.isa.instaticketapi.service.AccountService;
 //import com.isa.instaticketapi.web.rest.errors.EmailAlreadyUsedException;
 //import com.isa.instaticketapi.web.rest.errors.LoginAlreadyUsedException;
 import com.isa.instaticketapi.service.UserService;
+import com.isa.instaticketapi.service.dto.user.FriendRequestDTO;
 import com.isa.instaticketapi.web.rest.vm.UserResource.FriendsResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,9 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -55,5 +54,9 @@ public class UserResource {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
+    public void sendFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO){
+
+    }
 
 }
