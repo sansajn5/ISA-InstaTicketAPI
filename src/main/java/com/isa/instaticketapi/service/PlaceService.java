@@ -22,7 +22,7 @@ import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 @Service
 @Transactional
 public class PlaceService {
-	private final Logger log = LoggerFactory.getLogger(UserService.class);
+	private final Logger log = LoggerFactory.getLogger(PlaceService.class);
 
 	@Autowired
 	private PlaceRepository placeRepository;

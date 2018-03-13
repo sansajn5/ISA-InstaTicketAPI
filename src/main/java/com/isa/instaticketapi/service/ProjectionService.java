@@ -21,7 +21,7 @@ import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
 @Service
 @Transactional
 public class ProjectionService {
-	private final Logger log = LoggerFactory.getLogger(UserService.class);
+	private final Logger log = LoggerFactory.getLogger(ProjectionService.class);
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
