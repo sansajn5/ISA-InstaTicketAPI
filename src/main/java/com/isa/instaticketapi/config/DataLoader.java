@@ -1,14 +1,8 @@
 package com.isa.instaticketapi.config;
 
-import com.isa.instaticketapi.domain.Authority;
-import com.isa.instaticketapi.domain.Place;
-import com.isa.instaticketapi.domain.Projection;
-import com.isa.instaticketapi.domain.User;
-import com.isa.instaticketapi.repository.AuthorityRepository;
-import com.isa.instaticketapi.repository.PlaceRepository;
-import com.isa.instaticketapi.repository.ProjectionRepository;
-import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.security.AuthoritiesConstants;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +11,19 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
+import com.isa.instaticketapi.domain.Authority;
+import com.isa.instaticketapi.domain.FanZone;
+import com.isa.instaticketapi.domain.Item;
+import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.repository.AuthorityRepository;
+import com.isa.instaticketapi.repository.FanZoneRepository;
+import com.isa.instaticketapi.repository.ItemRepository;
+import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.security.AuthoritiesConstants;
 
 /**
  * Class for making initial seed data
@@ -40,6 +44,29 @@ public class DataLoader implements ApplicationRunner {
 
 	@Autowired
 	PlaceRepository placeRepository;
+	
+	@Autowired
+	FanZoneRepository fanZoneRepository;
+	
+	@Autowired
+	ItemRepository itemRepository;
+	
+	
+	
+	
+	///// TEST /////
+	
+	
+	
+	
+	
+	
+	///////////////
+	
+	
+	
+	
+	
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -53,6 +80,7 @@ public class DataLoader implements ApplicationRunner {
 		seedCinema();
 		seedTheater();
 		seedProjection();
+		seedFanZone();
 	}
 
 	/**
@@ -250,5 +278,57 @@ public class DataLoader implements ApplicationRunner {
 
 		log.info("Seeds for projection are completed");
 	}
+	
+	
+	public void seedFanZone() {
+		
+		FanZone fz1 = new FanZone();
+		fz1.setName("zona 1");
+		fz1.setCreatedBy("Dejan");
+		
+		FanZone fz2 = new FanZone();
+		fz2.setName("zona 2");
+		fz2.setCreatedBy("Dejan");
+		
+		
+		Item it1 = new Item();
+		it1.setName("item 1");
+		it1.setCreatedBy("Dejan");
+		it1.setFanZone(fz1);
+		
+		
+		Item it2 = new Item();
+		it2.setName("item 2");
+		it2.setCreatedBy("Dejan");
+		it2.setFanZone(fz2);
+		
+		
+		Item it3 = new Item();
+		it3.setName("item 3");
+		it3.setCreatedBy("Dejan");
+		it3.setFanZone(fz1);
+		
+		
+		try{
+			
+			fanZoneRepository.save(fz1);
+			fanZoneRepository.save(fz2);
+			
+			
+			itemRepository.save(it1);
+			itemRepository.save(it2);
+			itemRepository.save(it3);
+			
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+
+	
 
 }
