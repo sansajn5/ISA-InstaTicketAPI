@@ -78,7 +78,8 @@ public class PlaceResource {
 	/**
 	 * GET: /getPlace: return all data for concrete place.
 	 * 
-	 * @param id id of place about whom I am looking for information
+	 * @param id
+	 *            id of place about whom I am looking for information
 	 * @return place(theater or cinema)
 	 */
 	@ApiOperation(value = "All data for place.", response = PlaceResponse.class)
@@ -92,13 +93,20 @@ public class PlaceResource {
 	@GetMapping("/getPlace/{id}")
 	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
 		Place place = placeService.getPlace(id);
+		if (place == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
 		return new ResponseEntity<>(new PlaceResponse(place), HttpStatus.OK);
 	}
 
 	/**
 	 * POST: editPlace/{id} : edit data about concrete place
-	 * @param changePlaceDTO data for editing
-	 * @param id id from place we want to change
+	 * 
+	 * @param changePlaceDTO
+	 *            data for editing
+	 * @param id
+	 *            id from place we want to change
+	 * 
 	 */
 	@ApiOperation(value = "Edit place")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -110,6 +118,9 @@ public class PlaceResource {
 
 	@PostMapping("/editPlace/{id}")
 	public void editPlace(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
+		if (placeService.changePlace(changePlaceDTO, id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
 		placeService.changePlace(changePlaceDTO, id);
 	}
 }

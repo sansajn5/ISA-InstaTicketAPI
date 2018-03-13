@@ -12,7 +12,6 @@ import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
 import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
 
-
 /**
  * Service for managing projection.
  * 
@@ -56,6 +55,9 @@ public class ProjectionService {
 	 */
 
 	public Projection getProjection(Long id) {
+		if (projectionRepository.findOneById(id) == null) {
+			return null;
+		}
 		return projectionRepository.findOneById(id);
 	}
 
@@ -67,8 +69,11 @@ public class ProjectionService {
 	 *            id of object
 	 */
 
-	public void changeProjection(ChangeProjectionDTO changeProjectionDTO, long id) {
+	public Projection changeProjection(ChangeProjectionDTO changeProjectionDTO, long id) {
 		Projection projection = projectionRepository.findOneById(id);
+		if (projection == null) {
+			return null;
+		}
 		projection.setName(changeProjectionDTO.getName());
 		projection.setActors(changeProjectionDTO.getActors());
 		projection.setDescription(changeProjectionDTO.getDescription());
@@ -80,6 +85,7 @@ public class ProjectionService {
 		projection.setLastModifiedDate(changeProjectionDTO.getLastModifiedDate());
 
 		projectionRepository.save(projection);
+		return projection;
 	}
 
 	/**
@@ -88,10 +94,15 @@ public class ProjectionService {
 	 * @param id
 	 *            representing id of projection which will be deleted
 	 */
-	public void deleteProj(Long id) {
+	public Projection deleteProj(Long id) {
 		Projection projection = projectionRepository.findOneById(id);
+		if (projection == null) {
+			return null;
+		}
 		projectionRepository.delete(projection);
 		log.debug("Deleted projection.");
+		return projection;
+		
 
 	}
 }
