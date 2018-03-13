@@ -20,30 +20,17 @@ public class HallDTO {
 
 	private int row;
 
-	private String createdBy;
-
-	private Instant createdDate;
-
-	private String lastModifiedBy;
-
-	private Instant lastModifiedDate;
-
 	public HallDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public HallDTO(Long id, String name, int col, int row, String createdBy, Instant createdDate, String lastModifiedBy,
-			Instant lastModifiedDate) {
+	public HallDTO(Long id, String name, int col, int row) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.col = col;
 		this.row = row;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.lastModifiedBy = lastModifiedBy;
-		this.lastModifiedDate = lastModifiedDate;
 	}
 
 	public Long getId() {
@@ -76,38 +63,6 @@ public class HallDTO {
 
 	public void setRow(int row) {
 		this.row = row;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Instant getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Instant createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public String getLastModifiedBy() {
-		return lastModifiedBy;
-	}
-
-	public void setLastModifiedBy(String lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
-	}
-
-	public Instant getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Instant lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
 	}
 
 }

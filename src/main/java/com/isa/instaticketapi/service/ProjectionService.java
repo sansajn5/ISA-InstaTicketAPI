@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.ProjectionRepository;
-
+import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
 import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
 
@@ -26,6 +28,9 @@ public class ProjectionService {
 	@Autowired
 	private ProjectionRepository projectionRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	/**
 	 * 
 	 * @param projectionDTO
@@ -33,7 +38,6 @@ public class ProjectionService {
 	 */
 	public void createProjection(ProjectionDTO projectionDTO) {
 		Projection projection = new Projection();
-		projection.setId(projectionDTO.getId());
 		projection.setName(projectionDTO.getName());
 		projection.setActors(projectionDTO.getActors());
 		projection.setDirector(projectionDTO.getDirector());
@@ -41,8 +45,8 @@ public class ProjectionService {
 		projection.setDescription(projectionDTO.getDescription());
 		projection.setType(projectionDTO.getType());
 		projection.setImageUrl(projectionDTO.getImageUrl());
-		projection.setCreatedBy(projectionDTO.getCreatedBy());
-		projection.setCreatedDate(projectionDTO.getCreatedDate());
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		projection.setCreatedBy(logged.getUsername());
 
 		projectionRepository.save(projection);
 
@@ -81,8 +85,8 @@ public class ProjectionService {
 		projection.setDuration(changeProjectionDTO.getDuration());
 		projection.setType(changeProjectionDTO.getType());
 		projection.setImageUrl(changeProjectionDTO.getImageUrl());
-		projection.setLastModifiedBy(changeProjectionDTO.getLastModifiedBy());
-		projection.setLastModifiedDate(changeProjectionDTO.getLastModifiedDate());
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		projection.setLastModifiedBy(logged.getUsername());
 
 		projectionRepository.save(projection);
 		return projection;
@@ -102,7 +106,6 @@ public class ProjectionService {
 		projectionRepository.delete(projection);
 		log.debug("Deleted projection.");
 		return projection;
-		
 
 	}
 }
