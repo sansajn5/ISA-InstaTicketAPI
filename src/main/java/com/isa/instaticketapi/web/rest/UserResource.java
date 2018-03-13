@@ -53,10 +53,4 @@ public class UserResource {
         return new ResponseEntity<>(new FriendsResponse(userService.findMyFriends(),"User's friend list"), HttpStatus.OK);
     }
 
-
-    @ResponseStatus(HttpStatus.OK)
-    public void sendFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO){
-
-    }
-
 }
