@@ -24,6 +24,7 @@ import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
 import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
 import com.isa.instaticketapi.web.rest.vm.ProjectionResponse.ProjectionResponse;
 
+import ch.qos.logback.classic.spi.ThrowableProxyVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -74,6 +75,9 @@ public class ProjectionResource {
 
 	@GetMapping("getProjection/{id}")
 	public ResponseEntity<ProjectionResponse> getProjection(@PathVariable("id") Long id) {
+		if (projectionService.getProjection(id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
 		Projection projection = projectionService.getProjection(id);
 		return new ResponseEntity<>(new ProjectionResponse(projection), HttpStatus.OK);
 	}
@@ -96,6 +100,9 @@ public class ProjectionResource {
 
 	@PostMapping("/editProjection/{id}")
 	public void editProjection(@RequestBody ChangeProjectionDTO changeProjectionDTO, @PathVariable("id") Long id) {
+		if (projectionService.changeProjection(changeProjectionDTO, id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
 		projectionService.changeProjection(changeProjectionDTO, id);
 	}
 
@@ -115,6 +122,9 @@ public class ProjectionResource {
 
 	@PostMapping("/deleteProjection/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
+		if (projectionService.deleteProj(id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
 		projectionService.deleteProj(id);
 	}
 }

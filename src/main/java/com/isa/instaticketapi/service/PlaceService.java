@@ -22,7 +22,7 @@ import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 @Service
 @Transactional
 public class PlaceService {
-	private final Logger log = LoggerFactory.getLogger(UserService.class);
+	private final Logger log = LoggerFactory.getLogger(PlaceService.class);
 
 	@Autowired
 	private PlaceRepository placeRepository;
@@ -60,8 +60,11 @@ public class PlaceService {
 	 *            id of object
 	 */
 
-	public void changePlace(ChangePlaceDTO changePlaceDTO, long id) {
+	public Place changePlace(ChangePlaceDTO changePlaceDTO, long id) {
 		Place place = placeRepository.findOneById(id);
+		if(place == null){
+			return null;
+		}
 		place.setName(changePlaceDTO.getName());
 		place.setAddress(changePlaceDTO.getAddress());
 		place.setDescripton(changePlaceDTO.getDescription());
@@ -69,5 +72,7 @@ public class PlaceService {
 		place.setLastModifiedBy(changePlaceDTO.getLastModifiedBy());
 		place.setLastModifiedDate(changePlaceDTO.getLastModifiedDate());
 		placeRepository.save(place);
+		return place;
+		
 	}
 }

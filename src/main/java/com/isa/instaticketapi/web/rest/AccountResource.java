@@ -33,7 +33,7 @@ import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.DomainUserDetailsService;
 import com.isa.instaticketapi.security.jwt.TokenProvider;
 import com.isa.instaticketapi.service.MailService;
-import com.isa.instaticketapi.service.UserService;
+import com.isa.instaticketapi.service.AccountService;
 import com.isa.instaticketapi.service.dto.account.ChangePasswordDTO;
 import com.isa.instaticketapi.service.dto.account.LoginDTO;
 import com.isa.instaticketapi.service.dto.account.UserDTO;
@@ -57,7 +57,7 @@ public class AccountResource {
 	private UserRepository userRepository;
 
 	@Autowired
-	private UserService userService;
+	private AccountService accountService;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -108,7 +108,7 @@ public class AccountResource {
 			throw new IllegalArgumentException("Email is already used");
 		});
 		User user = userMapper.userDTOToUser(userDTO);
-		userService.signupUser(user, userDTO.getPassword());
+		accountService.signupUser(user, userDTO.getPassword());
 		mailService.sendActivationEmail(user);
 	}
 
@@ -177,7 +177,7 @@ public class AccountResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@GetMapping("/activate")
 	public void activateAccount(@RequestParam(value = "key") String key) {
-		Optional<User> user = userService.activateRegistration(key);
+		Optional<User> user = accountService.activateRegistration(key);
 		if (!user.isPresent()) {
 			throw new IllegalArgumentException("No user was found for this reset key");
 		}
@@ -199,7 +199,7 @@ public class AccountResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@GetMapping("/account")
 	public UserDTO getAccount() {
-		return userService.getUserWithAuthorities().map(UserDTO::new)
+		return accountService.getUserWithAuthorities().map(UserDTO::new)
 				.orElseThrow(() -> new IllegalArgumentException("User could not be found"));
 	}
 
@@ -224,7 +224,7 @@ public class AccountResource {
 	/**
 	 * POST /change-password: Change password via requesting key
 	 * @param key generated key for changing password
-	 * @param ChangePasswordDTO object with new password
+	 * @param changePasswordDTO object with new password
 	 */
 	@ApiOperation(value = "Changing password after email", response = HttpStatus.class)
 	@ApiResponses(value = {
@@ -234,14 +234,14 @@ public class AccountResource {
 	@PostMapping("/change-password")
 	@ResponseStatus(HttpStatus.OK)
 	public void changePassword(@RequestParam(value = "key") String key,
-			@RequestBody ChangePasswordDTO ChangePasswordDTO) {
-		if (ChangePasswordDTO.getPassword().equals(ChangePasswordDTO.getRePassword())) {
+			@RequestBody ChangePasswordDTO changePasswordDTO) {
+		if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
 			User user = userRepository.findOneByResetKey(key);
 
-			if (ChangePasswordDTO.getPassword().equals(ChangePasswordDTO.getRePassword())) {
+			if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
 				if (user != null) {
 					user.setResetKey(null);
-					String encryptedPassword = passwordEncoder.encode(ChangePasswordDTO.getPassword());
+					String encryptedPassword = passwordEncoder.encode(changePasswordDTO.getPassword());
 					user.setPassword(encryptedPassword);
 				} else {
 					throw new IllegalArgumentException("Link does not exist !");
@@ -264,10 +264,24 @@ public class AccountResource {
 	@PostMapping("request-password")
 	@ResponseStatus(HttpStatus.OK)
 	public void requestNewPassword(@RequestBody RequestPasswordDTO requestPasswordDTO) {
-		Optional<User> user = userService.requestPasswordReset(requestPasswordDTO.getEmail());
+		Optional<User> user = accountService.requestPasswordReset(requestPasswordDTO.getEmail());
 		if(!user.isPresent())
 			throw new IllegalArgumentException("User with that email doesn't exist");
 		mailService.sendPasswordResetMail(user.get());
+	}
+
+	@ApiOperation(value = "Deleting user account", response = HttpStatus.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "ok"),
+			@ApiResponse(code = 400, message = "Passwords are not matching")
+	})
+	@PostMapping("delete-account")
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteAccount(@RequestBody ChangePasswordDTO changePasswordDTO){
+		if(changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())){
+			accountService.deleteAccount(changePasswordDTO.getPassword());
+		}else
+			throw new IllegalArgumentException("Passwords are not matching");
 	}
 
 }
