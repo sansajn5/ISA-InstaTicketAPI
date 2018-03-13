@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  *
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
@@ -51,6 +51,11 @@ public class UserResource {
     @GetMapping("/getMyFriends")
     public  ResponseEntity<FriendsResponse> getMyFriends(){
         return new ResponseEntity<>(new FriendsResponse(userService.findMyFriends(),"User's friend list"), HttpStatus.OK);
+    }
+
+    @PostMapping("/sendFriendRequest")
+    public void sendFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO){
+
     }
 
 }

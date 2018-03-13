@@ -50,23 +50,6 @@ public class DataLoader implements ApplicationRunner {
 	
 	@Autowired
 	ItemRepository itemRepository;
-	
-	
-	
-	
-	///// TEST /////
-	
-	
-	
-	
-	
-	
-	///////////////
-	
-	
-	
-	
-	
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -307,18 +290,22 @@ public class DataLoader implements ApplicationRunner {
 		it3.setName("item 3");
 		it3.setCreatedBy("Dejan");
 		it3.setFanZone(fz1);
+
+		fz1.getItems().add(it1);
+		fz1.getItems().add(it3);
+		fz2.getItems().add(it2);
 		
 		
 		try{
 			
-			fanZoneRepository.save(fz1);
-			fanZoneRepository.save(fz2);
-			
-			
-			itemRepository.save(it1);
-			itemRepository.save(it2);
-			itemRepository.save(it3);
-			
+//
+//
+//
+//			itemRepository.save(it1);
+//			itemRepository.save(it2);
+//			itemRepository.save(it3);
+//			fanZoneRepository.save(fz1);
+//			fanZoneRepository.save(fz2);
 		
 		}catch(Exception e){
 			e.printStackTrace();
