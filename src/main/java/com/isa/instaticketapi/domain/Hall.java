@@ -1,13 +1,18 @@
 package com.isa.instaticketapi.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 
 /**
  * 
@@ -16,7 +21,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Hall")
-public class Hall {
+public class Hall extends AbstractAuditingEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,15 +34,14 @@ public class Hall {
 	@Column(name = "name", length = 50)
 	private String name;
 
-	@NotNull
-	@Size(min = 1, max = 3)
-	@Column(name = "column", length = 3)
-	private int column;
+	@Column(name = "col", length = 3)
+	private int col;
 
-	@NotNull
-	@Size(min = 1, max = 3)
 	@Column(name = "row", length = 3)
 	private int row;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Place place;
 
 	public Long getId() {
 		return id;
@@ -55,12 +59,12 @@ public class Hall {
 		this.name = name;
 	}
 
-	public int getColumn() {
-		return column;
+	public int getCol() {
+		return col;
 	}
 
-	public void setColumn(int column) {
-		this.column = column;
+	public void setCol(int col) {
+		this.col = col;
 	}
 
 	public int getRow() {

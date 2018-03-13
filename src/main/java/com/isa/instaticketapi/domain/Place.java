@@ -1,15 +1,21 @@
 package com.isa.instaticketapi.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 
 /**
  * Model for placas
@@ -44,6 +50,8 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 	@Column(name = "type",length = 20)
 	private String type;
 	
+	@OneToMany(mappedBy="place", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<Hall> halls = new ArrayList<Hall>();
 
 	public String getType() {
 		return type;

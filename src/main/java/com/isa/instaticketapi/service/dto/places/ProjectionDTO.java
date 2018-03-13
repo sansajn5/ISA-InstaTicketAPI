@@ -30,6 +30,8 @@ public class ProjectionDTO {
 
 	private int duration;
 
+	private String idPlace;
+
 	@Size(max = 256)
 	private String imageUrl;
 
@@ -42,7 +44,7 @@ public class ProjectionDTO {
 	private Instant lastModifiedDate;
 
 	public ProjectionDTO(Long id, String name, String actors, String type, String director, String description,
-			int duration, String imageUrl, String createdBy, Instant createdDate, String lastModifiedBy,
+			int duration, String idPlace, String imageUrl, String createdBy, Instant createdDate, String lastModifiedBy,
 			Instant lastModifiedDate) {
 		super();
 		this.id = id;
@@ -52,11 +54,20 @@ public class ProjectionDTO {
 		this.director = director;
 		this.description = description;
 		this.duration = duration;
+		this.idPlace = idPlace;
 		this.imageUrl = imageUrl;
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
 		this.lastModifiedBy = lastModifiedBy;
 		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getIdPlace() {
+		return idPlace;
+	}
+
+	public void setIdPlace(String idPlace) {
+		this.idPlace = idPlace;
 	}
 
 	public Instant getCreatedDate() {
