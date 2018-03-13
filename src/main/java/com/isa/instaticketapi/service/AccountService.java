@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Service class for managing users.
+ * Service class for managing account.
  */
 @Service
 @Transactional
