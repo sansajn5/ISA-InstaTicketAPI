@@ -291,22 +291,24 @@ public class DataLoader implements ApplicationRunner {
 		it3.setCreatedBy("Dejan");
 		it3.setFanZone(fz1);
 
+		/*
 		fz1.getItems().add(it1);
 		fz1.getItems().add(it3);
 		fz2.getItems().add(it2);
-		
+		*/
 		
 		try{
 			
-//
-//
-//
-//			itemRepository.save(it1);
-//			itemRepository.save(it2);
-//			itemRepository.save(it3);
-//			fanZoneRepository.save(fz1);
-//			fanZoneRepository.save(fz2);
+			
+			fanZoneRepository.save(fz1);
+			fanZoneRepository.save(fz2);
 		
+
+
+			itemRepository.save(it1);
+			itemRepository.save(it2);
+			itemRepository.save(it3);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}

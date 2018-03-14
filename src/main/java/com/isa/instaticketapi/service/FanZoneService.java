@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.instaticketapi.domain.FanZone;
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.repository.FanZoneRepository;
 import com.isa.instaticketapi.repository.ItemRepository;
@@ -29,13 +30,12 @@ public class FanZoneService {
 	public List<Item> getItems(Long id) {
 		
 		
+		FanZone fanZone = fanZoneRepository.findOneById(id);
 		
-		for(Item t : itemRepository.findAllByFanZone(id)) {
-			
-			System.out.println("NASAO: " + t.getName());
-		}
 		
-		return itemRepository.findAllByFanZone(id);
+	
+		
+		return itemRepository.findAllByFanZone(fanZone);
 	}
 
 }
