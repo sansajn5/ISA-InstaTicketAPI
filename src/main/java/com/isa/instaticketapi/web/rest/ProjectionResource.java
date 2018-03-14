@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,7 +54,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/createProjection")
+	@PostMapping("/Projection")
 	public void createProjection(@RequestBody ProjectionDTO projectionDTO) {
 		log.debug("REST request to create Projection : {}", projectionDTO);
 		projectionService.createProjection(projectionDTO);
@@ -73,7 +75,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("getProjection/{id}")
+	@GetMapping("Projection/{id}")
 	public ResponseEntity<ProjectionResponse> getProjection(@PathVariable("id") Long id) {
 		if (projectionService.getProjection(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
@@ -98,7 +100,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PostMapping("/editProjection/{id}")
+	@PutMapping("/Projection/{id}")
 	public void editProjection(@RequestBody ChangeProjectionDTO changeProjectionDTO, @PathVariable("id") Long id) {
 		if (projectionService.changeProjection(changeProjectionDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
@@ -120,7 +122,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PostMapping("/deleteProjection/{id}")
+	@DeleteMapping("/Projection/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
 		if (projectionService.deleteProj(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");

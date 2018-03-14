@@ -91,6 +91,10 @@ public class HallService {
 	 */
 	public ArrayList<Hall> getHalls(Long id) {
 		Place place = placerepository.findOneById(id);
+		
+		if(place==null){
+			throw new IllegalArgumentException("Invalid id!");
+		}
 		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
 		if (halls == null) {
 			return null;

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,7 +51,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/getCinemas")
+	@GetMapping("/Cinemas")
 	public ResponseEntity<CinemaResponse> getCinemas() {
 		List<Place> cinemas = placeService.getCinemas();
 		return new ResponseEntity<>(new CinemaResponse(cinemas), HttpStatus.OK);
@@ -69,7 +70,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/getTheaters")
+	@GetMapping("/Theaters")
 	public ResponseEntity<TheaterResponse> getTheaters() {
 		List<Place> theaters = placeService.getTheaters();
 		return new ResponseEntity<>(new TheaterResponse(theaters), HttpStatus.OK);
@@ -90,7 +91,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/getPlace/{id}")
+	@GetMapping("/Place/{id}")
 	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
 		Place place = placeService.getPlace(id);
 		if (place == null) {
@@ -116,7 +117,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PostMapping("/editPlace/{id}")
+	@PutMapping("/Place/{id}")
 	public void editPlace(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
 		if (placeService.changePlace(changePlaceDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +56,7 @@ public class HallResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/createHall/{id}")
+	@PostMapping("/Hall/{id}")
 	public void createHall(@RequestBody HallDTO hallDTO, @PathVariable("id") Long id) {
 		log.debug("REST request to create Hall : {}", hallDTO);
 		hallService.createHall(hallDTO, id);
@@ -74,7 +75,7 @@ public class HallResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PostMapping("/deleteHall/{id}")
+	@DeleteMapping("/Hall/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
 		if (hallService.deleteHall(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
@@ -95,7 +96,7 @@ public class HallResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/getHallsInPlace/{id}")
+	@GetMapping("/HallsInPlace/{id}")
 	public  ResponseEntity<HallResponse> getHallsInPlace(@PathVariable("id") Long id){
 		
 		if (hallService.getHalls(id) == null) {
