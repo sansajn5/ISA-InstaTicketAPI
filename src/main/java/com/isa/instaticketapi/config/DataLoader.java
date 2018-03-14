@@ -13,6 +13,23 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+<<<<<<<HEAD
+        =======
+import com.isa.instaticketapi.domain.Authority;
+import com.isa.instaticketapi.domain.FanZone;
+import com.isa.instaticketapi.domain.Hall;
+import com.isa.instaticketapi.domain.Item;
+import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.repository.AuthorityRepository;
+import com.isa.instaticketapi.repository.FanZoneRepository;
+import com.isa.instaticketapi.repository.HallRepository;
+import com.isa.instaticketapi.repository.ItemRepository;
+import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.UserRepository;
+>>>>>>>fbaf33e4ec114e9db39ae4b14acd020181cc30e6
 import com.isa.instaticketapi.security.AuthoritiesConstants;
 
 /**
@@ -45,6 +62,9 @@ public class DataLoader implements ApplicationRunner {
     FriendsRepository friendsRepository;
 
     @Autowired
+    private HallRepository hallRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     private final Logger log = LoggerFactory.getLogger(DataLoader.class);
@@ -57,6 +77,7 @@ public class DataLoader implements ApplicationRunner {
         seedTheater();
         seedProjection();
         seedFanZone();
+        seedHall();
         seedFriends();
     }
 
@@ -344,4 +365,32 @@ public class DataLoader implements ApplicationRunner {
         }
     }
 
+    public void seedHall() {
+
+        Place place = new Place();
+
+        place.setName("Cinestar");
+        place.setType("Bioskop");
+        place.setCreatedBy("Milica");
+        place.setAddress("lala");
+
+        log.info("Starting seed for hall");
+        Hall hall1 = new Hall();
+
+        hall1.setName("Sala 1");
+        hall1.setCreatedBy("Milica");
+        hall1.setCol(7);
+        hall1.setRow(6);
+        hall1.setPlace(place);
+
+        try {
+            placeRepository.save(place);
+            hallRepository.save(hall1);
+
+        } catch (Exception e) {
+            log.debug("items (hall) are already in database");
+        }
+
+        log.info("Seeds for hall are completed");
+    }
 }
