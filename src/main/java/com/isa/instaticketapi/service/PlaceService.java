@@ -76,7 +76,7 @@ public class PlaceService {
 		place.setLastModifiedBy(logged.getUsername());
 		place.setName(changePlaceDTO.getName());
 		place.setAddress(changePlaceDTO.getAddress());
-		place.setDescripton(changePlaceDTO.getDescription());
+		place.setDescripton(changePlaceDTO.getDescripton());
 		place.setType(changePlaceDTO.getType());
 		placeRepository.save(place);
 		return place;
