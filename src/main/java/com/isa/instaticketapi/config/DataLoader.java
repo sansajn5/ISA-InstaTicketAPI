@@ -29,7 +29,7 @@ public class DataLoader implements ApplicationRunner {
 	AuthorityRepository authorityRepository;
 
 	@Autowired
-	ProjectionRepository projectionRepository;
+	EventRepository projectionRepository;
 
 	@Autowired
 	PlaceRepository placeRepository;
@@ -224,8 +224,8 @@ public class DataLoader implements ApplicationRunner {
 	 */
 	public void seedProjection() {
 		log.info("Starting seed for projection");
-		Projection projection1 = new Projection();
-		Projection projection2 = new Projection();
+		Event projection1 = new Event();
+		Event projection2 = new Event();
 
 		projection1.setName("John Wick2");
 		projection1.setActors("aaaa");

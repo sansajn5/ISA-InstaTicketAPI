@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.User;
-import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
-import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
-import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
+import com.isa.instaticketapi.service.dto.places.ChangeEventDTO;
+import com.isa.instaticketapi.service.dto.places.EventDTO;
 
 /**
  * Service for managing projection.
@@ -22,11 +22,11 @@ import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
  */
 @Service
 @Transactional
-public class ProjectionService {
-	private final Logger log = LoggerFactory.getLogger(ProjectionService.class);
+public class EventService {
+	private final Logger log = LoggerFactory.getLogger(EventService.class);
 
 	@Autowired
-	private ProjectionRepository projectionRepository;
+	private EventRepository projectionRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -36,8 +36,8 @@ public class ProjectionService {
 	 * @param projectionDTO
 	 *            object providing information about new projection
 	 */
-	public void createProjection(ProjectionDTO projectionDTO) {
-		Projection projection = new Projection();
+	public void createProjection(EventDTO projectionDTO) {
+		Event projection = new Event();
 		projection.setName(projectionDTO.getName());
 		projection.setActors(projectionDTO.getActors());
 		projection.setDirector(projectionDTO.getDirector());
@@ -58,7 +58,7 @@ public class ProjectionService {
 	 * @return object projection
 	 */
 
-	public Projection getProjection(Long id) {
+	public Event getProjection(Long id) {
 		if (projectionRepository.findOneById(id) == null) {
 			return null;
 		}
@@ -67,14 +67,14 @@ public class ProjectionService {
 
 	/**
 	 * 
-	 * @param ChangeProjectionDTO
+	 * @param ChangeEventDTO
 	 *            object for editing
 	 * @param id
 	 *            id of object
 	 */
 
-	public Projection changeProjection(ChangeProjectionDTO changeProjectionDTO, long id) {
-		Projection projection = projectionRepository.findOneById(id);
+	public Event changeProjection(ChangeEventDTO changeProjectionDTO, long id) {
+		Event projection = projectionRepository.findOneById(id);
 		if (projection == null) {
 			return null;
 		}
@@ -98,8 +98,8 @@ public class ProjectionService {
 	 * @param id
 	 *            representing id of projection which will be deleted
 	 */
-	public Projection deleteProj(Long id) {
-		Projection projection = projectionRepository.findOneById(id);
+	public Event deleteProj(Long id) {
+		Event projection = projectionRepository.findOneById(id);
 		if (projection == null) {
 			return null;
 		}

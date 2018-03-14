@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 
-import com.isa.instaticketapi.domain.Projection;
-import com.isa.instaticketapi.service.ProjectionService;
-import com.isa.instaticketapi.service.dto.places.ChangeProjectionDTO;
-import com.isa.instaticketapi.service.dto.places.ProjectionDTO;
-import com.isa.instaticketapi.web.rest.vm.ProjectionResponse.ProjectionResponse;
+import com.isa.instaticketapi.domain.Event;
+import com.isa.instaticketapi.service.EventService;
+import com.isa.instaticketapi.service.dto.places.ChangeEventDTO;
+import com.isa.instaticketapi.service.dto.places.EventDTO;
+import com.isa.instaticketapi.web.rest.vm.EventResponse.EventResponse;
 
 import ch.qos.logback.classic.spi.ThrowableProxyVO;
 import io.swagger.annotations.ApiOperation;
@@ -33,11 +33,11 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/projection")
-public class ProjectionResource {
+public class EventResource {
 	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
 	@Autowired
-	private ProjectionService projectionService;
+	private EventService projectionService;
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class ProjectionResource {
 	 *            object providing information about new projection
 	 */
 
-	@ApiOperation(value = "Creating new projection", response = ProjectionDTO.class)
+	@ApiOperation(value = "Creating new projection", response = EventDTO.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -55,7 +55,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
 	@PostMapping("/Projection")
-	public void createProjection(@RequestBody ProjectionDTO projectionDTO) {
+	public void createProjection(@RequestBody EventDTO projectionDTO) {
 		log.debug("REST request to create Projection : {}", projectionDTO);
 		projectionService.createProjection(projectionDTO);
 	}
@@ -67,7 +67,7 @@ public class ProjectionResource {
 	 *            id of projection about whom I am looking for information
 	 * @return object projection
 	 */
-	@ApiOperation(value = "All data for projection.", response = ProjectionResponse.class)
+	@ApiOperation(value = "All data for projection.", response = EventResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -76,12 +76,12 @@ public class ProjectionResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("Projection/{id}")
-	public ResponseEntity<ProjectionResponse> getProjection(@PathVariable("id") Long id) {
+	public ResponseEntity<EventResponse> getProjection(@PathVariable("id") Long id) {
 		if (projectionService.getProjection(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		Projection projection = projectionService.getProjection(id);
-		return new ResponseEntity<>(new ProjectionResponse(projection), HttpStatus.OK);
+		Event projection = projectionService.getProjection(id);
+		return new ResponseEntity<>(new EventResponse(projection), HttpStatus.OK);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@PutMapping("/Projection/{id}")
-	public void editProjection(@RequestBody ChangeProjectionDTO changeProjectionDTO, @PathVariable("id") Long id) {
+	public void editProjection(@RequestBody ChangeEventDTO changeProjectionDTO, @PathVariable("id") Long id) {
 		if (projectionService.changeProjection(changeProjectionDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}

@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.service.HallService;
 import com.isa.instaticketapi.service.dto.places.HallDTO;
+import com.isa.instaticketapi.web.rest.vm.EventResponse.EventResponse;
 import com.isa.instaticketapi.web.rest.vm.HallResponse.HallResponse;
-import com.isa.instaticketapi.web.rest.vm.ProjectionResponse.ProjectionResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
