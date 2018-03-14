@@ -1,8 +1,6 @@
 package com.isa.instaticketapi.repository;
 
 import com.isa.instaticketapi.domain.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -25,8 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
 
-    List<User> findByFriends_Username(String username);
-
     User findOneByResetKey(String resetKey);
 
     Optional<User> findOneByEmailIgnoreCase(String email);
@@ -39,8 +35,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @EntityGraph(attributePaths = "authorities")
     Optional<User> findOneWithAuthoritiesByEmail(String email);
-
-    @EntityGraph(attributePaths = "friends")
-    List<User> findAllFriendsById(Long id);
 
 }

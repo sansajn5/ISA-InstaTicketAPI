@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 
 /**
@@ -26,6 +29,9 @@ public class PlaceService {
 
 	@Autowired
 	private PlaceRepository placeRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	/**
 	 * 
@@ -62,17 +68,18 @@ public class PlaceService {
 
 	public Place changePlace(ChangePlaceDTO changePlaceDTO, long id) {
 		Place place = placeRepository.findOneById(id);
-		if(place == null){
+		if (place == null) {
 			return null;
 		}
+
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		place.setLastModifiedBy(logged.getUsername());
 		place.setName(changePlaceDTO.getName());
 		place.setAddress(changePlaceDTO.getAddress());
 		place.setDescripton(changePlaceDTO.getDescription());
 		place.setType(changePlaceDTO.getType());
-		place.setLastModifiedBy(changePlaceDTO.getLastModifiedBy());
-		place.setLastModifiedDate(changePlaceDTO.getLastModifiedDate());
 		placeRepository.save(place);
 		return place;
-		
+
 	}
 }

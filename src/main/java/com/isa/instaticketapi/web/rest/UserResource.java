@@ -50,7 +50,9 @@ public class UserResource {
 
     @GetMapping("/getMyFriends")
     public  ResponseEntity<FriendsResponse> getMyFriends(){
-        return new ResponseEntity<>(new FriendsResponse(userService.findMyFriends(),"User's friend list"), HttpStatus.OK);
+        FriendsResponse friendsResponse = new FriendsResponse();
+        friendsResponse.setFriends(userService.findMyFriends());
+        return new ResponseEntity<>(friendsResponse, HttpStatus.OK);
     }
 
     @PostMapping("/sendFriendRequest")

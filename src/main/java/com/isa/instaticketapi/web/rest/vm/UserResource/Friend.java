@@ -27,4 +27,12 @@ public class Friend {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "Friend{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

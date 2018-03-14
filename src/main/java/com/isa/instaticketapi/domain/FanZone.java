@@ -39,10 +39,7 @@ public class FanZone extends AbstractAuditingEntity implements Serializable {
 	@Column
 	private String placeID;
 	
-	/*
-	@OneToMany(mappedBy="fanZone", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	private List<Item> items = new ArrayList<Item>();
-	*/
+	
 	
 	public String getPlaceID() {
 		return placeID;
@@ -51,17 +48,6 @@ public class FanZone extends AbstractAuditingEntity implements Serializable {
 	public void setPlaceID(String placeID) {
 		this.placeID = placeID;
 	}
-	
-
-	/*
-	public List<Item> getItems() {
-		return items;
-	}
-
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
-	*/
 	
 
 	public String getName() {

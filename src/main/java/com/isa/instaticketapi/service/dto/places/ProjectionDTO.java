@@ -35,17 +35,8 @@ public class ProjectionDTO {
 	@Size(max = 256)
 	private String imageUrl;
 
-	private String createdBy;
-
-	private Instant createdDate;
-
-	private String lastModifiedBy;
-
-	private Instant lastModifiedDate;
-
 	public ProjectionDTO(Long id, String name, String actors, String type, String director, String description,
-			int duration, String idPlace, String imageUrl, String createdBy, Instant createdDate, String lastModifiedBy,
-			Instant lastModifiedDate) {
+			int duration, String idPlace, String imageUrl) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -56,10 +47,7 @@ public class ProjectionDTO {
 		this.duration = duration;
 		this.idPlace = idPlace;
 		this.imageUrl = imageUrl;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.lastModifiedBy = lastModifiedBy;
-		this.lastModifiedDate = lastModifiedDate;
+
 	}
 
 	public String getIdPlace() {
@@ -70,44 +58,12 @@ public class ProjectionDTO {
 		this.idPlace = idPlace;
 	}
 
-	public Instant getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Instant createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public String getLastModifiedBy() {
-		return lastModifiedBy;
-	}
-
-	public void setLastModifiedBy(String lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
-	}
-
-	public Instant getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Instant lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
 	public String getImageUrl() {
 		return imageUrl;
 	}
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
 	}
 
 	public int getDuration() {
