@@ -1,8 +1,8 @@
 package com.isa.instaticketapi.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,9 +40,6 @@ public class FanZone extends AbstractAuditingEntity implements Serializable {
 	private String placeID;
 	
 	
-	@OneToMany(mappedBy="fanZone", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	private Set<Item> items = new HashSet<Item>();
-	
 	
 	public String getPlaceID() {
 		return placeID;
@@ -52,14 +49,7 @@ public class FanZone extends AbstractAuditingEntity implements Serializable {
 		this.placeID = placeID;
 	}
 	
-	public Set<Item> getItems() {
-		return items;
-	}
 
-	public void setItems(Set<Item> items) {
-		this.items = items;
-	}
-	
 	public String getName() {
 		return name;
 	}

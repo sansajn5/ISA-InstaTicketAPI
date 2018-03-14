@@ -3,6 +3,7 @@ package com.isa.instaticketapi.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.isa.instaticketapi.domain.FanZone;
@@ -13,7 +14,8 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
 
 	Item findOneById(Long id);
 	
-	List<Item> findAllByFanZone(Long id);
+	//@Query("SELECT it.fanZone as id FROM Item it where it.fanZone = ?1")
+	List<Item> findAllByFanZone(FanZone fanZone);
 	
 	
 }
