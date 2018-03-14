@@ -1,59 +1,62 @@
-package com.isa.instaticketapi.domain;
+package com.isa.instaticketapi.service.dto.places;
 
-import java.io.Serializable;
+import java.time.Instant;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Entity od projection.
- * 
- * @author Milica Kovacevic
- *
- */
-@Entity
-@Table(name = "Projection")
-public class Projection extends AbstractAuditingEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+import org.hibernate.validator.constraints.NotBlank;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EventDTO {
+
 	private Long id;
 
-	@NotNull
-	@Size(min = 1, max = 60)
-	@Column(name = "name", length = 60, unique = true)
+	@NotBlank
+	@Size(min = 1, max = 50)
 	private String name;
 
 	@Size(max = 5000)
-	@Column(name = "actors", length = 5000)
+
 	private String actors;
 
-	@NotNull
+	@NotBlank
 	@Size(min = 1, max = 50)
-	@Column(name = "type", length = 50)
 	private String type;
 
 	@Size(max = 50)
-	@Column(name = "director", length = 50)
 	private String director;
 
-	@Column(name = "duration", length = 4)
+	@Size(max = 5000)
+	private String description;
+
 	private int duration;
 
+	private String idPlace;
+
 	@Size(max = 256)
-	@Column(name = "image_url", length = 256)
 	private String imageUrl;
 
-	@Size(max = 5000)
-	@Column(name = "description", length = 5000)
-	private String description;
+	public EventDTO(Long id, String name, String actors, String type, String director, String description,
+			int duration, String idPlace, String imageUrl) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.actors = actors;
+		this.type = type;
+		this.director = director;
+		this.description = description;
+		this.duration = duration;
+		this.idPlace = idPlace;
+		this.imageUrl = imageUrl;
+
+	}
+
+	public String getIdPlace() {
+		return idPlace;
+	}
+
+	public void setIdPlace(String idPlace) {
+		this.idPlace = idPlace;
+	}
 
 	public String getImageUrl() {
 		return imageUrl;
@@ -69,6 +72,10 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	public EventDTO() {
+
 	}
 
 	public Long getId() {
@@ -115,12 +122,8 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 		return description;
 	}
 
-	public void setDescription(String string) {
-		this.description = string;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

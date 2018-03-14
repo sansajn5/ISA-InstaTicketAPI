@@ -1,5 +1,8 @@
 package com.isa.instaticketapi.service;
 
+import java.util.ArrayList;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +51,14 @@ public class HallService {
 		Place place = placerepository.findOneById(id);
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		hall.setCreatedBy(logged.getUsername());
-		
+
+		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
+
+		for (int i = 0; i < halls.size(); i++) {
+			if (halls.get(i).getName().equals(hallDTO.getName())) {
+				throw new IllegalArgumentException("Validation error on name");
+			}
+		}
 		hall.setName(hallDTO.getName());
 		hall.setCol(hallDTO.getCol());
 		hall.setRow(hallDTO.getRow());
@@ -73,5 +83,23 @@ public class HallService {
 		log.debug("Deleted hall.");
 		return hall;
 
+	}
+	/**
+	 * 
+	 * @param id id of place
+	 * @return halls in place
+	 */
+	public ArrayList<Hall> getHalls(Long id) {
+		Place place = placerepository.findOneById(id);
+		
+		if(place==null){
+			throw new IllegalArgumentException("Invalid id!");
+		}
+		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
+		if (halls == null) {
+			return null;
+		}
+
+		return halls;
 	}
 }

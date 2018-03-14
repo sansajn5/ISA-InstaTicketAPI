@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-public class ChangeProjectionDTO {
+public class ChangeEventDTO {
 	@NotBlank
 	@Size(max = 60)
 	private String name;
@@ -30,7 +30,7 @@ public class ChangeProjectionDTO {
 	@Size(max = 256)
 	private String imageUrl;
 
-	public ChangeProjectionDTO() {
+	public ChangeEventDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

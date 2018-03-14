@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -27,6 +28,7 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 	
 	
 	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="fanZone_id", nullable=false)
 	private FanZone fanZone;
 	
 

@@ -59,14 +59,6 @@ public class ChangePlaceDTO {
 		this.address = address;
 	}
 
-	public String getDescription() {
-		return descripton;
-	}
-
-	public void setDescription(String description) {
-		this.descripton = description;
-	}
-
 	public String getType() {
 		return type;
 	}
