@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.isa.instaticketapi.domain.*;
 import com.isa.instaticketapi.repository.*;
+import com.isa.instaticketapi.security.AuthoritiesConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +14,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-<<<<<<<HEAD
-        =======
-import com.isa.instaticketapi.domain.Authority;
-import com.isa.instaticketapi.domain.FanZone;
-import com.isa.instaticketapi.domain.Hall;
-import com.isa.instaticketapi.domain.Item;
-import com.isa.instaticketapi.domain.Place;
-import com.isa.instaticketapi.domain.Projection;
-import com.isa.instaticketapi.domain.User;
-import com.isa.instaticketapi.repository.AuthorityRepository;
-import com.isa.instaticketapi.repository.FanZoneRepository;
-import com.isa.instaticketapi.repository.HallRepository;
-import com.isa.instaticketapi.repository.ItemRepository;
-import com.isa.instaticketapi.repository.PlaceRepository;
-import com.isa.instaticketapi.repository.ProjectionRepository;
-import com.isa.instaticketapi.repository.UserRepository;
->>>>>>>fbaf33e4ec114e9db39ae4b14acd020181cc30e6
-import com.isa.instaticketapi.security.AuthoritiesConstants;
 
 /**
  * Class for making initial seed data
