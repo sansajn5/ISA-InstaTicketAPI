@@ -84,4 +84,18 @@ public class HallService {
 		return hall;
 
 	}
+	/**
+	 * 
+	 * @param id id of place
+	 * @return halls in place
+	 */
+	public ArrayList<Hall> getHalls(Long id) {
+		Place place = placerepository.findOneById(id);
+		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
+		if (halls == null) {
+			return null;
+		}
+
+		return halls;
+	}
 }

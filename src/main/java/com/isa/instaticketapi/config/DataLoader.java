@@ -351,6 +351,7 @@ public class DataLoader implements ApplicationRunner {
     public void seedHall() {
 
         Place place = new Place();
+       
 
         place.setName("Cinestar");
         place.setType("Bioskop");
@@ -359,16 +360,24 @@ public class DataLoader implements ApplicationRunner {
 
         log.info("Starting seed for hall");
         Hall hall1 = new Hall();
+        Hall hall2 = new Hall();
 
         hall1.setName("Sala 1");
         hall1.setCreatedBy("Milica");
         hall1.setCol(7);
         hall1.setRow(6);
         hall1.setPlace(place);
+        
+        hall2.setName("Sala 2");
+        hall2.setCreatedBy("Milica");
+        hall2.setCol(7);
+        hall2.setRow(6);
+        hall2.setPlace(place);
 
         try {
             placeRepository.save(place);
             hallRepository.save(hall1);
+            hallRepository.save(hall2);
 
         } catch (Exception e) {
             log.debug("items (hall) are already in database");
