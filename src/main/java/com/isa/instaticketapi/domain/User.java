@@ -84,14 +84,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "Friends",
-            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "friend_id",referencedColumnName = "id")}
-    )
-    private Set<User> friends = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -180,46 +172,20 @@ public class User extends AbstractAuditingEntity implements Serializable {
         return authorities;
     }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public boolean isActivated() { return activated; }
+    public boolean isActivated() {
+        return activated;
+    }
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 
-    public void setFriends(Set<User> friends) { this.friends = friends; }
-
-    public Set<User> getFriends() { return friends; }
-
-    public User(){
+    public User() {
 
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        User user = (User) o;
-        return !(user.getId() == null || getId() == null) && Objects.equals(getId(), user.getId());
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                " username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", activated='" + activated + '\'' +
-                ", activationKey='" + activationKey + '\'' +
-                ", authority='" + authorities + '\'' +
-                "}";
-    }
 }
