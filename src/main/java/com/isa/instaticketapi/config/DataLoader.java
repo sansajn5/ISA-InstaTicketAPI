@@ -13,12 +13,14 @@ import org.springframework.stereotype.Component;
 
 import com.isa.instaticketapi.domain.Authority;
 import com.isa.instaticketapi.domain.FanZone;
+import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.AuthorityRepository;
 import com.isa.instaticketapi.repository.FanZoneRepository;
+import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
@@ -44,15 +46,18 @@ public class DataLoader implements ApplicationRunner {
 
 	@Autowired
 	PlaceRepository placeRepository;
-	
+
 	@Autowired
 	FanZoneRepository fanZoneRepository;
-	
+
 	@Autowired
 	ItemRepository itemRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private HallRepository hallRepository;
 
 	private final Logger log = LoggerFactory.getLogger(DataLoader.class);
 
@@ -64,6 +69,7 @@ public class DataLoader implements ApplicationRunner {
 		seedTheater();
 		seedProjection();
 		seedFanZone();
+		seedHall();
 	}
 
 	/**
@@ -261,31 +267,27 @@ public class DataLoader implements ApplicationRunner {
 
 		log.info("Seeds for projection are completed");
 	}
-	
-	
+
 	public void seedFanZone() {
-		
+
 		FanZone fz1 = new FanZone();
 		fz1.setName("zona 1");
 		fz1.setCreatedBy("Dejan");
-		
+
 		FanZone fz2 = new FanZone();
 		fz2.setName("zona 2");
 		fz2.setCreatedBy("Dejan");
-		
-		
+
 		Item it1 = new Item();
 		it1.setName("item 1");
 		it1.setCreatedBy("Dejan");
 		it1.setFanZone(fz1);
-		
-		
+
 		Item it2 = new Item();
 		it2.setName("item 2");
 		it2.setCreatedBy("Dejan");
 		it2.setFanZone(fz2);
-		
-		
+
 		Item it3 = new Item();
 		it3.setName("item 3");
 		it3.setCreatedBy("Dejan");
@@ -294,28 +296,54 @@ public class DataLoader implements ApplicationRunner {
 		fz1.getItems().add(it1);
 		fz1.getItems().add(it3);
 		fz2.getItems().add(it2);
-		
-		
-		try{
-			
-//
-//
-//
-//			itemRepository.save(it1);
-//			itemRepository.save(it2);
-//			itemRepository.save(it3);
-//			fanZoneRepository.save(fz1);
-//			fanZoneRepository.save(fz2);
-		
-		}catch(Exception e){
+
+		try {
+
+			//
+			//
+			//
+			// itemRepository.save(it1);
+			// itemRepository.save(it2);
+			// itemRepository.save(it3);
+			// fanZoneRepository.save(fz1);
+			// fanZoneRepository.save(fz2);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-	}
-	
-	
 
-	
+	}
+
+	/**
+	 * Setting up hall for common init database
+	 */
+	public void seedHall() {
+
+		Place place = new Place();
+
+		place.setName("Cinestar");
+		place.setType("Bioskop");
+		place.setCreatedBy("Milica");
+		place.setAddress("lala");
+
+		log.info("Starting seed for hall");
+		Hall hall1 = new Hall();
+
+		hall1.setName("Sala 1");
+		hall1.setCreatedBy("Milica");
+		hall1.setCol(7);
+		hall1.setRow(6);
+		hall1.setPlace(place);
+
+		try {
+			placeRepository.save(place);
+			hallRepository.save(hall1);
+
+		} catch (Exception e) {
+			log.debug("items (hall) are already in database");
+		}
+
+		log.info("Seeds for hall are completed");
+	}
 
 }

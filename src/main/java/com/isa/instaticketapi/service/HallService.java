@@ -1,6 +1,5 @@
 package com.isa.instaticketapi.service;
 
-import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
+
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
@@ -36,11 +36,19 @@ public class HallService {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * 
+	 * @param hallDTO
+	 *            object providing information about new hall
+	 * @param id
+	 *            id of place
+	 */
 	public void createHall(HallDTO hallDTO, Long id) {
 		Hall hall = new Hall();
 		Place place = placerepository.findOneById(id);
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		hall.setCreatedBy(logged.getUsername());
+		
 		hall.setName(hallDTO.getName());
 		hall.setCol(hallDTO.getCol());
 		hall.setRow(hallDTO.getRow());
@@ -49,4 +57,21 @@ public class HallService {
 		hallRepository.save(hall);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            id of hall for delete
+	 * @return
+	 */
+
+	public Hall deleteHall(Long id) {
+		Hall hall = hallRepository.findOneById(id);
+		if (hall == null) {
+			return null;
+		}
+		hallRepository.delete(hall);
+		log.debug("Deleted hall.");
+		return hall;
+
+	}
 }
