@@ -44,16 +44,18 @@ public class AccountService {
 
     /**
      * Registrating user into database
-     * @param user object with user information
+     *
+     * @param user     object with user information
      * @param password password which will be encoded
      */
-    public void signupUser(User user,String password){
-        log.debug("start of reg {}",user);
+    public void signupUser(User user, String password) {
+        log.debug("start of reg {}", user);
 
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
         Set<Authority> authorities = new HashSet<>();
         authorities.add(authority);
         user.setAuthorities(authorities);
+        user.setCreatedBy(user.getUsername());
 
         String encryptedPassword = passwordEncoder.encode(password);
         user.setPassword(encryptedPassword);
@@ -66,6 +68,7 @@ public class AccountService {
 
     /**
      * Activate user account with key
+     *
      * @param key user's activation key
      * @return user with activated account
      */
@@ -96,6 +99,7 @@ public class AccountService {
 
     /**
      * Changing password for current user
+     *
      * @param password password that will replace old one
      */
     public void changePassword(String password) {
@@ -158,11 +162,12 @@ public class AccountService {
 
     /**
      * Deleting user from database
+     *
      * @param password representing password of user which will be deleted
      */
     public void deleteAccount(String password) {
         SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).ifPresent(user -> {
-            if(user.getPassword().equals(password)) {
+            if (user.getPassword().equals(password)) {
                 userRepository.delete(user);
                 log.debug("Deleted User: {}", user);
             }
@@ -172,6 +177,7 @@ public class AccountService {
 
     /**
      * Returns current/logged user with Authorities
+     *
      * @return user if its logged
      */
     @Transactional(readOnly = true)
@@ -190,10 +196,4 @@ public class AccountService {
             userRepository.delete(user);
         }
     }
-
-    public List<Friend> getMyFriends() {
-        //TODO
-        return null;
-    }
-
 }

@@ -96,7 +96,7 @@ public class AccountResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/signup")
+	@PostMapping("/sign-up")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void signupAccount(@Valid @RequestBody UserDTO userDTO) {
 		log.debug("REST request to sign-up User : {}", userDTO);
@@ -134,7 +134,7 @@ public class AccountResource {
 				loginDTO.getUsername(), loginDTO.getPassword());
 		Authentication authentication = authenticationManager.authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		// TODO implement for remamber me with shorter time limit
+
 		boolean rememberMe = (loginDTO.isRememberMe() == null) ? false : loginDTO.isRememberMe();
 		String jwt = tokenProvider.generateToken(details);
 		return new ResponseEntity<>(new JWTTokenResponse(jwt), HttpStatus.OK);
@@ -261,7 +261,7 @@ public class AccountResource {
 			@ApiResponse(code = 200, message = "ok"),
 			@ApiResponse(code = 400, message = "User with that email doesn't exist")
 	})
-	@PostMapping("request-password")
+	@PostMapping("/request-password")
 	@ResponseStatus(HttpStatus.OK)
 	public void requestNewPassword(@RequestBody RequestPasswordDTO requestPasswordDTO) {
 		Optional<User> user = accountService.requestPasswordReset(requestPasswordDTO.getEmail());
@@ -275,7 +275,7 @@ public class AccountResource {
 			@ApiResponse(code = 200, message = "ok"),
 			@ApiResponse(code = 400, message = "Passwords are not matching")
 	})
-	@PostMapping("delete-account")
+	@PostMapping("/delete-account")
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteAccount(@RequestBody ChangePasswordDTO changePasswordDTO){
 		if(changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())){
