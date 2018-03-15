@@ -32,7 +32,7 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "name",length = 50, unique = true)
