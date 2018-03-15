@@ -1,5 +1,6 @@
 package com.isa.instaticketapi.web.rest;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,8 @@ import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
+import com.isa.instaticketapi.service.dto.places.EventDTO;
+import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
@@ -124,4 +128,33 @@ public class PlaceResource {
 		}
 		placeService.changePlace(changePlaceDTO, id);
 	}
+	
+	
+	
+	/**
+	 * POST: create-place : create new place by admin
+	 * @throws SQLException 
+	 * 
+	 */
+	@ApiOperation(value = "Creating new projection", response = EventDTO.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@Transactional
+	@PostMapping("/create-place")
+	public void createPlace(@RequestBody PlaceDTO placeDTO) throws SQLException{
+		
+		
+		log.debug("Rest request to create new Place : {}");
+		
+		placeService.createPlace(placeDTO);
+		
+		
+	}
+	
+	
 }
