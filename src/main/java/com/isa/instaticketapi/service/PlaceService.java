@@ -1,20 +1,22 @@
 package com.isa.instaticketapi.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
-import com.isa.instaticketapi.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
+import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 
 /**
  * Service for managing cinema and theatres
@@ -82,4 +84,27 @@ public class PlaceService {
 		return place;
 
 	}
+	
+	
+	public void createPlace(PlaceDTO placeDTO) throws SQLException {
+		
+		Place place = new Place();
+		
+		place.setName(placeDTO.getName());
+		place.setAddress(place.getAddress());
+		//User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		place.setCreatedBy("Micka");
+		place.setDescripton(placeDTO.getDescription());
+		place.setType(placeDTO.getType());
+		
+		
+		placeRepository.save(place); // maybe error - unique name
+		
+		
+		
+		
+		
+	}
+	
+	
 }
