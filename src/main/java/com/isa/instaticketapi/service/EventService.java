@@ -26,29 +26,29 @@ public class EventService {
 	private final Logger log = LoggerFactory.getLogger(EventService.class);
 
 	@Autowired
-	private EventRepository projectionRepository;
+	private EventRepository eventRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
 	/**
 	 * 
-	 * @param projectionDTO
+	 * @param eventDTO
 	 *            object providing information about new projection
 	 */
-	public void createProjection(EventDTO projectionDTO) {
+	public void createEvent(EventDTO eventDTO) {
 		Event projection = new Event();
-		projection.setName(projectionDTO.getName());
-		projection.setActors(projectionDTO.getActors());
-		projection.setDirector(projectionDTO.getDirector());
-		projection.setDuration(projectionDTO.getDuration());
-		projection.setDescription(projectionDTO.getDescription());
-		projection.setType(projectionDTO.getType());
-		projection.setImageUrl(projectionDTO.getImageUrl());
+		projection.setName(eventDTO.getName());
+		projection.setActors(eventDTO.getActors());
+		projection.setDirector(eventDTO.getDirector());
+		projection.setDuration(eventDTO.getDuration());
+		projection.setDescription(eventDTO.getDescription());
+		projection.setType(eventDTO.getType());
+		projection.setImageUrl(eventDTO.getImageUrl());
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		projection.setCreatedBy(logged.getUsername());
 
-		projectionRepository.save(projection);
+		eventRepository.save(projection);
 
 	}
 
@@ -59,10 +59,10 @@ public class EventService {
 	 */
 
 	public Event getProjection(Long id) {
-		if (projectionRepository.findOneById(id) == null) {
+		if (eventRepository.findOneById(id) == null) {
 			return null;
 		}
-		return projectionRepository.findOneById(id);
+		return eventRepository.findOneById(id);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class EventService {
 	 */
 
 	public Event changeProjection(ChangeEventDTO changeProjectionDTO, long id) {
-		Event projection = projectionRepository.findOneById(id);
+		Event projection = eventRepository.findOneById(id);
 		if (projection == null) {
 			return null;
 		}
@@ -88,7 +88,7 @@ public class EventService {
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		projection.setLastModifiedBy(logged.getUsername());
 
-		projectionRepository.save(projection);
+		eventRepository.save(projection);
 		return projection;
 	}
 
@@ -99,11 +99,11 @@ public class EventService {
 	 *            representing id of projection which will be deleted
 	 */
 	public Event deleteProj(Long id) {
-		Event projection = projectionRepository.findOneById(id);
+		Event projection = eventRepository.findOneById(id);
 		if (projection == null) {
 			return null;
 		}
-		projectionRepository.delete(projection);
+		eventRepository.delete(projection);
 		log.debug("Deleted projection.");
 		return projection;
 
