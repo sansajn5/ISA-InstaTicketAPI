@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
  *
  */
 @Entity
-@Table(name = "Projection")
+@Table(name = "Event")
 public class Event extends AbstractAuditingEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
