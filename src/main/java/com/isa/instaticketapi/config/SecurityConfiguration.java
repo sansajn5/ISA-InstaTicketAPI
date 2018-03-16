@@ -63,6 +63,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/hall/**").permitAll()
             .antMatchers("/api/user/**").permitAll()
             .antMatchers("/api/projection/**").permitAll()
+            .antMatchers("/api/event/**").permitAll()
+            .antMatchers("/api/repertory/**").permitAll()
             .antMatchers("/api/fanzone/**").permitAll()
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()

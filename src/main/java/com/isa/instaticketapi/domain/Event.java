@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -54,6 +56,17 @@ public class Event extends AbstractAuditingEntity implements Serializable {
 	@Size(max = 5000)
 	@Column(name = "description", length = 5000)
 	private String description;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Place place;
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
 
 	public String getImageUrl() {
 		return imageUrl;

@@ -32,9 +32,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/projection")
+@RequestMapping("/api/event")
 public class EventResource {
-	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
+	private final Logger log = LoggerFactory.getLogger(EventResource.class);
 
 	@Autowired
 	private EventService eventService;
@@ -42,7 +42,7 @@ public class EventResource {
 	/**
 	 * 
 	 * @param EventDTO
-	 *            object providing information about new projection
+	 *            object providing information about new event
 	 */
 
 	@ApiOperation(value = "Creating new event", response = EventDTO.class)
@@ -54,18 +54,18 @@ public class EventResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/Event")
-	public void createEvent(@RequestBody EventDTO eventDTO) {
+	@PostMapping("/event/{id}")
+	public void createEvent(@RequestBody EventDTO eventDTO, @PathVariable("id") Long id) {
 		log.debug("REST request to create Event : {}", eventDTO);
-		eventService.createEvent(eventDTO);
+		eventService.createEvent(eventDTO, id);
 	}
 
 	/**
-	 * GET: /getProjection: return all data for concrete projection.
+	 * GET: /event: return all data for concrete event.
 	 * 
 	 * @param id
-	 *            id of projection about whom I am looking for information
-	 * @return object projection
+	 *            id of event about whom I am looking for information
+	 * @return object event
 	 */
 	@ApiOperation(value = "All data for event.", response = EventResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -75,22 +75,22 @@ public class EventResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("Event/{id}")
+	@GetMapping("event/{id}")
 	public ResponseEntity<EventResponse> Event(@PathVariable("id") Long id) {
-		if (eventService.getProjection(id) == null) {
+		if (eventService.getEvent(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		Event event = eventService.getProjection(id);
+		Event event = eventService.getEvent(id);
 		return new ResponseEntity<>(new EventResponse(event), HttpStatus.OK);
 	}
 
 	/**
-	 * POST: editProjection/{id} : edit data about concrete projection
+	 * POST: event/{id} : edit data about concrete event
 	 * 
 	 * @param changeEventDTO
 	 *            data for editing
 	 * @param id
-	 *            id from projection we want to change
+	 *            id from event we want to change
 	 */
 	@ApiOperation(value = "Edit event")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -100,16 +100,16 @@ public class EventResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PutMapping("/Event/{id}")
-	public void editProjection(@RequestBody ChangeEventDTO changeEventDTO, @PathVariable("id") Long id) {
-		if (eventService.changeProjection(changeEventDTO, id) == null) {
+	@PutMapping("/event/{id}")
+	public void editEvent(@RequestBody ChangeEventDTO changeEventDTO, @PathVariable("id") Long id) {
+		if (eventService.changeEvent(changeEventDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		eventService.changeProjection(changeEventDTO, id);
+		eventService.changeEvent(changeEventDTO, id);
 	}
 
 	/**
-	 * POST: deleteEvent/{id} : delete data about concrete event
+	 * POST: event/{id} : delete data about concrete event
 	 * 
 	 * @param id
 	 *            id from event we want to delete
@@ -122,11 +122,12 @@ public class EventResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@DeleteMapping("/Event/{id}")
+	@DeleteMapping("/event/{id}")
 	public void deleteEvent(@PathVariable("id") Long id) {
-		if (eventService.deleteProj(id) == null) {
+		if (eventService.deleteEvent(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		eventService.deleteProj(id);
+		eventService.deleteEvent(id);
 	}
+
 }

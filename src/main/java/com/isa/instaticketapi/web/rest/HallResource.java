@@ -56,7 +56,7 @@ public class HallResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/Hall/{id}")
+	@PostMapping("/hall/{id}")
 	public void createHall(@RequestBody HallDTO hallDTO, @PathVariable("id") Long id) {
 		log.debug("REST request to create Hall : {}", hallDTO);
 		hallService.createHall(hallDTO, id);
@@ -75,7 +75,7 @@ public class HallResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@DeleteMapping("/Hall/{id}")
+	@DeleteMapping("/hall/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
 		if (hallService.deleteHall(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
@@ -96,7 +96,7 @@ public class HallResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/HallsInPlace/{id}")
+	@GetMapping("/hallsInPlace/{id}")
 	public  ResponseEntity<HallResponse> getHallsInPlace(@PathVariable("id") Long id){
 		
 		if (hallService.getHalls(id) == null) {

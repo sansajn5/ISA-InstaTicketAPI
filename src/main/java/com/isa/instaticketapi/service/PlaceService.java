@@ -92,8 +92,8 @@ public class PlaceService {
 		
 		place.setName(placeDTO.getName());
 		place.setAddress(place.getAddress());
-		//User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		place.setCreatedBy("Micka");
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		place.setCreatedBy(logged.getUsername());
 		place.setDescripton(placeDTO.getDescription());
 		place.setType(placeDTO.getType());
 		

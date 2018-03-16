@@ -7,10 +7,11 @@ import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Event;
 
 /**
- * Spring Data JPA repository for the Projection entity.
+ * Spring Data JPA repository for the Event entity.
  */
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
 	Event findOneById(Long id);
+	Event findOneByName(String name);
 }

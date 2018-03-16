@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Reperotry")
-public class Reperotry extends AbstractAuditingEntity implements Serializable {
+public class Repertory extends AbstractAuditingEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,8 +26,8 @@ public class Reperotry extends AbstractAuditingEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "date", length = 15)
-	private SimpleDateFormat date;
+	@Column(name = "date", length = 10, unique = true)
+	private String date;
 
 	public Long getId() {
 		return id;
@@ -37,11 +37,11 @@ public class Reperotry extends AbstractAuditingEntity implements Serializable {
 		this.id = id;
 	}
 
-	public SimpleDateFormat getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(SimpleDateFormat date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

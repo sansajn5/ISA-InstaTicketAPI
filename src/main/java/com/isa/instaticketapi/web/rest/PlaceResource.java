@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/places")
+@RequestMapping("/api/place")
 public class PlaceResource {
 	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
@@ -55,7 +55,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/Cinemas")
+	@GetMapping("/cinemas")
 	public ResponseEntity<CinemaResponse> getCinemas() {
 		List<Place> cinemas = placeService.getCinemas();
 		return new ResponseEntity<>(new CinemaResponse(cinemas), HttpStatus.OK);
@@ -74,7 +74,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/Theaters")
+	@GetMapping("/theaters")
 	public ResponseEntity<TheaterResponse> getTheaters() {
 		List<Place> theaters = placeService.getTheaters();
 		return new ResponseEntity<>(new TheaterResponse(theaters), HttpStatus.OK);
@@ -95,7 +95,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/Place/{id}")
+	@GetMapping("/place/{id}")
 	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
 		Place place = placeService.getPlace(id);
 		if (place == null) {
@@ -121,19 +121,18 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PutMapping("/Place/{id}")
+	@PutMapping("/place/{id}")
 	public void editPlace(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
 		if (placeService.changePlace(changePlaceDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
 		placeService.changePlace(changePlaceDTO, id);
 	}
-	
-	
-	
+
 	/**
 	 * POST: create-place : create new place by admin
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 * 
 	 */
 	@ApiOperation(value = "Creating new projection", response = EventDTO.class)
@@ -146,15 +145,12 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
 	@PostMapping("/create-place")
-	public void createPlace(@RequestBody PlaceDTO placeDTO) throws SQLException{
-		
-		
+	public void createPlace(@RequestBody PlaceDTO placeDTO) throws SQLException {
+
 		log.debug("Rest request to create new Place : {}");
-		
+
 		placeService.createPlace(placeDTO);
-		
-		
+
 	}
-	
-	
+
 }

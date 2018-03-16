@@ -38,8 +38,8 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 	@Column(name = "endTime", length = 5)
 	private String endTime;
 
-	@Column(name = "date", length = 15)
-	private SimpleDateFormat date;
+	@Column(name = "date", length = 10)
+	private String date;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Hall hall;
@@ -48,21 +48,21 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 	private Event event;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Reperotry reperotry;
+	private Repertory reperotry;
 
-	public Reperotry getReperotry() {
+	public Repertory getReperotry() {
 		return reperotry;
 	}
 
-	public void setReperotry(Reperotry reperotry) {
+	public void setReperotry(Repertory reperotry) {
 		this.reperotry = reperotry;
 	}
 
-	public SimpleDateFormat getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(SimpleDateFormat date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
