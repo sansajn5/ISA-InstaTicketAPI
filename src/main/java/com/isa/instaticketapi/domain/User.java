@@ -41,18 +41,33 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "password_hash", length = 60)
     private String password;
 
+    @NotNull
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
 
+    @NotNull
     @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @NotNull
     @Email
     @Size(min = 5, max = 100)
     @Column(length = 100, unique = true)
     private String email;
+
+    @NotNull
+    @Size(min = 3, max = 10)
+    private String city;
+
+    @NotNull
+    @Size(min = 6, max = 15)
+    private String address;
+
+    @NotNull
+    @Size(min = 9, max = 15)
+    private String number;
 
     @NotNull
     @Column(nullable = false)
@@ -182,6 +197,30 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public User() {
