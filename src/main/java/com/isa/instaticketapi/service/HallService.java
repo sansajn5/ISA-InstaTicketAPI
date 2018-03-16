@@ -2,7 +2,6 @@ package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,15 +83,17 @@ public class HallService {
 		return hall;
 
 	}
+
 	/**
 	 * 
-	 * @param id id of place
+	 * @param id
+	 *            id of place
 	 * @return halls in place
 	 */
 	public ArrayList<Hall> getHalls(Long id) {
 		Place place = placerepository.findOneById(id);
-		
-		if(place==null){
+
+		if (place == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
 		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
@@ -101,5 +102,9 @@ public class HallService {
 		}
 
 		return halls;
+	}
+
+	public Hall getHall(Long id) {
+		return hallRepository.findOneById(id);
 	}
 }

@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.service.HallService;
 import com.isa.instaticketapi.service.dto.places.HallDTO;
-import com.isa.instaticketapi.web.rest.vm.EventResponse.EventResponse;
 import com.isa.instaticketapi.web.rest.vm.HallResponse.HallResponse;
+import com.isa.instaticketapi.web.rest.vm.HallResponse.HallsResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -82,13 +82,14 @@ public class HallResource {
 		}
 		hallService.deleteHall(id);
 	}
-	
+
 	/**
 	 * 
-	 * @param id of place
+	 * @param id
+	 *            of place
 	 * @return list of halls in place
 	 */
-	@ApiOperation(value = "Halls in place.", response = HallResponse.class)
+	@ApiOperation(value = "Halls in place.", response = HallsResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -97,13 +98,37 @@ public class HallResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("/hallsInPlace/{id}")
-	public  ResponseEntity<HallResponse> getHallsInPlace(@PathVariable("id") Long id){
-		
+	public ResponseEntity<HallsResponse> getHallsInPlace(@PathVariable("id") Long id) {
+
 		if (hallService.getHalls(id) == null) {
 			throw new IllegalArgumentException("Invalid id or no halls in place!");
 		}
 		ArrayList<Hall> halls = hallService.getHalls(id);
-		return new ResponseEntity<>(new HallResponse(halls), HttpStatus.OK);
+		return new ResponseEntity<>(new HallsResponse(halls), HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            id of hall
+	 * @return object hall
+	 */
+
+	@ApiOperation(value = "All data for hall.", response = HallsResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@GetMapping("/hall/{id}")
+	public ResponseEntity<HallResponse> getCinema(@PathVariable("id") Long id) {
+		Hall hall = hallService.getHall(id);
+		if (hall == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+		return new ResponseEntity<>(new HallResponse(hall), HttpStatus.OK);
 	}
 
 }
