@@ -47,7 +47,7 @@ public class EventResource {
 	 *            object providing information about new event
 	 */
 
-	@ApiOperation(value = "Creating new event", response = EventDTO.class)
+	@ApiOperation(value = "Creating new event", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created event"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -55,9 +55,9 @@ public class EventResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@Transactional
+
 	@PostMapping("/event/{id}")
-	public void createEvent(@RequestBody EventDTO eventDTO, @PathVariable("id") Long id)throws SQLException {
+	public void createEvent(@RequestBody EventDTO eventDTO, @PathVariable("id") Long id) throws SQLException {
 		log.debug("REST request to create Event : {}", eventDTO);
 		eventService.createEvent(eventDTO, id);
 	}
@@ -94,14 +94,14 @@ public class EventResource {
 	 * @param id
 	 *            id from event we want to change
 	 */
-	@ApiOperation(value = "Edit event")
+	@ApiOperation(value = "Edit event", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
+	@Transactional
 	@PutMapping("/event/{id}")
 	public void editEvent(@RequestBody ChangeEventDTO changeEventDTO, @PathVariable("id") Long id) {
 		if (eventService.changeEvent(changeEventDTO, id) == null) {
@@ -116,7 +116,7 @@ public class EventResource {
 	 * @param id
 	 *            id from event we want to delete
 	 */
-	@ApiOperation(value = "Delete Event")
+	@ApiOperation(value = "Delete Event", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),

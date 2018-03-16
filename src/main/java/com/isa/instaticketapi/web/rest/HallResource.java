@@ -48,7 +48,7 @@ public class HallResource {
 	 *            of place
 	 */
 
-	@ApiOperation(value = "Creating new hall")
+	@ApiOperation(value = "Creating new hall", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created hall"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -56,7 +56,7 @@ public class HallResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@Transactional
+
 	@PostMapping("/hall/{id}")
 	public void createHall(@RequestBody HallDTO hallDTO, @PathVariable("id") Long id) {
 		log.debug("REST request to create Hall : {}", hallDTO);
@@ -68,7 +68,7 @@ public class HallResource {
 	 * @param id
 	 *            id of hall for delete
 	 */
-	@ApiOperation(value = "Delete hall")
+	@ApiOperation(value = "Delete hall", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -139,7 +139,7 @@ public class HallResource {
 	 * @param id
 	 *            id of hall for change
 	 */
-	@ApiOperation(value = "Edit hall")
+	@ApiOperation(value = "Edit hall", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),

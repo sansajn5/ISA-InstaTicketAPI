@@ -117,7 +117,7 @@ public class PlaceResource {
 	 *            id from place we want to change
 	 * 
 	 */
-	@ApiOperation(value = "Edit place")
+	@ApiOperation(value = "Edit place", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -139,7 +139,7 @@ public class PlaceResource {
 	 * @throws SQLException
 	 * 
 	 */
-	@ApiOperation(value = "Creating new projection", response = EventDTO.class)
+	@ApiOperation(value = "Creating new projection", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -163,7 +163,7 @@ public class PlaceResource {
 	 * @param id
 	 *            id from place we want to delete
 	 */
-	@ApiOperation(value = "Delete Place")
+	@ApiOperation(value = "Delete Place", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
