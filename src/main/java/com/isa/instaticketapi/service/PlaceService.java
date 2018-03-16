@@ -1,6 +1,7 @@
 package com.isa.instaticketapi.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
@@ -35,6 +37,9 @@ public class PlaceService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private EventRepository eventRepository;
 
 	/**
 	 * 
@@ -116,6 +121,23 @@ public class PlaceService {
 		log.debug("Deleted place.");
 		return place;
 
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return list of event in place
+	 */
+	public ArrayList<Event> getEventInPlace(Long id) {
+
+		Place place = placeRepository.findOneById(id);
+		if (place == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+
+		ArrayList<Event> events = eventRepository.findAllByPlace(place);
+		return events;
 	}
 
 }
