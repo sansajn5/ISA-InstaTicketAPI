@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
-
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
@@ -104,7 +103,36 @@ public class HallService {
 		return halls;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            id of hall
+	 * @return object hall
+	 */
 	public Hall getHall(Long id) {
 		return hallRepository.findOneById(id);
+	}
+
+	/**
+	 * 
+	 * @param hallDTO
+	 *            object hall for editing
+	 * @param id
+	 *            id of hall for change
+	 * @return object hall
+	 */
+	public Hall editHall(HallDTO hallDTO, Long id) {
+		Hall hall = hallRepository.findOneById(id);
+		if (hall == null) {
+			return null;
+		}
+
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		hall.setLastModifiedBy(logged.getUsername());
+		hall.setName(hallDTO.getName());
+		hall.setCol(hallDTO.getCol());
+		hall.setRow(hallDTO.getRow());
+		hallRepository.save(hall);
+		return hall;
 	}
 }

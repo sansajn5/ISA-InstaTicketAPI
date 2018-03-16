@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -129,6 +130,30 @@ public class HallResource {
 			throw new IllegalArgumentException("Invalid id!");
 		}
 		return new ResponseEntity<>(new HallResponse(hall), HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * @param hallDTO
+	 *            data for editing
+	 * @param id
+	 *            id of hall for change
+	 */
+	@ApiOperation(value = "Edit hall")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@PutMapping("/hall/{id}")
+	public void editHall(@RequestBody HallDTO hallDTO, @PathVariable("id") Long id) {
+
+		if (hallService.editHall(hallDTO, id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+		hallService.editHall(hallDTO, id);
 	}
 
 }

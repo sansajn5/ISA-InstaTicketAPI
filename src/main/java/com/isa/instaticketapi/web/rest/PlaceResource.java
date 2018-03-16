@@ -109,7 +109,7 @@ public class PlaceResource {
 	}
 
 	/**
-	 * POST: editPlace/{id} : edit data about concrete place
+	 * PUT: editPlace/{id} : edit data about concrete place
 	 * 
 	 * @param changePlaceDTO
 	 *            data for editing
