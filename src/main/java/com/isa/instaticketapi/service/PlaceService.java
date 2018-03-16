@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.config.Constants;
+import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.PlaceRepository;
@@ -84,27 +85,37 @@ public class PlaceService {
 		return place;
 
 	}
-	
-	
+
 	public void createPlace(PlaceDTO placeDTO) throws SQLException {
-		
+
 		Place place = new Place();
-		
+
 		place.setName(placeDTO.getName());
 		place.setAddress(place.getAddress());
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		place.setCreatedBy(logged.getUsername());
 		place.setDescripton(placeDTO.getDescription());
 		place.setType(placeDTO.getType());
-		
-		
+
 		placeRepository.save(place); // maybe error - unique name
-		
-		
-		
-		
-		
+
 	}
-	
-	
+
+	/**
+	 * Deleting place from database
+	 * 
+	 * @param id
+	 *            representing id of place which will be deleted
+	 */
+	public Place deletePlace(Long id) {
+		Place place = placeRepository.findOneById(id);
+		if (place == null) {
+			return null;
+		}
+		placeRepository.delete(place);
+		log.debug("Deleted place.");
+		return place;
+
+	}
+
 }

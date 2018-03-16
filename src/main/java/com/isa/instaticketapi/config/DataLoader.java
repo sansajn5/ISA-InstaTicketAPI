@@ -430,11 +430,20 @@ public class DataLoader implements ApplicationRunner {
 
 	public void seedRepertory() {
 		Repertory repertory = new Repertory();
+		
+		Place place = new Place();
+
+		place.setName("BioskopNS");
+		place.setType("Bioskop");
+		place.setCreatedBy("Milica");
+
 
 		repertory.setCreatedBy("milica");
 		repertory.setDate("2018-03-14");
+		repertory.setPlace(place);
 
 		try {
+			placeRepository.save(place);
 			repertoryRepository.save(repertory);
 			log.info("Starting seed for repertory");
 

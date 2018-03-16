@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.web.rest;
 
+import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,7 @@ public class EventResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
 	@PostMapping("/event/{id}")
-	public void createEvent(@RequestBody EventDTO eventDTO, @PathVariable("id") Long id) {
+	public void createEvent(@RequestBody EventDTO eventDTO, @PathVariable("id") Long id)throws SQLException {
 		log.debug("REST request to create Event : {}", eventDTO);
 		eventService.createEvent(eventDTO, id);
 	}

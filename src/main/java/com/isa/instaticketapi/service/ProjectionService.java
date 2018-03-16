@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Hall;
+import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.User;
@@ -76,7 +77,10 @@ public class ProjectionService {
 			reprtory1.setDate(projectionDTO.getDate());
 			User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 			projection.setCreatedBy(logged.getUsername());
-
+			
+			Place place=hall.getPlace();
+			reprtory1.setPlace(place);
+			
 			repertoryRepository.save(reprtory1);
 			projection.setReperotry(reprtory1);
 
