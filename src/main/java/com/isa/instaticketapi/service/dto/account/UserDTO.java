@@ -21,22 +21,34 @@ public class UserDTO {
 
     @NotBlank
     @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
+    @Size(min = 3, max = 12)
     private String username;
 
     @NotBlank
-    @Size(max = 50)
+    @Size(min = 6, max = 12)
     private String password;
 
-    @Size(max = 50)
+    @Size(min = 3, max = 12)
     private String firstName;
 
-    @Size(max = 50)
+    @Size(min = 3, max = 12)
     private String lastName;
 
     @Email
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 20)
     private String email;
+
+    @NotBlank
+    @Size(min = 3, max = 10)
+    private String city;
+
+    @NotBlank
+    @Size(min = 6, max = 15)
+    private String address;
+
+    @NotBlank
+    @Size(min = 9, max = 15)
+    private String number;
 
     @Size(max = 256)
     private String imageUrl;
@@ -60,6 +72,7 @@ public class UserDTO {
 
     /**
      * Constructor doesn't set password!
+     *
      * @param user
      */
     public UserDTO(User user) {
@@ -175,24 +188,57 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     @Override
     public String toString() {
         return "UserDTO{" +
-                " username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", city='" + city + '\'' +
+                ", address='" + address + '\'' +
+                ", number='" + number + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", activated=" + activated +
-                ", createdBy=" + createdBy +
+                ", createdBy='" + createdBy + '\'' +
                 ", createdDate=" + createdDate +
                 ", lastModifiedBy='" + lastModifiedBy + '\'' +
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", authorities=" + authorities +
-                "}";
+                '}';
     }
 }

@@ -159,6 +159,9 @@ public class DataLoader implements ApplicationRunner {
 		superAdmin.setAuthorities(authoritiesSuperAdmin);
 		superAdmin.setEmail("super@super.com");
 		superAdmin.setCreatedBy("sansajn");
+		superAdmin.setCity("Novi Sad");
+		superAdmin.setAddress("petrovaradin");
+		superAdmin.setNumber("21312313");
 
 		sansajn.setUsername("sansajn");
 		sansajn.setPassword(passwordEncoder.encode("sansajn"));
@@ -168,6 +171,9 @@ public class DataLoader implements ApplicationRunner {
 		sansajn.setActivated(true);
 		sansajn.setEmail("sansajn@super.com");
 		sansajn.setCreatedBy("sansajn");
+		sansajn.setCity("Novi Sad");
+		sansajn.setAddress("petrovaradin");
+		sansajn.setNumber("21312313");
 
 		dejan.setUsername("dejan");
 		dejan.setPassword(passwordEncoder.encode("dejan"));
@@ -177,6 +183,9 @@ public class DataLoader implements ApplicationRunner {
 		dejan.setActivated(true);
 		dejan.setEmail("dejan@super.com");
 		dejan.setCreatedBy("sansajn");
+		dejan.setCity("Novi Sad");
+		dejan.setAddress("petrovaradin");
+		dejan.setNumber("21312313");
 
 		milica.setUsername("milica");
 		milica.setPassword(passwordEncoder.encode("milica"));
@@ -186,6 +195,9 @@ public class DataLoader implements ApplicationRunner {
 		milica.setActivated(true);
 		milica.setEmail("milica@super.com");
 		milica.setCreatedBy("sansajn");
+		milica.setCity("Novi Sad");
+		milica.setAddress("petrovaradin");
+		milica.setNumber("21312313");
 
 		try {
 			userRepository.save(superAdmin);
