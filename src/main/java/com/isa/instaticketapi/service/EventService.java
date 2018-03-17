@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.service;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangeEventDTO;
@@ -35,6 +39,9 @@ public class EventService {
 
 	@Autowired
 	private PlaceRepository placeRepository;
+
+	@Autowired
+	private ProjectionRepository projectionRepository;
 
 	/**
 	 * 
@@ -111,6 +118,9 @@ public class EventService {
 		if (event == null) {
 			return null;
 		}
+		ArrayList<Projection> projections = projectionRepository.findAllByEvent(event);
+		projectionRepository.delete(projections);
+
 		eventRepository.delete(event);
 		log.debug("Deleted event.");
 		return event;

@@ -12,10 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Event;
+import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.EventRepository;
+import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
@@ -40,6 +46,15 @@ public class PlaceService {
 
 	@Autowired
 	private EventRepository eventRepository;
+
+	@Autowired
+	private HallRepository hallRepository;
+
+	@Autowired
+	private ProjectionRepository projectionRepository;
+
+	@Autowired
+	private RepertotyRepository repertoryRepository;
 
 	/**
 	 * 
@@ -117,6 +132,20 @@ public class PlaceService {
 		if (place == null) {
 			return null;
 		}
+		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
+		for (int i = 0; i < halls.size(); i++) {
+			ArrayList<Projection> projections = projectionRepository.findAllByHall(halls.get(i));
+			for (int j = 0; j < projections.size(); j++) {
+				projectionRepository.delete(projections.get(j));
+			}
+			hallRepository.delete(halls.get(i));
+		}
+		ArrayList<Repertory> reprtories = repertoryRepository.findAllByPlace(place);
+		repertoryRepository.delete(reprtories);
+
+		ArrayList<Event> events = eventRepository.findAllByPlace(place);
+		eventRepository.delete(events);
+
 		placeRepository.delete(place);
 		log.debug("Deleted place.");
 		return place;
@@ -129,7 +158,7 @@ public class PlaceService {
 	 *            id of place
 	 * @return list of event in place
 	 */
-	public ArrayList<Event> getEventInPlace(Long id) {
+	public ArrayList<Event> getEventsInPlace(Long id) {
 
 		Place place = placeRepository.findOneById(id);
 		if (place == null) {

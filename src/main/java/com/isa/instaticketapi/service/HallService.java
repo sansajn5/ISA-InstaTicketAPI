@@ -82,6 +82,9 @@ public class HallService {
 		if (hall == null) {
 			return null;
 		}
+		ArrayList<Projection> projections = projectionRepository.findAllByHall(hall);
+		projectionRepository.delete(projections);
+
 		hallRepository.delete(hall);
 		log.debug("Deleted hall.");
 		return hall;

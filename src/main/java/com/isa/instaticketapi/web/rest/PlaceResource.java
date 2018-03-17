@@ -195,8 +195,8 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("{id}/event-in-place")
-	public ResponseEntity<EventInPlaceResponse> getEventInPlace(@PathVariable("id") Long id) {
-		ArrayList<Event> events = placeService.getEventInPlace(id);
+	public ResponseEntity<EventInPlaceResponse> getEventsInPlace(@PathVariable("id") Long id) {
+		ArrayList<Event> events = placeService.getEventsInPlace(id);
 		return new ResponseEntity<>(new EventInPlaceResponse(events), HttpStatus.OK);
 	}
 }

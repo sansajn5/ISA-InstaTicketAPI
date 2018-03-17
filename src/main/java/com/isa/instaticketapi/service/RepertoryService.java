@@ -82,9 +82,8 @@ public class RepertoryService {
 		}
 
 		ArrayList<Projection> projections = projectionRepository.findAllByReperotry(repertorty);
-		for (int i = 0; i < projections.size(); i++) {
-			projectionRepository.delete(projections.get(i));
-		}
+		projectionRepository.delete(projections);
+
 		repertoryRepository.delete(repertorty);
 
 		return repertorty;
