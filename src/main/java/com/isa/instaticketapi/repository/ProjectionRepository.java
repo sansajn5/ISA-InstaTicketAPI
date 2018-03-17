@@ -17,4 +17,5 @@ public interface ProjectionRepository extends JpaRepository<Projection, Long> {
 	ArrayList<Projection> findAllByHall(Hall hall);
 	ArrayList<Projection> findAll();
 	ArrayList<Projection> findAllByReperotry(Repertory repertory);
+	Projection findOneById(Long id);
 }

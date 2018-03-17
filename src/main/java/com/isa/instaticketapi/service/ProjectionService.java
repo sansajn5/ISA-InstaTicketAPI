@@ -109,4 +109,12 @@ public class ProjectionService {
 		projectionRepository.save(projection);
 
 	}
+
+	/**
+	 *  
+	 * @param id id of projection
+	 */
+	public void deleteProjection(Long id) {
+		projectionRepository.delete(projectionRepository.findOneById(id));
+	}
 }
