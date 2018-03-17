@@ -126,7 +126,7 @@ public class PlaceResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@Transactional
+
 	@PutMapping("/place/{id}")
 	public void editPlace(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
 		if (placeService.changePlace(changePlaceDTO, id) == null) {

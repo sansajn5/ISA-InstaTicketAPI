@@ -11,13 +11,13 @@ import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
-import com.isa.instaticketapi.domain.User;
+
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.HallRepository;
+
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
-import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.security.SecurityUtils;
+
 import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
 
 /**
@@ -41,9 +41,6 @@ public class ProjectionService {
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	public void createProjection(ProjectionDTO projectionDTO, Long id) {
 		Projection projection = new Projection();
@@ -114,43 +111,18 @@ public class ProjectionService {
 	}
 
 	/**
-	 * 
-	 * @param id
-	 *            id of projection
+	 *  
+	 * @param id id of projection
 	 */
 	public void deleteProjection(Long id) {
 		projectionRepository.delete(projectionRepository.findOneById(id));
 	}
-
 	/**
 	 * 
-	 * @param id
-	 *            id of projection for edit
+	 * @param id id of projection for edit
 	 * @return Projection object
 	 */
-	public Projection getProjection(Long id) {
+	public Projection getProjection(Long id){
 		return projectionRepository.findOneById(id);
-	}
-
-	/**
-	 * 
-	 * @param id
-	 *            id of projection for editing
-	 * @param projectionDTO
-	 *            object for editing
-	 */
-	public void editProjection(Long id, ProjectionDTO projectionDTO) {
-		Projection projection = projectionRepository.findOneById(id);
-
-		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		projection.setLastModifiedBy(logged.getUsername());
-
-		projection.setStartTime(projectionDTO.getStartTime());
-		projection.setEndTime(projectionDTO.getEndTime());
-		String nameEvent = projectionDTO.getEvent();
-		Event event = eventRepository.findOneByName(nameEvent);
-		projection.setEvent(event);
-
-		projectionRepository.save(projection);
 	}
 }
