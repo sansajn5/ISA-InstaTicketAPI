@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 /**
  * REST controller for managing the current projection.
@@ -28,7 +29,6 @@ import com.isa.instaticketapi.service.dto.places.ChangeEventDTO;
 import com.isa.instaticketapi.service.dto.places.EventDTO;
 import com.isa.instaticketapi.web.rest.vm.EventResponse.EventResponse;
 
-import ch.qos.logback.classic.spi.ThrowableProxyVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -55,7 +55,7 @@ public class EventResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/event/{id}")
 	public void createEvent(@RequestBody EventDTO eventDTO, @PathVariable("id") Long id) throws SQLException {
 		log.debug("REST request to create Event : {}", eventDTO);
@@ -123,7 +123,7 @@ public class EventResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
+	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/event/{id}")
 	public void deleteEvent(@PathVariable("id") Long id) {
 		if (eventService.deleteEvent(id) == null) {

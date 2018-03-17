@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.domain.Event;
@@ -141,7 +142,7 @@ public class PlaceResource {
 	 * 
 	 */
 	@ApiOperation(value = "Creating new projection", response = HttpStatus.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created place"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -149,7 +150,8 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/create-place")
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/place")
 	public void createPlace(@RequestBody PlaceDTO placeDTO) throws SQLException {
 
 		log.debug("Rest request to create new Place : {}");
@@ -171,7 +173,7 @@ public class PlaceResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
+	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/place/{id}")
 	public void deleteEvent(@PathVariable("id") Long id) {
 		if (placeService.deletePlace(id) == null) {

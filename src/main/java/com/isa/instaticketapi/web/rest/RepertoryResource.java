@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.service.RepertoryService;
 import com.isa.instaticketapi.service.dto.Repertory.RepertoryDTO;
-import com.isa.instaticketapi.web.rest.vm.HallResponse.HallsResponse;
 import com.isa.instaticketapi.web.rest.vm.Projection.ProjectionsResponse;
 
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +49,8 @@ public class RepertoryResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@PostMapping("/{id}/create-repertory")
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/{id}/repertory")
 	public void createRepertory(@RequestBody RepertoryDTO repertoryDTO, @PathVariable("id") Long id) {
 
 		repertoryService.createRepertory(repertoryDTO, id);
@@ -69,8 +70,8 @@ public class RepertoryResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
-	@DeleteMapping("delete-repertory/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("repertory/{id}")
 	public void deleteRepertory(@PathVariable("id") Long id) {
 		if (repertoryService.deleteRepertory(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 /**
  * 
@@ -58,7 +58,7 @@ public class HallResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/hall/{id}")
 	public void createHall(@RequestBody HallDTO hallDTO, @PathVariable("id") Long id) {
 		log.debug("REST request to create Hall : {}", hallDTO);
@@ -77,7 +77,7 @@ public class HallResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
+	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/hall/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
 		if (hallService.deleteHall(id) == null) {
