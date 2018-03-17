@@ -1,7 +1,5 @@
 package com.isa.instaticketapi.service.dto.projection;
 
-import java.text.SimpleDateFormat;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 

@@ -429,22 +429,34 @@ public class DataLoader implements ApplicationRunner {
 	}
 
 	public void seedRepertory() {
-		Repertory repertory = new Repertory();
-		
+
 		Place place = new Place();
 
 		place.setName("BioskopNS");
 		place.setType("Bioskop");
 		place.setCreatedBy("Milica");
 
+		Place place1 = new Place();
 
+		place1.setName("BioskopBG");
+		place1.setType("Bioskop");
+		place1.setCreatedBy("Milica");
+
+		Repertory repertory = new Repertory();
 		repertory.setCreatedBy("milica");
 		repertory.setDate("2018-03-14");
 		repertory.setPlace(place);
 
+		Repertory repertory1 = new Repertory();
+		repertory1.setCreatedBy("milica");
+		repertory1.setDate("2018-03-14");
+		repertory1.setPlace(place1);
+
 		try {
 			placeRepository.save(place);
+			placeRepository.save(place1);
 			repertoryRepository.save(repertory);
+			repertoryRepository.save(repertory1);
 			log.info("Starting seed for repertory");
 
 		} catch (Exception e) {
@@ -489,6 +501,7 @@ public class DataLoader implements ApplicationRunner {
 
 		repertory.setCreatedBy("milica");
 		repertory.setDate("2018-05-15");
+		repertory.setPlace(place);
 
 		Projection projection = new Projection();
 		projection.setCreatedBy("milica");
@@ -499,12 +512,22 @@ public class DataLoader implements ApplicationRunner {
 		projection.setEvent(event1);
 		projection.setReperotry(repertory);
 
+		Projection projection1 = new Projection();
+		projection1.setCreatedBy("milica");
+		projection1.setDate("2018-05-15");
+		projection1.setStartTime("18:00");
+		projection1.setEndTime("20:00");
+		projection1.setHall(hall1);
+		projection1.setEvent(event1);
+		projection1.setReperotry(repertory);
+		//////////////////////
 		try {
 			placeRepository.save(place);
 			eventRepository.save(event1);
 			hallRepository.save(hall1);
 			repertoryRepository.save(repertory);
 			projectionRepository.save(projection);
+			projectionRepository.save(projection1);
 
 			log.info("Starting seed for projection");
 

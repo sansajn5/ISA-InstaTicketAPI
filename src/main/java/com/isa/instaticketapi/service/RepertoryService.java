@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
@@ -34,6 +36,16 @@ public class RepertoryService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private ProjectionRepository projectionRepository;
+
+	/**
+	 * 
+	 * @param repertoryDTO
+	 *            object for creating
+	 * @param id
+	 *            id of place
+	 */
 	public void createRepertory(RepertoryDTO repertoryDTO, Long id) {
 		Place place = placeRepository.findOneById(id);
 		if (place == null) {
@@ -55,5 +67,20 @@ public class RepertoryService {
 
 		repertoryRepository.save(repertory);
 
+	}
+
+	public Repertory deleteRepertory(Long id) {
+		Repertory repertorty = repertoryRepository.findOneById(id);
+		if (repertorty == null) {
+			return null;
+		}
+
+		ArrayList<Projection> projections = projectionRepository.findAllByReperotry(repertorty);
+		for (int i = 0; i < projections.size(); i++) {
+			projectionRepository.delete(projections.get(i));
+		}
+		repertoryRepository.delete(repertorty);
+
+		return repertorty;
 	}
 }

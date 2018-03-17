@@ -13,6 +13,8 @@ import com.isa.instaticketapi.domain.Repertory;
  */
 @Repository
 public interface RepertotyRepository extends JpaRepository<Repertory, Long> {
-	Repertory findOneByDate(String date);
+	ArrayList<Repertory> findALLByDate(String date);
 	ArrayList<Repertory> findAllByPlace(Place place);
+	Repertory findOneById(Long id);
+
 }

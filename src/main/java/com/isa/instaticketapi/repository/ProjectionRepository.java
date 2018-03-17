@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Repertory;
 
 /**
  * Spring Data JPA repository for the Projection entity.
@@ -15,4 +16,5 @@ import com.isa.instaticketapi.domain.Projection;
 public interface ProjectionRepository extends JpaRepository<Projection, Long> {
 	ArrayList<Projection> findAllByHall(Hall hall);
 	ArrayList<Projection> findAll();
+	ArrayList<Projection> findAllByReperotry(Repertory repertory);
 }
