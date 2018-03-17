@@ -69,6 +69,12 @@ public class RepertoryService {
 
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            id of repertory
+	 * @return
+	 */
 	public Repertory deleteRepertory(Long id) {
 		Repertory repertorty = repertoryRepository.findOneById(id);
 		if (repertorty == null) {
@@ -83,4 +89,17 @@ public class RepertoryService {
 
 		return repertorty;
 	}
+
+	/**
+	 * 
+	 * @param id
+	 *            id of repertory
+	 * @return list objects
+	 */
+	public ArrayList<Projection> getAllProjectionsInRepertory(Long id) {
+		Repertory repertory = repertoryRepository.findOneById(id);
+		return projectionRepository.findAllByReperotry(repertory);
+
+	}
+
 }
