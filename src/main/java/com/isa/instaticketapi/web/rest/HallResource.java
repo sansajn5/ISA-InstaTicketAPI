@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 import com.isa.instaticketapi.domain.Hall;
+import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.service.HallService;
 import com.isa.instaticketapi.service.dto.places.HallDTO;
 import com.isa.instaticketapi.web.rest.vm.HallResponse.HallResponse;
 import com.isa.instaticketapi.web.rest.vm.HallResponse.HallsResponse;
+import com.isa.instaticketapi.web.rest.vm.Projection.ProjectionsResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -156,4 +158,24 @@ public class HallResource {
 		hallService.editHall(hallDTO, id);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            id of hall
+	 * @return list of objects (Projection) in hall
+	 */
+
+	@ApiOperation(value = "Get all projections in hall.", response = ProjectionsResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@GetMapping("/{id}/projections-in-hall")
+	public ResponseEntity<ProjectionsResponse> getAllProjectionInHall(@PathVariable("id") Long id) {
+		ArrayList<Projection> projections = hallService.getAllProjectionInHall(id);
+		return new ResponseEntity<>(new ProjectionsResponse(projections), HttpStatus.OK);
+	}
 }

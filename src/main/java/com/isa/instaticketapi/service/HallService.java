@@ -16,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.HallDTO;
@@ -36,6 +38,9 @@ public class HallService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ProjectionRepository projectionRepository;
 
 	/**
 	 * 
@@ -134,5 +139,20 @@ public class HallService {
 		hall.setRow(hallDTO.getRow());
 		hallRepository.save(hall);
 		return hall;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            id of hall
+	 * @return list of objects (Projection) in hall
+	 */
+	public ArrayList<Projection> getAllProjectionInHall(Long id) {
+		Hall hall = hallRepository.findOneById(id);
+		if (hall == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+		ArrayList<Projection> projections = projectionRepository.findAllByHall(hall);
+		return projections;
 	}
 }
