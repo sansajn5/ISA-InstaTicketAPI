@@ -169,4 +169,15 @@ public class PlaceService {
 		return events;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return list of repertory(objects)
+	 */
+	public ArrayList<Repertory> getRepertoriesInPlace(Long id) {
+		Place place = placeRepository.findOneById(id);
+		return repertoryRepository.findAllByPlace(place);
+	}
+
 }

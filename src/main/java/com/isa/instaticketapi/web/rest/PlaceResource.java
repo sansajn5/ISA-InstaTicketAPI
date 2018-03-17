@@ -21,15 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
-import com.isa.instaticketapi.service.dto.places.EventDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 import com.isa.instaticketapi.web.rest.vm.EventResponse.EventInPlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
+import com.isa.instaticketapi.web.rest.vm.RepertoryResponse.RepertoryResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -199,4 +200,30 @@ public class PlaceResource {
 		ArrayList<Event> events = placeService.getEventsInPlace(id);
 		return new ResponseEntity<>(new EventInPlaceResponse(events), HttpStatus.OK);
 	}
+
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return list of repertories(objects) in place
+	 * 
+	 */
+
+	@ApiOperation(value = "Get all Repertories in Place", response = RepertoryResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@GetMapping("/{id}/repertories")
+	public ResponseEntity<RepertoryResponse> getRepertoriesInPlace(@PathVariable("id") Long id) {
+		if (placeRepository.findOneById(id) == null) {
+			throw new IllegalArgumentException("Invalid id !");
+		}
+		ArrayList<Repertory> reprtories = placeService.getRepertoriesInPlace(id);
+		return new ResponseEntity<>(new RepertoryResponse(reprtories), HttpStatus.OK);
+	}
+
 }
