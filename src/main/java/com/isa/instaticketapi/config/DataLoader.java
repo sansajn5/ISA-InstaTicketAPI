@@ -3,9 +3,6 @@ package com.isa.instaticketapi.config;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.isa.instaticketapi.domain.*;
-import com.isa.instaticketapi.repository.*;
-import com.isa.instaticketapi.security.AuthoritiesConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,24 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import com.isa.instaticketapi.domain.Authority;
+import com.isa.instaticketapi.domain.Event;
+import com.isa.instaticketapi.domain.FanZone;
+import com.isa.instaticketapi.domain.Friends;
+import com.isa.instaticketapi.domain.Hall;
+import com.isa.instaticketapi.domain.Item;
+import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.repository.AuthorityRepository;
+import com.isa.instaticketapi.repository.EventRepository;
+import com.isa.instaticketapi.repository.FanZoneRepository;
+import com.isa.instaticketapi.repository.FriendsRepository;
+import com.isa.instaticketapi.repository.HallRepository;
+import com.isa.instaticketapi.repository.ItemRepository;
+import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.security.AuthoritiesConstants;
 
 /**
  * Class for making initial seed data
@@ -72,17 +87,20 @@ public class DataLoader implements ApplicationRunner {
 		Authority admin = new Authority();
 		Authority user = new Authority();
 		Authority guest = new Authority();
+		Authority fanZoneAdmin = new Authority();
 
 		superAdmin.setName(AuthoritiesConstants.SUPER_ADMIN);
 		admin.setName(AuthoritiesConstants.ADMIN);
 		user.setName(AuthoritiesConstants.USER);
 		guest.setName(AuthoritiesConstants.ANONYMOUS);
+		fanZoneAdmin.setName(AuthoritiesConstants.FANZONE_ADMIN);
 
 		try {
 			authorityRepository.save(superAdmin);
 			authorityRepository.save(admin);
 			authorityRepository.save(user);
 			authorityRepository.save(guest);
+			authorityRepository.save(fanZoneAdmin);
 		} catch (Exception e) {
 			log.debug("items (authorities) are already in database");
 		}
@@ -99,11 +117,14 @@ public class DataLoader implements ApplicationRunner {
 		Set<Authority> authoritiesAdmin = new HashSet<>();
 		Set<Authority> authoritiesUser = new HashSet<>();
 		Set<Authority> authoritiesGuest = new HashSet<>();
+		Set<Authority> authoritiesFanZoneAdmin = new HashSet();
 
 		Authority authoritySuperAdmin = authorityRepository.findOne(AuthoritiesConstants.SUPER_ADMIN);
 		Authority authorityAdmin = authorityRepository.findOne(AuthoritiesConstants.ADMIN);
 		Authority authorityUser = authorityRepository.findOne(AuthoritiesConstants.USER);
 		Authority authorityGuest = authorityRepository.findOne(AuthoritiesConstants.ANONYMOUS);
+		Authority authorityFanZoneAdmin = authorityRepository.findOne(AuthoritiesConstants.FANZONE_ADMIN);
+		
 
 		authoritiesSuperAdmin.add(authoritySuperAdmin);
 		authoritiesSuperAdmin.add(authorityAdmin);
@@ -114,6 +135,11 @@ public class DataLoader implements ApplicationRunner {
 		authoritiesAdmin.add(authorityAdmin);
 		authoritiesAdmin.add(authorityUser);
 		authoritiesAdmin.add(authorityGuest);
+		
+		authoritiesFanZoneAdmin.add(authorityFanZoneAdmin);
+		authoritiesFanZoneAdmin.add(authorityUser);
+		authoritiesFanZoneAdmin.add(authorityUser);
+		
 
 		authoritiesUser.add(authorityUser);
 		authoritiesUser.add(authorityGuest);

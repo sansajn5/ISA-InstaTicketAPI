@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -132,7 +133,7 @@ public class PlaceResource {
 	
 	
 	/**
-	 * POST: create-place : create new place by admin
+	 * POST: create-place : create new place by super-admin
 	 * @throws SQLException 
 	 * 
 	 */
@@ -145,7 +146,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/create-place")
+	@PostMapping("/Place")
 	public void createPlace(@RequestBody PlaceDTO placeDTO) throws SQLException{
 		
 		
@@ -155,6 +156,32 @@ public class PlaceResource {
 		
 		
 	}
+	
+	
+	
+	/**
+	 * POST: deletePlace/{id} : delete data about concrete place
+	 * 
+	 * @param id
+	 *            id from place we want to delete
+	 */
+	@ApiOperation(value = "Delete place")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@DeleteMapping("/Place/{id}")
+	public void deleteProjection(@PathVariable("id") Long id) {
+		if (placeService.deletePlace(id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+		placeService.deletePlace(id);
+	}
+	
+	
 	
 	
 }

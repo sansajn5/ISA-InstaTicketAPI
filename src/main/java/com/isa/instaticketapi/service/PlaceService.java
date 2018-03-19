@@ -100,11 +100,24 @@ public class PlaceService {
 		
 		placeRepository.save(place); // maybe error - unique name
 		
-		
-		
-		
-		
+			
 	}
+	
+	
+	public Place deletePlace(Long id) {
+		
+		Place place = placeRepository.findOneById(id);
+		
+		if(place == null) {
+			return null;
+		}
+		
+		placeRepository.delete(place);
+		log.debug("Deleted place.");
+		
+		return place;
+	}
+	
 	
 	
 }

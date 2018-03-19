@@ -34,6 +34,8 @@ public class FanZoneResource {
 	private ItemRepository itemRepository;
 	
 	
+	
+	// add 
 	@GetMapping("getItems/{id}")
 	public ResponseEntity<ItemsResponse> getItems(@PathVariable("id") Long id) {
 
