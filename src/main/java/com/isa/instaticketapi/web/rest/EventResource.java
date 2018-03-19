@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.web.rest;
 
+import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 /**
  * REST controller for managing the current projection.
@@ -26,48 +29,47 @@ import com.isa.instaticketapi.service.dto.places.ChangeEventDTO;
 import com.isa.instaticketapi.service.dto.places.EventDTO;
 import com.isa.instaticketapi.web.rest.vm.EventResponse.EventResponse;
 
-import ch.qos.logback.classic.spi.ThrowableProxyVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/projection")
+@RequestMapping("/api/event")
 public class EventResource {
-	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
+	private final Logger log = LoggerFactory.getLogger(EventResource.class);
 
 	@Autowired
-	private EventService projectionService;
+	private EventService eventService;
 
 	/**
 	 * 
-	 * @param projectionDTO
-	 *            object providing information about new projection
+	 * @param EventDTO
+	 *            object providing information about new event
 	 */
 
-	@ApiOperation(value = "Creating new projection", response = EventDTO.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+	@ApiOperation(value = "Creating new event", response = HttpStatus.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created event"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@Transactional
-	@PostMapping("/Projection")
-	public void createProjection(@RequestBody EventDTO projectionDTO) {
-		log.debug("REST request to create Projection : {}", projectionDTO);
-		projectionService.createProjection(projectionDTO);
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/event/{id}")
+	public void createEvent(@RequestBody EventDTO eventDTO, @PathVariable("id") Long id) throws SQLException {
+		log.debug("REST request to create Event : {}", eventDTO);
+		eventService.createEvent(eventDTO, id);
 	}
 
 	/**
-	 * GET: /getProjection: return all data for concrete projection.
+	 * GET: /event: return all data for concrete event.
 	 * 
 	 * @param id
-	 *            id of projection about whom I am looking for information
-	 * @return object projection
+	 *            id of event about whom I am looking for information
+	 * @return object event
 	 */
-	@ApiOperation(value = "All data for projection.", response = EventResponse.class)
+	@ApiOperation(value = "All data for event.", response = EventResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -75,58 +77,59 @@ public class EventResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("Projection/{id}")
-	public ResponseEntity<EventResponse> getProjection(@PathVariable("id") Long id) {
-		if (projectionService.getProjection(id) == null) {
+	@GetMapping("event/{id}")
+	public ResponseEntity<EventResponse> Event(@PathVariable("id") Long id) {
+		if (eventService.getEvent(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		Event projection = projectionService.getProjection(id);
-		return new ResponseEntity<>(new EventResponse(projection), HttpStatus.OK);
+		Event event = eventService.getEvent(id);
+		return new ResponseEntity<>(new EventResponse(event), HttpStatus.OK);
 	}
 
 	/**
-	 * POST: editProjection/{id} : edit data about concrete projection
+	 * POST: event/{id} : edit data about concrete event
 	 * 
-	 * @param changeProjectionDTO
+	 * @param changeEventDTO
 	 *            data for editing
 	 * @param id
-	 *            id from projection we want to change
+	 *            id from event we want to change
 	 */
-	@ApiOperation(value = "Edit projection")
+	@ApiOperation(value = "Edit event", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
-	@PutMapping("/Projection/{id}")
-	public void editProjection(@RequestBody ChangeEventDTO changeProjectionDTO, @PathVariable("id") Long id) {
-		if (projectionService.changeProjection(changeProjectionDTO, id) == null) {
+	@Transactional
+	@PutMapping("/event/{id}")
+	public void editEvent(@RequestBody ChangeEventDTO changeEventDTO, @PathVariable("id") Long id) {
+		if (eventService.changeEvent(changeEventDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		projectionService.changeProjection(changeProjectionDTO, id);
+		eventService.changeEvent(changeEventDTO, id);
 	}
 
 	/**
-	 * POST: deleteProjection/{id} : delete data about concrete projection
+	 * POST: event/{id} : delete data about concrete event
 	 * 
 	 * @param id
-	 *            id from projection we want to delete
+	 *            id from event we want to delete
 	 */
-	@ApiOperation(value = "Delete projection")
+	@ApiOperation(value = "Delete Event", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
-	@DeleteMapping("/Projection/{id}")
-	public void deleteProjection(@PathVariable("id") Long id) {
-		if (projectionService.deleteProj(id) == null) {
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("/event/{id}")
+	public void deleteEvent(@PathVariable("id") Long id) {
+		if (eventService.deleteEvent(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		projectionService.deleteProj(id);
+		eventService.deleteEvent(id);
 	}
+
 }

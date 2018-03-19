@@ -1,23 +1,27 @@
 package com.isa.instaticketapi.web.rest.vm.HallResponse;
 
-import java.util.List;
-
 import com.isa.instaticketapi.domain.Hall;
 
 public class HallResponse {
-	private List<Hall> halls;
 
-	public List<Hall> getHalls() {
-		return halls;
-	}
+	private Hall hall;
 
-	public void setHalls(List<Hall> halls) {
-		this.halls = halls;
-	}
-
-	public HallResponse(List<Hall> halls) {
+	public HallResponse() {
 		super();
-		this.halls = halls;
+		// TODO Auto-generated constructor stub
+	}
+
+	public HallResponse(Hall hall) {
+		super();
+		this.hall = hall;
+	}
+
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
 	}
 
 }

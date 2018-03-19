@@ -50,8 +50,6 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 	@Column(name = "type",length = 20)
 	private String type;
 	
-	@OneToMany(mappedBy="place", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	private List<Hall> halls = new ArrayList<Hall>();
 
 	public String getType() {
 		return type;

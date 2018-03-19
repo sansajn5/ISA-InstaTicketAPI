@@ -1,14 +1,17 @@
 package com.isa.instaticketapi.domain;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Entity od repertory.
@@ -18,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Reperotry")
-public class Reperotry extends AbstractAuditingEntity implements Serializable {
+public class Repertory extends AbstractAuditingEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,8 +29,25 @@ public class Reperotry extends AbstractAuditingEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "date", length = 15)
-	private SimpleDateFormat date;
+	@NotNull
+	@Size(min = 10, max = 10)
+	@Column(name = "date", length = 10)
+	private String date;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Place place;
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public Long getId() {
 		return id;
@@ -37,11 +57,11 @@ public class Reperotry extends AbstractAuditingEntity implements Serializable {
 		this.id = id;
 	}
 
-	public SimpleDateFormat getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(SimpleDateFormat date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

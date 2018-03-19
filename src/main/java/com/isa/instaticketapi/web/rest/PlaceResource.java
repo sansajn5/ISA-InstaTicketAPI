@@ -1,6 +1,7 @@
 package com.isa.instaticketapi.web.rest;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,24 +17,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
-import com.isa.instaticketapi.service.dto.places.EventDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
+import com.isa.instaticketapi.web.rest.vm.RepertoryResponse.RepertoryResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/places")
+@RequestMapping("/api/place")
 public class PlaceResource {
 	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
@@ -56,7 +60,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/Cinemas")
+	@GetMapping("/cinemas")
 	public ResponseEntity<CinemaResponse> getCinemas() {
 		List<Place> cinemas = placeService.getCinemas();
 		return new ResponseEntity<>(new CinemaResponse(cinemas), HttpStatus.OK);
@@ -75,7 +79,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/Theaters")
+	@GetMapping("/theaters")
 	public ResponseEntity<TheaterResponse> getTheaters() {
 		List<Place> theaters = placeService.getTheaters();
 		return new ResponseEntity<>(new TheaterResponse(theaters), HttpStatus.OK);
@@ -96,7 +100,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/Place/{id}")
+	@GetMapping("/place/{id}")
 	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
 		Place place = placeService.getPlace(id);
 		if (place == null) {
@@ -106,7 +110,7 @@ public class PlaceResource {
 	}
 
 	/**
-	 * POST: editPlace/{id} : edit data about concrete place
+	 * PUT: editPlace/{id} : edit data about concrete place
 	 * 
 	 * @param changePlaceDTO
 	 *            data for editing
@@ -114,7 +118,7 @@ public class PlaceResource {
 	 *            id from place we want to change
 	 * 
 	 */
-	@ApiOperation(value = "Edit place")
+	@ApiOperation(value = "Edit place", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -122,23 +126,27 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PutMapping("/Place/{id}")
+	@PutMapping("/place/{id}")
 	public void editPlace(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
 		if (placeService.changePlace(changePlaceDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
 		placeService.changePlace(changePlaceDTO, id);
 	}
-	
-	
-	
+
 	/**
+<<<<<<< HEAD
 	 * POST: create-place : create new place by super-admin
 	 * @throws SQLException 
+=======
+	 * POST: create-place : create new place by admin
+	 * 
+	 * @throws SQLException
+>>>>>>> e026d391330961b4da4ef317733dbf0c9572803e
 	 * 
 	 */
-	@ApiOperation(value = "Creating new projection", response = EventDTO.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+	@ApiOperation(value = "Creating new projection", response = HttpStatus.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created place"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -146,32 +154,89 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
-	@PostMapping("/Place")
-	public void createPlace(@RequestBody PlaceDTO placeDTO) throws SQLException{
-		
-		
+
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/place")
+	public void createPlace(@RequestBody PlaceDTO placeDTO) throws SQLException {
+
+
 		log.debug("Rest request to create new Place : {}");
-		
+
 		placeService.createPlace(placeDTO);
-		
-		
+
 	}
-	
-	
-	
+
 	/**
-	 * POST: deletePlace/{id} : delete data about concrete place
+	 * POST: place/{id} : delete data about concrete place
 	 * 
 	 * @param id
 	 *            id from place we want to delete
 	 */
-	@ApiOperation(value = "Delete place")
+	@ApiOperation(value = "Delete Place", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("/place/{id}")
+	public void deleteEvent(@PathVariable("id") Long id) {
+		if (placeService.deletePlace(id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+		placeService.deletePlace(id);
+	}
+
+	
+	
+	
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return list of event object in place
+	 */
+
+	/*
+	
+	@ApiOperation(value = "Get all Event in Place", response = EventInPlaceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@GetMapping("{id}/event-in-place")
+	public ResponseEntity<EventInPlaceResponse> getEventsInPlace(@PathVariable("id") Long id) {
+		ArrayList<Event> events = placeService.getEventsInPlace(id);
+		return new ResponseEntity<>(new EventInPlaceResponse(events), HttpStatus.OK);
+	}
+
+	
+	*/
+	
+
+
+
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return list of repertories(objects) in place
+	 * 
+	 */
+
+	@ApiOperation(value = "Get all Repertories in Place", response = RepertoryResponse.class)
+
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
 
 	@DeleteMapping("/Place/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
@@ -183,5 +248,14 @@ public class PlaceResource {
 	
 	
 	
-	
+
+	@GetMapping("/{id}/repertories")
+	public ResponseEntity<RepertoryResponse> getRepertoriesInPlace(@PathVariable("id") Long id) {
+		if (placeRepository.findOneById(id) == null) {
+			throw new IllegalArgumentException("Invalid id !");
+		}
+		ArrayList<Repertory> reprtories = placeService.getRepertoriesInPlace(id);
+		return new ResponseEntity<>(new RepertoryResponse(reprtories), HttpStatus.OK);
+	}
+
 }

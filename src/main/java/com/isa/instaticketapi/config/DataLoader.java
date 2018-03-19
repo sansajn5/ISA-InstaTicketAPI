@@ -18,6 +18,10 @@ import com.isa.instaticketapi.domain.Friends;
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.Place;
+
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Repertory;
+
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.AuthorityRepository;
 import com.isa.instaticketapi.repository.EventRepository;
@@ -26,6 +30,10 @@ import com.isa.instaticketapi.repository.FriendsRepository;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
+
+import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.RepertotyRepository;
+
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.AuthoritiesConstants;
 
@@ -44,7 +52,7 @@ public class DataLoader implements ApplicationRunner {
 	AuthorityRepository authorityRepository;
 
 	@Autowired
-	EventRepository projectionRepository;
+	EventRepository eventRepository;
 
 	@Autowired
 	PlaceRepository placeRepository;
@@ -64,6 +72,12 @@ public class DataLoader implements ApplicationRunner {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Autowired
+	private RepertotyRepository repertoryRepository;
+
+	@Autowired
+	private ProjectionRepository projectionRepository;
+
 	private final Logger log = LoggerFactory.getLogger(DataLoader.class);
 
 	@Override
@@ -72,10 +86,12 @@ public class DataLoader implements ApplicationRunner {
 		seedUsers();
 		seedCinema();
 		seedTheater();
-		seedProjection();
+		seedEvent();
 		seedFanZone();
 		seedHall();
 		seedFriends();
+		seedRepertory();
+		seedProjection();
 	}
 
 	/**
@@ -158,6 +174,9 @@ public class DataLoader implements ApplicationRunner {
 		superAdmin.setAuthorities(authoritiesSuperAdmin);
 		superAdmin.setEmail("super@super.com");
 		superAdmin.setCreatedBy("sansajn");
+		superAdmin.setCity("Novi Sad");
+		superAdmin.setAddress("petrovaradin");
+		superAdmin.setNumber("2131231333");
 
 		sansajn.setUsername("sansajn");
 		sansajn.setPassword(passwordEncoder.encode("sansajn"));
@@ -167,6 +186,9 @@ public class DataLoader implements ApplicationRunner {
 		sansajn.setActivated(true);
 		sansajn.setEmail("sansajn@super.com");
 		sansajn.setCreatedBy("sansajn");
+		sansajn.setCity("Novi Sad");
+		sansajn.setAddress("petrovaradin");
+		sansajn.setNumber("2131231333");
 
 		dejan.setUsername("dejan");
 		dejan.setPassword(passwordEncoder.encode("dejan"));
@@ -176,6 +198,9 @@ public class DataLoader implements ApplicationRunner {
 		dejan.setActivated(true);
 		dejan.setEmail("dejan@super.com");
 		dejan.setCreatedBy("sansajn");
+		dejan.setCity("Novi Sad");
+		dejan.setAddress("petrovaradin");
+		dejan.setNumber("2131231333");
 
 		milica.setUsername("milica");
 		milica.setPassword(passwordEncoder.encode("milica"));
@@ -185,6 +210,9 @@ public class DataLoader implements ApplicationRunner {
 		milica.setActivated(true);
 		milica.setEmail("milica@super.com");
 		milica.setCreatedBy("sansajn");
+		milica.setCity("Novi Sad");
+		milica.setAddress("petrovaradin");
+		milica.setNumber("2131231333");
 
 		try {
 			userRepository.save(superAdmin);
@@ -209,7 +237,7 @@ public class DataLoader implements ApplicationRunner {
 		place.setName("Arena Cineplex");
 		place.setType("Bioskop");
 		place.setCreatedBy("Milica");
-		place.setAddress("npk");
+		place.setAddress("Sutjeska 6");
 
 		try {
 
@@ -232,7 +260,7 @@ public class DataLoader implements ApplicationRunner {
 		place.setName("Srpsko narodno pozoriste");
 		place.setType("Pozoriste");
 		place.setCreatedBy("Milica");
-		place.setAddress("blah");
+		place.setAddress("Romanijska 2");
 
 		try {
 
@@ -246,43 +274,52 @@ public class DataLoader implements ApplicationRunner {
 	}
 
 	/**
-	 * Setting up projection for common init database
+	 * Setting up event for common init database
 	 */
-	public void seedProjection() {
-		log.info("Starting seed for projection");
-		Event projection1 = new Event();
-		Event projection2 = new Event();
+	public void seedEvent() {
+		log.info("Starting seed for event");
 
-		projection1.setName("John Wick2");
-		projection1.setActors("aaaa");
-		projection1.setDescription("sssssss");
-		projection1.setActors("milica,micko,mudri");
-		projection1.setDirector("micko");
-		projection1.setType("action");
-		projection1.setDuration(170);
-		projection1.setCreatedBy("Mudri");
-		projection1.setImageUrl("johnWick2.jpg");
+		Place place = new Place();
 
-		projection2.setName("Montevideo");
-		projection2.setActors("xxxxx");
-		projection2.setDescription("wwwww");
-		projection2.setActors("pera,laza");
-		projection2.setDirector("mudri");
-		projection2.setType("domaci");
-		projection2.setDuration(130);
-		projection2.setCreatedBy("Mudri");
-		projection2.setImageUrl("montevideo.jpg");
+		place.setName("Cinestar4DX");
+		place.setType("Bioskop");
+		place.setCreatedBy("Milica");
+
+		Event event1 = new Event();
+		Event event2 = new Event();
+
+		event1.setName("John Wick2");
+		event1.setActors("aaaa");
+		event1.setDescription("sssssss");
+		event1.setActors("milica,micko,mudri");
+		event1.setDirector("micko");
+		event1.setType("action");
+		event1.setDuration(170);
+		event1.setCreatedBy("Mudri");
+		event1.setImageUrl("johnWick2.jpg");
+		event1.setPlace(place);
+
+		event2.setName("Montevideo");
+		event2.setActors("xxxxx");
+		event2.setDescription("wwwww");
+		event2.setActors("pera,laza");
+		event2.setDirector("mudri");
+		event2.setType("domaci");
+		event2.setDuration(130);
+		event2.setCreatedBy("Mudri");
+		event2.setImageUrl("montevideo.jpg");
+		event2.setPlace(place);
 
 		try {
-
-			projectionRepository.save(projection1);
-			projectionRepository.save(projection2);
+			placeRepository.save(place);
+			eventRepository.save(event1);
+			eventRepository.save(event2);
 
 		} catch (Exception e) {
-			log.debug("items (projection) are already in database");
+			log.debug("items (event) are already in database");
 		}
 
-		log.info("Seeds for projection are completed");
+		log.info("Seeds for event are completed");
 	}
 
 	public void seedFanZone() {
@@ -374,7 +411,7 @@ public class DataLoader implements ApplicationRunner {
 		place.setName("Cinestar");
 		place.setType("Bioskop");
 		place.setCreatedBy("Milica");
-		place.setAddress("lala");
+		place.setAddress("Bulevar Oslobodjenja 11");
 
 		log.info("Starting seed for hall");
 		Hall hall1 = new Hall();
@@ -404,5 +441,116 @@ public class DataLoader implements ApplicationRunner {
 		}
 
 		log.info("Seeds for hall are completed");
+	}
+
+	public void seedRepertory() {
+
+		Place place = new Place();
+
+		place.setName("BioskopNS");
+		place.setType("Bioskop");
+		place.setCreatedBy("Milica");
+
+		Place place1 = new Place();
+
+		place1.setName("BioskopBG");
+		place1.setType("Bioskop");
+		place1.setCreatedBy("Milica");
+
+		Repertory repertory = new Repertory();
+		repertory.setCreatedBy("milica");
+		repertory.setDate("2018-03-14");
+		repertory.setPlace(place);
+
+		Repertory repertory1 = new Repertory();
+		repertory1.setCreatedBy("milica");
+		repertory1.setDate("2018-03-14");
+		repertory1.setPlace(place1);
+
+		try {
+			placeRepository.save(place);
+			placeRepository.save(place1);
+			repertoryRepository.save(repertory);
+			repertoryRepository.save(repertory1);
+			log.info("Starting seed for repertory");
+
+		} catch (Exception e) {
+			log.debug("items (repertory) are already in database");
+		}
+
+		log.info("Seeds for repertory are completed");
+	}
+
+	public void seedProjection() {
+
+		Place place = new Place();
+
+		place.setName("Cinema");
+		place.setType("Bioskop");
+		place.setCreatedBy("Milica");
+		place.setAddress("Bulevar Oslobodjenja 20");
+
+		log.info("Starting seed for hall");
+		Hall hall1 = new Hall();
+
+		hall1.setName("Sala 1");
+		hall1.setCreatedBy("Milica");
+		hall1.setCol(7);
+		hall1.setRow(6);
+		hall1.setPlace(place);
+
+		Event event1 = new Event();
+
+		event1.setName("John Wick1");
+		event1.setActors("xxx");
+		event1.setDescription("xxxxx");
+		event1.setActors("milica,,mudri");
+		event1.setDirector("micko");
+		event1.setType("action");
+		event1.setDuration(150);
+		event1.setCreatedBy("Mudri");
+		event1.setImageUrl("johnWick1.jpg");
+		event1.setPlace(place);
+
+		Repertory repertory = new Repertory();
+
+		repertory.setCreatedBy("milica");
+		repertory.setDate("2018-05-15");
+		repertory.setPlace(place);
+
+		Projection projection = new Projection();
+		projection.setCreatedBy("milica");
+		projection.setDate("2018-05-15");
+		projection.setStartTime("15:00");
+		projection.setEndTime("17:00");
+		projection.setHall(hall1);
+		projection.setEvent(event1);
+		projection.setReperotry(repertory);
+
+		Projection projection1 = new Projection();
+		projection1.setCreatedBy("milica");
+		projection1.setDate("2018-05-15");
+		projection1.setStartTime("18:00");
+		projection1.setEndTime("20:00");
+		projection1.setHall(hall1);
+		projection1.setEvent(event1);
+		projection1.setReperotry(repertory);
+		//////////////////////
+		try {
+			placeRepository.save(place);
+			eventRepository.save(event1);
+			hallRepository.save(hall1);
+			repertoryRepository.save(repertory);
+			projectionRepository.save(projection);
+			projectionRepository.save(projection1);
+
+			log.info("Starting seed for projection");
+
+		} catch (Exception e) {
+			log.debug("items (projection) are already in database");
+		}
+
+		log.info("Seeds for projection are completed");
+
 	}
 }

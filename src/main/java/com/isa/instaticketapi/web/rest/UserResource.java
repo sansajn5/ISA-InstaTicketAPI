@@ -17,6 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,9 +37,12 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SimpMessageSendingOperations messageSendingOperations;
+
 
     /**
-     * GET /getMyFriends : Get list of friends
+     * GET /my-friends : Get list of friends
      *
      * @return
      */
@@ -48,16 +54,36 @@ public class UserResource {
             @ApiResponse(code = 500, message = "Error on server side"),
             @ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-    @GetMapping("/getMyFriends")
+    @GetMapping("/my-friends")
     public  ResponseEntity<FriendsResponse> getMyFriends(){
         FriendsResponse friendsResponse = new FriendsResponse();
         friendsResponse.setFriends(userService.findMyFriends());
         return new ResponseEntity<>(friendsResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/sendFriendRequest")
+    @MessageMapping("/send-friend-request")
     public void sendFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO){
+        Object object = null;
+        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",object);
+    }
 
+    @MessageMapping("/accept-friend-request")
+    public void acceptFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO){
+        Object object = null;
+        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",object);
+    }
+
+    @MessageMapping("/delete-friend-request")
+    @SendTo("/friend-request/delete")
+    public void deleteFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO) {
+        Object object = null;
+        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",object);
+    }
+
+    @MessageMapping("/decline-friend-request")
+    public void declineFriendrequest(@RequestBody FriendRequestDTO friendRequestDTO) {
+        Object object = null;
+        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",object);
     }
 
 }

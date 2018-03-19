@@ -1,6 +1,7 @@
 package com.isa.instaticketapi.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,9 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.config.Constants;
+import com.isa.instaticketapi.domain.Event;
+import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.repository.EventRepository;
+import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
@@ -34,6 +43,18 @@ public class PlaceService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private EventRepository eventRepository;
+
+	@Autowired
+	private HallRepository hallRepository;
+
+	@Autowired
+	private ProjectionRepository projectionRepository;
+
+	@Autowired
+	private RepertotyRepository repertoryRepository;
 
 	/**
 	 * 
@@ -84,40 +105,84 @@ public class PlaceService {
 		return place;
 
 	}
-	
-	
+
 	public void createPlace(PlaceDTO placeDTO) throws SQLException {
-		
+
 		Place place = new Place();
-		
+
 		place.setName(placeDTO.getName());
 		place.setAddress(place.getAddress());
-		//User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		place.setCreatedBy("Micka");
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		place.setCreatedBy(logged.getUsername());
 		place.setDescripton(placeDTO.getDescription());
 		place.setType(placeDTO.getType());
-		
-		
+
 		placeRepository.save(place); // maybe error - unique name
+
 		
 			
 	}
 	
-	
+
+
+	/**
+	 * Deleting place from database
+	 * 
+	 * @param id
+	 *            representing id of place which will be deleted
+	 */
 	public Place deletePlace(Long id) {
-		
 		Place place = placeRepository.findOneById(id);
-		
-		if(place == null) {
+		if (place == null) {
 			return null;
 		}
-		
+		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
+		for (int i = 0; i < halls.size(); i++) {
+			ArrayList<Projection> projections = projectionRepository.findAllByHall(halls.get(i));
+			for (int j = 0; j < projections.size(); j++) {
+				projectionRepository.delete(projections.get(j));
+			}
+			hallRepository.delete(halls.get(i));
+		}
+		ArrayList<Repertory> reprtories = repertoryRepository.findAllByPlace(place);
+		repertoryRepository.delete(reprtories);
+
+		ArrayList<Event> events = eventRepository.findAllByPlace(place);
+		eventRepository.delete(events);
+
 		placeRepository.delete(place);
 		log.debug("Deleted place.");
-		
 		return place;
+
 	}
-	
-	
-	
+
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return list of event in place
+	 */
+	public ArrayList<Event> getEventsInPlace(Long id) {
+
+		Place place = placeRepository.findOneById(id);
+		if (place == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+
+		ArrayList<Event> events = eventRepository.findAllByPlace(place);
+		return events;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return list of repertory(objects)
+	 */
+	public ArrayList<Repertory> getRepertoriesInPlace(Long id) {
+		Place place = placeRepository.findOneById(id);
+		return repertoryRepository.findAllByPlace(place);
+	}
+
+
 }

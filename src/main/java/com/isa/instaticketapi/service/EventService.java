@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.service;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +9,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.domain.Event;
+import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.EventRepository;
+import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangeEventDTO;
 import com.isa.instaticketapi.service.dto.places.EventDTO;
 
 /**
- * Service for managing projection.
+ * Service for managing event.
  * 
  * @author Milica Kovacevic
  *
@@ -26,43 +32,52 @@ public class EventService {
 	private final Logger log = LoggerFactory.getLogger(EventService.class);
 
 	@Autowired
-	private EventRepository projectionRepository;
+	private EventRepository eventRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private PlaceRepository placeRepository;
+
+	@Autowired
+	private ProjectionRepository projectionRepository;
+
 	/**
 	 * 
-	 * @param projectionDTO
-	 *            object providing information about new projection
+	 * @param eventDTO
+	 *            object providing information about new event
 	 */
-	public void createProjection(EventDTO projectionDTO) {
-		Event projection = new Event();
-		projection.setName(projectionDTO.getName());
-		projection.setActors(projectionDTO.getActors());
-		projection.setDirector(projectionDTO.getDirector());
-		projection.setDuration(projectionDTO.getDuration());
-		projection.setDescription(projectionDTO.getDescription());
-		projection.setType(projectionDTO.getType());
-		projection.setImageUrl(projectionDTO.getImageUrl());
-		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		projection.setCreatedBy(logged.getUsername());
+	public void createEvent(EventDTO eventDTO, Long id) {
+		Event event = new Event();
+		Place place = placeRepository.findOneById(id);
 
-		projectionRepository.save(projection);
+		event.setPlace(place);
+		event.setName(eventDTO.getName());
+		event.setActors(eventDTO.getActors());
+		event.setDirector(eventDTO.getDirector());
+		event.setDuration(eventDTO.getDuration());
+		event.setDescription(eventDTO.getDescription());
+		event.setType(eventDTO.getType());
+		event.setImageUrl(eventDTO.getImageUrl());
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		event.setCreatedBy(logged.getUsername());
+
+		eventRepository.save(event);
 
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @return object projection
+	 * @return object event
 	 */
 
-	public Event getProjection(Long id) {
-		if (projectionRepository.findOneById(id) == null) {
+	public Event getEvent(Long id) {
+		if (eventRepository.findOneById(id) == null) {
 			return null;
 		}
-		return projectionRepository.findOneById(id);
+		return eventRepository.findOneById(id);
 	}
 
 	/**
@@ -73,39 +88,42 @@ public class EventService {
 	 *            id of object
 	 */
 
-	public Event changeProjection(ChangeEventDTO changeProjectionDTO, long id) {
-		Event projection = projectionRepository.findOneById(id);
-		if (projection == null) {
+	public Event changeEvent(ChangeEventDTO changeProjectionDTO, long id) {
+		Event event = eventRepository.findOneById(id);
+		if (event == null) {
 			return null;
 		}
-		projection.setName(changeProjectionDTO.getName());
-		projection.setActors(changeProjectionDTO.getActors());
-		projection.setDescription(changeProjectionDTO.getDescription());
-		projection.setDirector(changeProjectionDTO.getDirector());
-		projection.setDuration(changeProjectionDTO.getDuration());
-		projection.setType(changeProjectionDTO.getType());
-		projection.setImageUrl(changeProjectionDTO.getImageUrl());
+		event.setName(changeProjectionDTO.getName());
+		event.setActors(changeProjectionDTO.getActors());
+		event.setDescription(changeProjectionDTO.getDescription());
+		event.setDirector(changeProjectionDTO.getDirector());
+		event.setDuration(changeProjectionDTO.getDuration());
+		event.setType(changeProjectionDTO.getType());
+		event.setImageUrl(changeProjectionDTO.getImageUrl());
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		projection.setLastModifiedBy(logged.getUsername());
+		event.setLastModifiedBy(logged.getUsername());
 
-		projectionRepository.save(projection);
-		return projection;
+		eventRepository.save(event);
+		return event;
 	}
 
 	/**
-	 * Deleting projection from database
+	 * Deleting event from database
 	 * 
 	 * @param id
-	 *            representing id of projection which will be deleted
+	 *            representing id of event which will be deleted
 	 */
-	public Event deleteProj(Long id) {
-		Event projection = projectionRepository.findOneById(id);
-		if (projection == null) {
+	public Event deleteEvent(Long id) {
+		Event event = eventRepository.findOneById(id);
+		if (event == null) {
 			return null;
 		}
-		projectionRepository.delete(projection);
-		log.debug("Deleted projection.");
-		return projection;
+		ArrayList<Projection> projections = projectionRepository.findAllByEvent(event);
+		projectionRepository.delete(projections);
+
+		eventRepository.delete(event);
+		log.debug("Deleted event.");
+		return event;
 
 	}
 }

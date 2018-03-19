@@ -31,7 +31,12 @@ public class UserMapper {
             user.setEmail(userDTO.getEmail());
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
-            user.setCreatedBy(userDTO.getCreatedBy());
+            user.setNumber(userDTO.getNumber());
+            user.setAddress(userDTO.getAddress());
+            user.setCity(userDTO.getCity());
+            if(userDTO.getCreatedBy() == null) {
+                user.setCreatedBy(user.getUsername());
+            }
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             if (authorities != null) {
                 user.setAuthorities(authorities);
@@ -46,11 +51,14 @@ public class UserMapper {
      * @return collection of type Authority
      */
     public Set<Authority> authoritiesFromStrings(Set<String> strings) {
-        return strings.stream().map(string -> {
-            Authority auth = new Authority();
-            auth.setName(string);
-            return auth;
-        }).collect(Collectors.toSet());
+        if (strings != null) {
+            return strings.stream().map(string -> {
+                Authority auth = new Authority();
+                auth.setName(string);
+                return auth;
+            }).collect(Collectors.toSet());
+        } else
+            return null;
     }
 
 }

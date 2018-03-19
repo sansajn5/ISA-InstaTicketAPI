@@ -63,7 +63,7 @@ application:
         max-age: 1800
     mail:
       from: InstaTicket
-      base-url: http://127.0.0.1:8080
+      base-url: http://127.0.0.1:4200
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite:
