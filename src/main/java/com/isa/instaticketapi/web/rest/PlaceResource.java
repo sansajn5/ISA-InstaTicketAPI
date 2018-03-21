@@ -145,7 +145,7 @@ public class PlaceResource {
 >>>>>>> e026d391330961b4da4ef317733dbf0c9572803e
 	 * 
 	 */
-	@ApiOperation(value = "Creating new projection", response = HttpStatus.class)
+	@ApiOperation(value = "Creating new place", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created place"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
