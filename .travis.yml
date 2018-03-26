@@ -3,3 +3,4 @@ services:
   - mysql
 before_install:
   - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS InstaTicketApi;'
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON mydb.* TO 'isa';";
