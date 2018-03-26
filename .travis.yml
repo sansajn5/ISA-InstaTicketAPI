@@ -2,4 +2,4 @@ language: java
 services:
   - mysql
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS InstaTicketApi;'
+  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS InstaTicketApi;'
