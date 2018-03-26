@@ -1,7 +1,6 @@
 package com.isa.instaticketapi.web.resource;
 
 import com.isa.instaticketapi.AbstractResourceTest;
-import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.service.AccountService;
 import com.isa.instaticketapi.service.dto.account.LoginDTO;

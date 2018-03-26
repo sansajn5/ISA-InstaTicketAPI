@@ -11,6 +11,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 
+/**
+ * @author sansajn
+ */
 public abstract class AbstractResourceTest extends AbstractTest {
 
     protected MockMvc mvc;
