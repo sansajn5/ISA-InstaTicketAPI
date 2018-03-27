@@ -1,7 +1,6 @@
 package com.isa.instaticketapi.web.rest;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isa.instaticketapi.domain.Place;
-import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.EmploymentPlaceRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.UserRepository;
@@ -58,9 +55,9 @@ public class AdminResource {
 	public void setSystemAdminRole(@RequestBody AdminRoleDTO adminRoleDTO) {
 		log.debug("REST request to set system admin role to user : {}", adminRoleDTO);
 		
-		//adminService.setSystemAdminRole(adminRoleDTO.getUsername());
+		adminService.setSystemAdminRole(adminRoleDTO.getId());
 		
-		// add admin to place
+		
 		
 	}
 	
@@ -82,14 +79,33 @@ public class AdminResource {
 		
 		adminService.setPlaceAdminRole(adminRoleDTO, id);
 		
-		
-		
-		
-		
+			
 		// dodati response
 		
 	}
 	
+	
+	@ApiOperation(value = "Setting fan zone admin role to user", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@Transactional
+	@PostMapping("/fanZone-admin-role/{id}")
+	public void setFanZoneAdminRole(@RequestBody AdminRoleDTO adminRoleDTO, @PathVariable("id") Long id) throws SQLException {
+		
+		log.debug("REST request to set place admin role to user : {}", adminRoleDTO);
+		
+		
+		adminService.setFanZoneAdminRole(adminRoleDTO, id);
+		
+			
+		// dodati response
+		
+	}
 	
 	
 }
