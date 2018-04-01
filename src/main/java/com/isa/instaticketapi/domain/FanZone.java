@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
  * @author Dejan
  *
  */
-
+/*
 @Entity
 @Table(name = "FanZone")
 public class FanZone extends AbstractAuditingEntity implements Serializable {
@@ -69,3 +69,4 @@ public class FanZone extends AbstractAuditingEntity implements Serializable {
 	
 
 }
+*/

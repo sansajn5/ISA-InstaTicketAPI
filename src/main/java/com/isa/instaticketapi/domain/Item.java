@@ -22,24 +22,28 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Size(min = 5, max = 100)
+
 	@Column(length = 100)
 	private String name;
 	
+	@Column(length = 200)
+	private String description;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="fanZone_id", nullable=false)
-	private FanZone fanZone;
+	@Column
+	private String image;
 	
+	public Item() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public Item(String name, String description, String image) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.image = image;
+	}
 
-	public FanZone getFanZone() {
-		return fanZone;
-	}
-	
-	public void setFanZone(FanZone fanZone) {
-		this.fanZone = fanZone;
-	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -54,6 +58,22 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	
