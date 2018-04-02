@@ -33,8 +33,7 @@ public class FanZoneService {
 	
 	
 	public List<Item> getItems() {
-		
-			
+				
 		return itemRepository.findAll();
 	}
 
@@ -47,6 +46,8 @@ public class FanZoneService {
 		/*
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		System.out.println("ULOGOVAN " + logged.getUsername()); */
+		
+		
 		item.setCreatedBy("Dejan");
 		
 		item.setName(itemDTO.getName());
@@ -55,9 +56,26 @@ public class FanZoneService {
 		
 		itemRepository.save(item);
 		
-		return item;
-		
-		
+		return item;	
 		
 	}
+	
+	
+	
+	public Item deleteItem(Long id) {
+		
+		Item item = itemRepository.findOneById(id);
+		
+		if(item == null) {
+			return null;
+		}
+		
+		itemRepository.delete(item);
+		
+		return item;
+	}
+	
+	
+	
+	
 }

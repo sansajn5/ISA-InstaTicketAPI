@@ -4,9 +4,8 @@ import javax.validation.constraints.Size;
 
 public class AdminRoleDTO {
 
-	
 	private Long id;
-	
+
 	public AdminRoleDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -23,11 +22,5 @@ public class AdminRoleDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
-	
 
-	
-	
-	
 }
