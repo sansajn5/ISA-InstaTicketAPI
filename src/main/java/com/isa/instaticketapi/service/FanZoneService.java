@@ -11,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.instaticketapi.domain.Item;
-import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.security.SecurityUtils;
+import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
 
 @Service
@@ -75,6 +74,25 @@ public class FanZoneService {
 		return item;
 	}
 	
+	
+	public Item editItem(ChangeItemDTO itemDTO) throws SQLException {
+		
+		Item item = itemRepository.findOneById(itemDTO.getId());
+		
+		if(item == null) {
+			return null;
+		}
+		
+		
+		item.setName(itemDTO.getName());
+		item.setDescription(itemDTO.getDescription());
+		item.setImage(itemDTO.getImage());
+		
+		itemRepository.save(item);
+		
+		return item;
+		
+	}
 	
 	
 	
