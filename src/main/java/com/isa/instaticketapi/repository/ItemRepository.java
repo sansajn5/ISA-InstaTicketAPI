@@ -14,7 +14,7 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
 	Item findOneById(Long id);
 	
 	//@Query("SELECT it.fanZone as id FROM Item it where it.fanZone = ?1")
-	List<Item> findAll();
+	//ist<Item> findAll();
 	
 	
 }

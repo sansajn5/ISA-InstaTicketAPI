@@ -9,7 +9,6 @@ public class OffersResponse {
 	private List<Offer> offers;
 
 	public OffersResponse(List<Offer> offers) {
-		super();
 		this.offers = offers;
 	}
 

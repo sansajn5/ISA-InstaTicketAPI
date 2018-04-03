@@ -127,4 +127,18 @@ public class FanZoneService {
 	}
 	
 	
+	public Offer deleteOffer(Long id) {
+		
+		Offer offer = offerRepository.findOneById(id);
+		
+		if(offer == null) {
+			return null;
+		}
+		
+		offerRepository.delete(offer);
+		
+		return offer;
+	}
+	
+	
 }

@@ -59,7 +59,7 @@ public class FanZoneResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@GetMapping("/getItems}")
+	@GetMapping("/getItems")
 	public ResponseEntity<ItemsResponse> getItems() {
 
 		
@@ -132,7 +132,7 @@ public class FanZoneResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@GetMapping("/getOffers}")
+	@GetMapping("/getOffers")
 	public ResponseEntity<OffersResponse> getOffers() {
 
 		
@@ -162,6 +162,21 @@ public class FanZoneResource {
 	}
 	
 	
+	@ApiOperation(value = "Deleting offer", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@DeleteMapping("/delete-offer/{id}")
+	public ResponseEntity<OfferResponse> deleteOffer(@PathVariable("id") Long id) {
+		
+		Offer offer = fanZoneService.deleteOffer(id);
+		
+		return new ResponseEntity<>(new OfferResponse(offer),HttpStatus.OK);
+	}
 	
 	
 	
