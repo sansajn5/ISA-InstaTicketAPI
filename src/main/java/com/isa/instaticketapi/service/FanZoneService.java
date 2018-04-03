@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.Offer;
+import com.isa.instaticketapi.domain.OfferRequest;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.OfferRepository;
+import com.isa.instaticketapi.repository.OfferRequestRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
@@ -34,6 +36,9 @@ public class FanZoneService {
 	
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private OfferRequestRepository offerRequestRepository;
 	
 	
 	public List<Item> getItems() {
@@ -122,6 +127,13 @@ public class FanZoneService {
 		offer.setImage(offerDTO.getImage());
 		
 		offerRepository.save(offer);
+		
+		OfferRequest offerRequest = new OfferRequest();
+		offerRequest.setOffer(offer);
+		offerRequest.setCreatedBy("User");
+		offerRequestRepository.save(offerRequest);
+		
+		
 		
 		return offer;	
 		
