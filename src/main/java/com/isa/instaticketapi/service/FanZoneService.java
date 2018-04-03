@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.instaticketapi.domain.Item;
+import com.isa.instaticketapi.domain.Offer;
 import com.isa.instaticketapi.repository.ItemRepository;
+import com.isa.instaticketapi.repository.OfferRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
+import com.isa.instaticketapi.service.dto.OfferDTO;
 
 @Service
 @Transactional
@@ -25,7 +28,8 @@ public class FanZoneService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	
+	@Autowired
+	private OfferRepository offerRepository;
 	
 	@Autowired
 	private ItemRepository itemRepository;
@@ -94,6 +98,33 @@ public class FanZoneService {
 		
 	}
 	
+	
+	public List<Offer> getOffers() {
+		
+		return offerRepository.findAll();
+	}
+	
+	
+	public Offer addNewOffer(OfferDTO offerDTO) throws SQLException{
+		
+		Offer offer = new Offer();
+		
+		/*
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		System.out.println("ULOGOVAN " + logged.getUsername()); */
+		
+		
+		offer.setCreatedBy("Dejan");
+		
+		offer.setName(offerDTO.getName());
+		offer.setDescription(offerDTO.getDescription());
+		offer.setImage(offerDTO.getImage());
+		
+		offerRepository.save(offer);
+		
+		return offer;	
+		
+	}
 	
 	
 }
