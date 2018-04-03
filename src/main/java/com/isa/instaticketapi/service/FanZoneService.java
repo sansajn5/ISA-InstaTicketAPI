@@ -16,6 +16,7 @@ import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.OfferRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
+import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
 import com.isa.instaticketapi.service.dto.OfferDTO;
 
@@ -138,6 +139,27 @@ public class FanZoneService {
 		offerRepository.delete(offer);
 		
 		return offer;
+	}
+	
+	
+	
+	public Offer editOffer(ChangeOfferDTO offerDTO) throws SQLException {
+		
+		Offer offer = offerRepository.findOneById(offerDTO.getId());
+		
+		if(offer == null) {
+			return null;
+		}
+		
+		
+		offer.setName(offerDTO.getName());
+		offer.setDescription(offerDTO.getDescription());
+		offer.setImage(offerDTO.getImage());
+		
+		offerRepository.save(offer);
+		
+		return offer;
+		
 	}
 	
 	
