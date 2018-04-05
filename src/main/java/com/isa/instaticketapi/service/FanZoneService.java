@@ -62,6 +62,7 @@ public class FanZoneService {
 		item.setName(itemDTO.getName());
 		item.setDescription(itemDTO.getDescription());
 		item.setImage(itemDTO.getImage());
+		item.setPrice(itemDTO.getPrice());
 		
 		itemRepository.save(item);
 		

@@ -32,16 +32,20 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 	@Column
 	private String image;
 	
+	@Column
+	private String price;
+	
 	public Item() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	
-	public Item(String name, String description, String image) {
+	public Item(String name, String description, String image, String price) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.image = image;
+		this.price = price;
 	}
 
 	public Long getId() {
@@ -75,6 +79,19 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+
+	public String getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+
+	
 	
 	
 	

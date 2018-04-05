@@ -9,6 +9,8 @@ public class ItemDTO {
 	
 	private String image;
 	
+	private String price;
+	
 	
 	public ItemDTO() {
 		
@@ -18,11 +20,12 @@ public class ItemDTO {
 	
 	
 	
-	public ItemDTO(String name, String description, String image) {
+	public ItemDTO(String name, String description, String image, String price) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.image = image;
+		this.price = price;
 	}
 
 
@@ -71,6 +74,26 @@ public class ItemDTO {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+
+	
+	
+
+
+
+
+
+	public String getPrice() {
+		return price;
+	}
+
+
+
+
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 

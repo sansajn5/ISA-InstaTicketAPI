@@ -60,7 +60,7 @@ public class FanZoneResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@GetMapping("/getItems")
+	@GetMapping("/items")
 	public ResponseEntity<ItemsResponse> getItems() {
 
 		
