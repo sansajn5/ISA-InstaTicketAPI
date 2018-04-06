@@ -15,6 +15,7 @@ import com.isa.instaticketapi.domain.Projection;
 @Repository
 public interface HallRepository extends JpaRepository<Hall,Long>  {
 	Hall findOneById(Long id);
+	Hall findOneByName(String name);
 	ArrayList<Hall> findAllByPlace(Place idPlace); 
 	
 }
