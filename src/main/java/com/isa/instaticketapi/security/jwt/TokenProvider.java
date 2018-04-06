@@ -17,10 +17,13 @@ public class TokenProvider {
     private String secret;
 
     @Value("18000")
-    private long tokenValidityInMilliseconds;
+    private Long expiration;
 
-    private long tokenValidityInMillisecondsForRememberMe;
-
+    /**
+     * This method returns user name from token
+     * @param token
+     * @return String user name
+     */
     public String getUsernameFromToken(String token) {
         String username;
         try {
@@ -32,6 +35,11 @@ public class TokenProvider {
         return username;
     }
 
+    /**
+     * This method returns object Claims from token
+     * @param token
+     * @return Claims
+     */
     private Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
@@ -43,6 +51,11 @@ public class TokenProvider {
         return claims;
     }
 
+    /**
+     * This method returns date of expiration token
+     * @param token
+     * @return Date Expiration date
+     */
     public Date getExpirationDateFromToken(String token) {
         Date expirationDate;
         try {
@@ -54,35 +67,39 @@ public class TokenProvider {
         return expirationDate;
     }
 
-    public String generateToken(UserDetails userDetails) {
-        Map<String,Object> claims = new HashMap<>();
-        claims.put("user",userDetails.getUsername());
-        claims.put("role",userDetails.getAuthorities());
-        return Jwts.builder().setClaims(claims)
-                .setExpiration(new Date(System.currentTimeMillis() + this.tokenValidityInMilliseconds * 1000))
-                .signWith(SignatureAlgorithm.HS512, this.secret).compact();
+    /**
+     * This method checks is token expired
+     * @param token
+     * @return boolean true if token is not expired, else false
+     */
+    private boolean isTokenExpired(String token) {
+        final Date expirationDate = this.getExpirationDateFromToken(token);
+        return expirationDate.before(new Date(System.currentTimeMillis()));
     }
 
-    public boolean validateToken(String authToken) {
-        try {
-            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(authToken);
-            return true;
-        } catch (SignatureException e) {
-            log.info("Invalid JWT signature.");
-            log.trace("Invalid JWT signature trace: {}", e);
-        } catch (MalformedJwtException e) {
-            log.info("Invalid JWT token.");
-            log.trace("Invalid JWT token trace: {}", e);
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token.");
-            log.trace("Expired JWT token trace: {}", e);
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT token.");
-            log.trace("Unsupported JWT token trace: {}", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT token compact of handler are invalid.");
-            log.trace("JWT token compact of handler are invalid trace: {}", e);
-        }
-        return false;
+
+    /**
+     * This method checks if token is valid
+     * @param token
+     * @param userDetails
+     * @return boolean true if token is valid, else false
+     */
+    public boolean validateToken(String token, UserDetails userDetails) {
+        final String username = getUsernameFromToken(token);
+        return username.equals(userDetails.getUsername())
+                && !isTokenExpired(token);
+    }
+
+    /**
+     * This method generates token and returns string that represents token for user
+     * @param userDetails
+     * @return token
+     */
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("sub", userDetails.getUsername());
+        return Jwts.builder().setClaims(claims)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+                .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 }

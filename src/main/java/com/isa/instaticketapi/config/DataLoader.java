@@ -166,7 +166,6 @@ public class DataLoader implements ApplicationRunner {
 		superAdmin.setLastName("SUPER");
 		superAdmin.setAuthorities(authoritiesSuperAdmin);
 		superAdmin.setActivated(true);
-		superAdmin.setAuthorities(authoritiesSuperAdmin);
 		superAdmin.setEmail("super@super.com");
 		superAdmin.setCreatedBy("sansajn");
 		superAdmin.setCity("Novi Sad");

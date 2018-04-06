@@ -4,11 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.isa.instaticketapi.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,6 +65,7 @@ public class PlaceResource {
 
 	@GetMapping("/cinemas")
 	public ResponseEntity<CinemaResponse> getCinemas() {
+		log.info(SecurityUtils.getCurrentUserLogin().get().toString());
 		List<Place> cinemas = placeService.getCinemas();
 		return new ResponseEntity<>(new CinemaResponse(cinemas), HttpStatus.OK);
 	}

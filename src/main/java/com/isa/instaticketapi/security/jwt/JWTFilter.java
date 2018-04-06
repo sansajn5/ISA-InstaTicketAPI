@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.security.jwt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,18 +29,22 @@ public class JWTFilter extends UsernamePasswordAuthenticationFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+    /**
+     * This method sets authentication on user who doesn't have authentication
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader("X-Auth-Token");
         String username = tokenProvider.getUsernameFromToken(authToken);
-
         if (username != null
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService
                     .loadUserByUsername(username);
-            if (tokenProvider.validateToken(authToken)) {
+            if (tokenProvider.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource()
@@ -50,4 +56,5 @@ public class JWTFilter extends UsernamePasswordAuthenticationFilter {
 
         chain.doFilter(request, response);
     }
+
 }

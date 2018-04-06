@@ -137,7 +137,7 @@ public class AccountResource {
 
 		boolean rememberMe = (loginDTO.isRememberMe() == null) ? false : loginDTO.isRememberMe();
 		String jwt = tokenProvider.generateToken(details);
-		return new ResponseEntity<>(new JWTTokenResponse(jwt), HttpStatus.OK);
+		return new ResponseEntity<>(new JWTTokenResponse(jwt,details.getUsername(),details.getAuthorities().toString()), HttpStatus.OK);
 	}
 
 	/**
@@ -214,10 +214,12 @@ public class AccountResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
 	@GetMapping("/logout")
 	public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+		log.info("logouttt");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
+		SecurityContextHolder.getContext().setAuthentication(null);
+//		if (auth != null) {
+//			new SecurityContextLogoutHandler().logout(request, response, auth);
+//		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
