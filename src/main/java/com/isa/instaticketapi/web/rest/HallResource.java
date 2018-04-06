@@ -79,7 +79,7 @@ public class HallResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/hall/{id}")
-	public void deleteProjection(@PathVariable("id") Long id) {
+	public void deleteHall(@PathVariable("id") Long id) {
 		if (hallService.deleteHall(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
@@ -100,7 +100,7 @@ public class HallResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("/hallsInPlace/{id}")
+	@GetMapping("/{id}/halls-in-place")
 	public ResponseEntity<HallsResponse> getHallsInPlace(@PathVariable("id") Long id) {
 
 		if (hallService.getHalls(id) == null) {
