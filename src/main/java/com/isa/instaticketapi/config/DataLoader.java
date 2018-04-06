@@ -256,15 +256,25 @@ public class DataLoader implements ApplicationRunner {
 	public void seedTheater() {
 		log.info("Starting seed for theater");
 		Place place = new Place();
-
+		Place place1 = new Place();
+		
 		place.setName("Srpsko narodno pozoriste");
 		place.setType("Pozoriste");
 		place.setCreatedBy("Milica");
 		place.setAddress("Romanijska 2");
+		
+		place1.setName("Pozoriste mladih");
+		place1.setType("Pozoriste");
+		place1.setCreatedBy("Milica");
+		place1.setAddress("Centar");
+		
+	
 
 		try {
 
 			placeRepository.save(place);
+			placeRepository.save(place1);
+			
 
 		} catch (Exception e) {
 			log.debug("items (place) are already in database");
