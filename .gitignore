@@ -22,4 +22,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-src/main/java/com/isa/instaticketapi/web/rest/vm/EventResponse/EventInPlaceResponse.java

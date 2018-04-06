@@ -27,7 +27,6 @@ import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
-import com.isa.instaticketapi.web.rest.vm.EventResponse.EventInPlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
@@ -136,14 +135,8 @@ public class PlaceResource {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * POST: create-place : create new place by super-admin
-	 * @throws SQLException 
-=======
-	 * POST: create-place : create new place by admin
-	 * 
 	 * @throws SQLException
->>>>>>> e026d391330961b4da4ef317733dbf0c9572803e
 	 * 
 	 */
 	@ApiOperation(value = "Creating new place", response = HttpStatus.class)
