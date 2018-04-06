@@ -27,6 +27,7 @@ import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
+import com.isa.instaticketapi.web.rest.vm.EventResponse.EventsResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
@@ -181,9 +182,6 @@ public class PlaceResource {
 		}
 		placeService.deletePlace(id);
 	}
-
-	
-	
 	
 	/**
 	 * 
@@ -191,10 +189,7 @@ public class PlaceResource {
 	 *            id of place
 	 * @return list of event object in place
 	 */
-
-	
-	
-	@ApiOperation(value = "Get all Event in Place", response = EventInPlaceResponse.class)
+	@ApiOperation(value = "Get all Event in Place", response = EventsResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -203,16 +198,10 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("{id}/event-in-place")
-	public ResponseEntity<EventInPlaceResponse> getEventsInPlace(@PathVariable("id") Long id) {
+	public ResponseEntity<EventsResponse> getEventsInPlace(@PathVariable("id") Long id) {
 		ArrayList<Event> events = placeService.getEventsInPlace(id);
-		return new ResponseEntity<>(new EventInPlaceResponse(events), HttpStatus.OK);
+		return new ResponseEntity<>(new EventsResponse(events), HttpStatus.OK);
 	}
-
-	
-	
-	
-
-
 
 	/**
 	 * 
@@ -239,8 +228,6 @@ public class PlaceResource {
 		}
 		placeService.deletePlace(id);
 	}
-	
-	
 	
 
 	@GetMapping("/{id}/repertories")
