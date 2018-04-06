@@ -4,18 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "Item")
-public class Item extends AbstractAuditingEntity implements Serializable{
+@Table(name="Offer")
+public class Offer extends AbstractAuditingEntity implements Serializable{
 	
 	
 	@Id
@@ -32,20 +28,16 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 	@Column
 	private String image;
 	
-	@Column
-	private String price;
-	
-	public Item() {
+	public Offer() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	
-	public Item(String name, String description, String image, String price) {
+	public Offer(String name, String description, String image) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.image = image;
-		this.price = price;
 	}
 
 	public Long getId() {
@@ -72,28 +64,15 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 		this.description = description;
 	}
 
+
 	public String getImage() {
 		return image;
 	}
+
 
 	public void setImage(String image) {
 		this.image = image;
 	}
 
-
-	public String getPrice() {
-		return price;
-	}
-
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-
 	
-	
-	
-	
-
 }

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import com.isa.instaticketapi.domain.Authority;
 import com.isa.instaticketapi.domain.Event;
-import com.isa.instaticketapi.domain.FanZone;
 import com.isa.instaticketapi.domain.Friends;
 import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Item;
@@ -25,7 +24,6 @@ import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.AuthorityRepository;
 import com.isa.instaticketapi.repository.EventRepository;
-import com.isa.instaticketapi.repository.FanZoneRepository;
 import com.isa.instaticketapi.repository.FriendsRepository;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.ItemRepository;
@@ -56,9 +54,6 @@ public class DataLoader implements ApplicationRunner {
 
 	@Autowired
 	PlaceRepository placeRepository;
-
-	@Autowired
-	FanZoneRepository fanZoneRepository;
 
 	@Autowired
 	ItemRepository itemRepository;
@@ -333,38 +328,28 @@ public class DataLoader implements ApplicationRunner {
 	}
 
 	public void seedFanZone() {
-
-		FanZone fz1 = new FanZone();
-		fz1.setName("zona 1");
-		fz1.setCreatedBy("Dejan");
-
-		FanZone fz2 = new FanZone();
-		fz2.setName("zona 2");
-		fz2.setCreatedBy("Dejan");
-
+		
+	
 		Item it1 = new Item();
-		it1.setName("item 1");
+		it1.setName("Rekvizit 1");
 		it1.setCreatedBy("Dejan");
-		it1.setFanZone(fz1);
+		it1.setDescription("Opis opis");
+		it1.setPrice("500");
+		
 
 		Item it2 = new Item();
-		it2.setName("item 2");
+		it2.setName("Rekvizit 2");
 		it2.setCreatedBy("Dejan");
-		it2.setFanZone(fz2);
-
-		Item it3 = new Item();
-		it3.setName("item 3");
-		it3.setCreatedBy("Dejan");
-		it3.setFanZone(fz1);
+		it2.setDescription("Opis 2 bla bla");
+		it2.setPrice("1200");
+		
+		
+		
 
 		try {
-
-			fanZoneRepository.save(fz1);
-			fanZoneRepository.save(fz2);
-
+			
 			itemRepository.save(it1);
 			itemRepository.save(it2);
-			itemRepository.save(it3);
 
 		} catch (Exception e) {
 			e.printStackTrace();

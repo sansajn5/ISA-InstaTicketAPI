@@ -62,6 +62,26 @@ public class AdminResource {
 	}
 	
 	
+	@ApiOperation(value = "Removing role to user", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@Transactional
+	@PostMapping("/delete-role/{id}")
+	public void removeRole(@PathVariable("id") Long id) throws SQLException {
+			
+		log.debug("REST request to remove role to user : {}", id);
+		
+		adminService.removeRole(id);
+		
+	}
+	
+	
+	
 	@ApiOperation(value = "Setting place admin role to user", response = AdminRole.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
@@ -97,10 +117,10 @@ public class AdminResource {
 	@PostMapping("/fanZone-admin-role/{id}")
 	public void setFanZoneAdminRole(@RequestBody AdminRoleDTO adminRoleDTO, @PathVariable("id") Long id) throws SQLException {
 		
-		log.debug("REST request to set place admin role to user : {}", adminRoleDTO);
+		log.debug("REST request to set fan zone admin role to user : {}", adminRoleDTO);
 		
 		
-		adminService.setFanZoneAdminRole(adminRoleDTO, id);
+		adminService.setFanZoneAdminRole(id);
 		
 			
 		// dodati response
