@@ -321,25 +321,25 @@ public class DataLoader implements ApplicationRunner {
 		
 	
 		Item it1 = new Item();
-		it1.setName("item 1");
+		it1.setName("Rekvizit 1");
 		it1.setCreatedBy("Dejan");
+		it1.setDescription("Opis opis");
+		it1.setPrice("500");
 		
 
 		Item it2 = new Item();
-		it2.setName("item 2");
+		it2.setName("Rekvizit 2");
 		it2.setCreatedBy("Dejan");
-	
-
-		Item it3 = new Item();
-		it3.setName("item 3");
-		it3.setCreatedBy("Dejan");
+		it2.setDescription("Opis 2 bla bla");
+		it2.setPrice("1200");
+		
+		
 		
 
 		try {
 			
 			itemRepository.save(it1);
 			itemRepository.save(it2);
-			itemRepository.save(it3);
 
 		} catch (Exception e) {
 			e.printStackTrace();
