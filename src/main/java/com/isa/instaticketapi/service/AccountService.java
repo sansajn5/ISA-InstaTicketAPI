@@ -8,7 +8,6 @@ import com.isa.instaticketapi.security.AuthoritiesConstants;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.account.UserDTO;
 import com.isa.instaticketapi.service.util.RandomUtil;
-import com.isa.instaticketapi.web.rest.vm.UserResource.Friend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+
 
 /**
  * Service class for managing account.
@@ -196,4 +196,5 @@ public class AccountService {
             userRepository.delete(user);
         }
     }
+
 }

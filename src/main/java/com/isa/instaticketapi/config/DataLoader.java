@@ -529,7 +529,7 @@ public class DataLoader implements ApplicationRunner {
 		projection1.setHall(hall1);
 		projection1.setEvent(event1);
 		projection1.setReperotry(repertory);
-		//////////////////////
+
 		try {
 			placeRepository.save(place);
 			eventRepository.save(event1);
@@ -547,4 +547,5 @@ public class DataLoader implements ApplicationRunner {
 		log.info("Seeds for projection are completed");
 
 	}
+
 }
