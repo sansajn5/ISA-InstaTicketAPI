@@ -87,7 +87,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/place/cinemas").hasAuthority(AuthoritiesConstants.SUPER_ADMIN)
+                .antMatchers("/api/place/**").permitAll()
                 .antMatchers("/api/hall/**").permitAll()
                 .antMatchers("/api/user/**").permitAll()
                 .antMatchers("/api/projection/**").permitAll()

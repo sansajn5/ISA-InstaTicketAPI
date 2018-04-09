@@ -2,6 +2,8 @@ package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +28,7 @@ import com.isa.instaticketapi.service.dto.Repertory.RepertoryDTO;
 @Service
 @Transactional
 public class RepertoryService {
-
+	
 	@Autowired
 	private RepertotyRepository repertoryRepository;
 
@@ -38,7 +40,7 @@ public class RepertoryService {
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
-
+	
 	/**
 	 * 
 	 * @param repertoryDTO
