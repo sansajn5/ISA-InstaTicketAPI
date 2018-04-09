@@ -65,7 +65,6 @@ public class PlaceResource {
 
 	@GetMapping("/cinemas")
 	public ResponseEntity<CinemaResponse> getCinemas() {
-		log.info(SecurityUtils.getCurrentUserLogin().get().toString());
 		List<Place> cinemas = placeService.getCinemas();
 		return new ResponseEntity<>(new CinemaResponse(cinemas), HttpStatus.OK);
 	}

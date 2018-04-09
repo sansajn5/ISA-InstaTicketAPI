@@ -143,6 +143,13 @@
             <artifactId>guava</artifactId>
             <version>18.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>4.0.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Dependencies for Unit Testing -->
         <dependency>

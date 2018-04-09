@@ -721,6 +721,15 @@ public class DataLoader implements ApplicationRunner {
 		vote1.setPlace(place1);
 		vote1.setVote(4);
 
+		Projection projection1 = new Projection();
+		projection1.setCreatedBy("milica");
+		projection1.setDate("2018-05-15");
+		projection1.setStartTime("18:00");
+		projection1.setEndTime("20:00");
+		projection1.setHall(hall1);
+		projection1.setEvent(event1);
+		projection1.setReperotry(repertory);
+
 		try {
 
 			placeRepository.save(place);
@@ -773,4 +782,5 @@ public class DataLoader implements ApplicationRunner {
 		log.info("Seeds for projection are completed");
 
 	}
+
 }

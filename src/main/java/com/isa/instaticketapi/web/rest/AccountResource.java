@@ -1,7 +1,9 @@
 package com.isa.instaticketapi.web.rest;
 
+import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -43,6 +45,7 @@ import com.isa.instaticketapi.web.rest.vm.AccountResource.JWTTokenResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * REST controller for managing the current user's account.
@@ -77,24 +80,24 @@ public class AccountResource {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Autowired
+	ServletContext servletContext;
+
 	/**
 	 * POST /signup : register new user
 	 *
-	 * @param userDTO
-	 *            object providing information about new user
-	 * @throws HttpStatus
-	 *             400 (Bad Request) if username is already used
-	 * @throws HttpStatus
-	 *             400 (Bad Request) if email is already used
+	 * @param userDTO object providing information about new user
+	 * @throws HttpStatus 400 (Bad Request) if username is already used
+	 * @throws HttpStatus 400 (Bad Request) if email is already used
 	 */
 	@ApiOperation(value = "Registration new user", response = HttpStatus.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created user"),
+	@ApiResponses(value = {@ApiResponse(code = 201, message = "Succesfully created user"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
-			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance")})
 	@Transactional
 	@PostMapping("/sign-up")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -115,18 +118,17 @@ public class AccountResource {
 	/**
 	 * POST /authenticate : Authenticate user
 	 *
-	 * @param loginDTO
-	 *            object providing information required for login
+	 * @param loginDTO object providing information required for login
 	 * @return
 	 */
 	@ApiOperation(value = "Authenticate user", response = JWTTokenResponse.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Succesfully signed in"),
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Succesfully signed in"),
 			@ApiResponse(code = 400, message = "Wrong credentials"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
-			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance")})
 	@PostMapping("/authenticate")
 	public ResponseEntity<JWTTokenResponse> authorize(@Valid @RequestBody LoginDTO loginDTO) {
 		UserDetails details = domainUserDetailsService.loadUserByUsername(loginDTO.getUsername());
@@ -137,23 +139,22 @@ public class AccountResource {
 
 		boolean rememberMe = (loginDTO.isRememberMe() == null) ? false : loginDTO.isRememberMe();
 		String jwt = tokenProvider.generateToken(details);
-		return new ResponseEntity<>(new JWTTokenResponse(jwt,details.getUsername(),details.getAuthorities().toString()), HttpStatus.OK);
+		return new ResponseEntity<>(new JWTTokenResponse(jwt, details.getUsername(), details.getAuthorities().toString()), HttpStatus.OK);
 	}
 
 	/**
 	 * GET /authenticate : check if the user is authenticated, and return its
 	 * login.
 	 *
-	 * @param request
-	 *            the HTTP request
+	 * @param request the HTTP request
 	 * @return the login if the user is authenticated
 	 */
 	@ApiOperation(value = "Check if current user is authenticated", response = String.class)
-	@ApiResponses(value = { @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+	@ApiResponses(value = {@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
-			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance")})
 	@GetMapping("/authenticate")
 	public String isAuthenticated(HttpServletRequest request) {
 		log.debug("REST request to check if the current user is authenticated");
@@ -163,18 +164,16 @@ public class AccountResource {
 	/**
 	 * GET /activate : activate the registered user.
 	 *
-	 * @param key
-	 *            the activation key
-	 * @throws HttpStatus
-	 *             400 (Bad Request) if the user couldn't be activated
+	 * @param key the activation key
+	 * @throws HttpStatus 400 (Bad Request) if the user couldn't be activated
 	 */
 	@ApiOperation(value = "Activate the registered user", response = HttpStatus.class)
-	@ApiResponses(value = { @ApiResponse(code = 400, message = "User couldn't be activated"),
+	@ApiResponses(value = {@ApiResponse(code = 400, message = "User couldn't be activated"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
-			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance")})
 	@GetMapping("/activate")
 	public void activateAccount(@RequestParam(value = "key") String key) {
 		Optional<User> user = accountService.activateRegistration(key);
@@ -187,16 +186,15 @@ public class AccountResource {
 	 * GET /account : get the current user.
 	 *
 	 * @return the current user
-	 * @throws HttpStatus
-	 *             400 (Bad Request) if the user couldn't be returned
+	 * @throws HttpStatus 400 (Bad Request) if the user couldn't be returned
 	 */
 	@ApiOperation(value = "Get the current user", response = HttpStatus.class)
-	@ApiResponses(value = { @ApiResponse(code = 400, message = "User couldn't be returned"),
+	@ApiResponses(value = {@ApiResponse(code = 400, message = "User couldn't be returned"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
-			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance")})
 	@GetMapping("/account")
 	public UserDTO getAccount() {
 		return accountService.getUserWithAuthorities().map(UserDTO::new)
@@ -206,37 +204,36 @@ public class AccountResource {
 	/**
 	 * GET /logout : Logout current user.
 	 *
-	 * @throws HttpStatus
-	 *             400 (Bad Request) if the user couldn't be returned
+	 * @throws HttpStatus 400 (Bad Request) if the user couldn't be returned
 	 */
 	@ApiOperation(value = "Loging out from SecurityContext", response = ResponseEntity.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Succesfully loged out"),
-			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Succesfully loged out"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 	@GetMapping("/logout")
 	public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
-		log.info("logouttt");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		SecurityContextHolder.getContext().setAuthentication(null);
-//		if (auth != null) {
-//			new SecurityContextLogoutHandler().logout(request, response, auth);
-//		}
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	/**
 	 * POST /change-password: Change password via requesting key
-	 * @param key generated key for changing password
+	 *
+	 * @param key               generated key for changing password
 	 * @param changePasswordDTO object with new password
 	 */
 	@ApiOperation(value = "Changing password after email", response = HttpStatus.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Succesfully cnagned password"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-			@ApiResponse(code = 400, message = "Link does not exist or passwords are not same") })
+			@ApiResponse(code = 400, message = "Link does not exist or passwords are not same")})
 	@PostMapping("/change-password")
 	@ResponseStatus(HttpStatus.OK)
 	public void changePassword(@RequestParam(value = "key") String key,
-			@RequestBody ChangePasswordDTO changePasswordDTO) {
+							   @RequestBody ChangePasswordDTO changePasswordDTO) {
 		if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
 			User user = userRepository.findOneByResetKey(key);
 
@@ -256,6 +253,7 @@ public class AccountResource {
 
 	/**
 	 * POST /request-password: Request for forgotten password
+	 *
 	 * @param requestPasswordDTO object with user's email
 	 */
 	@ApiOperation(value = "Requesting new password via email", response = HttpStatus.class)
@@ -267,7 +265,7 @@ public class AccountResource {
 	@ResponseStatus(HttpStatus.OK)
 	public void requestNewPassword(@RequestBody RequestPasswordDTO requestPasswordDTO) {
 		Optional<User> user = accountService.requestPasswordReset(requestPasswordDTO.getEmail());
-		if(!user.isPresent())
+		if (!user.isPresent())
 			throw new IllegalArgumentException("User with that email doesn't exist");
 		mailService.sendPasswordResetMail(user.get());
 	}
@@ -279,11 +277,13 @@ public class AccountResource {
 	})
 	@PostMapping("/delete-account")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteAccount(@RequestBody ChangePasswordDTO changePasswordDTO){
-		if(changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())){
+	public void deleteAccount(@RequestBody ChangePasswordDTO changePasswordDTO) {
+		if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
 			accountService.deleteAccount(changePasswordDTO.getPassword());
-		}else
+		} else
 			throw new IllegalArgumentException("Passwords are not matching");
 	}
 
 }
+
+
