@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.Offer;
 import com.isa.instaticketapi.domain.OfferRequest;
+import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.OfferRepository;
 import com.isa.instaticketapi.repository.OfferRequestRepository;
 import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
@@ -57,7 +59,7 @@ public class FanZoneService {
 		System.out.println("ULOGOVAN " + logged.getUsername()); */
 		
 		
-		item.setCreatedBy("Dejan");
+		item.setCreatedBy("User");
 		
 		item.setName(itemDTO.getName());
 		item.setDescription(itemDTO.getDescription());
@@ -86,23 +88,32 @@ public class FanZoneService {
 	}
 	
 	
-	public Item editItem(ChangeItemDTO itemDTO) throws SQLException {
+	public List<Item> editItem(ChangeItemDTO itemDTO, Long id) throws SQLException {
 		
-		Item item = itemRepository.findOneById(itemDTO.getId());
+		Item item = itemRepository.findOneById(id);
 		
-		if(item == null) {
-			return null;
+		if(item != null) {
+			
+			item.setName(itemDTO.getName());
+			item.setDescription(itemDTO.getDescription());
+			item.setImage(itemDTO.getImage());
+			item.setPrice(itemDTO.getPrice());
+			
+			itemRepository.save(item);
 		}
 		
 		
-		item.setName(itemDTO.getName());
-		item.setDescription(itemDTO.getDescription());
-		item.setImage(itemDTO.getImage());
 		
-		itemRepository.save(item);
 		
+		return itemRepository.findAll();
+		
+	}
+	
+	
+	public Item getItemById(Long id) throws SQLException {
+		
+		Item item = itemRepository.findOneById(id);
 		return item;
-		
 	}
 	
 	
@@ -118,10 +129,10 @@ public class FanZoneService {
 		
 		/*
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		System.out.println("ULOGOVAN " + logged.getUsername()); */
+		System.out.println("ULOGOVAN " + logged.getUsername());  */
 		
 		
-		offer.setCreatedBy("Dejan");
+		offer.setCreatedBy("User");
 		
 		offer.setName(offerDTO.getName());
 		offer.setDescription(offerDTO.getDescription());

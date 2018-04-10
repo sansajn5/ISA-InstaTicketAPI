@@ -106,6 +106,27 @@ public class FanZoneResource {
 	}
 	
 	
+	@ApiOperation(value = "Listing all items from fan zone", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@GetMapping("/item/{id}")
+	public ResponseEntity<ItemResponse> getItem(@PathVariable("id") Long id) throws SQLException {
+		
+		Item item = fanZoneService.getItemById(id);
+		
+		return new ResponseEntity<>(new ItemResponse(item),HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
 	@ApiOperation(value = "Editing existing item", response = AdminRole.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
@@ -114,12 +135,13 @@ public class FanZoneResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@PutMapping("/edit-item")
-	public ResponseEntity<ItemResponse> editItem(@RequestBody ChangeItemDTO itemDto) throws SQLException {
+	@PutMapping("/edit-item/{id}")
+	public ResponseEntity<ItemsResponse> editItem(@PathVariable("id") Long id, @RequestBody ChangeItemDTO itemDto) throws SQLException {
 		
-		Item item = fanZoneService.editItem(itemDto);
 		
-		return new ResponseEntity<>(new ItemResponse(item),HttpStatus.OK);
+		List<Item> items = fanZoneService.editItem(itemDto,id);
+		
+		return new ResponseEntity<>(new ItemsResponse(items),HttpStatus.OK);
 		
 	}
 	
