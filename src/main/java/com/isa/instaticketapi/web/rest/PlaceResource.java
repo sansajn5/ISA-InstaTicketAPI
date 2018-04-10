@@ -24,9 +24,12 @@ import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.PlaceService;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
+import com.isa.instaticketapi.web.rest.vm.VoteForPlaceResponse;
+import com.isa.instaticketapi.web.rest.vm.EventResponse.EventsResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.TheaterResponse;
@@ -135,14 +138,8 @@ public class PlaceResource {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * POST: create-place : create new place by super-admin
-	 * @throws SQLException 
-=======
-	 * POST: create-place : create new place by admin
-	 * 
 	 * @throws SQLException
->>>>>>> e026d391330961b4da4ef317733dbf0c9572803e
 	 * 
 	 */
 	@ApiOperation(value = "Creating new place", response = HttpStatus.class)
@@ -187,9 +184,6 @@ public class PlaceResource {
 		}
 		placeService.deletePlace(id);
 	}
-
-	
-	
 	
 	/**
 	 * 
@@ -197,10 +191,7 @@ public class PlaceResource {
 	 *            id of place
 	 * @return list of event object in place
 	 */
-
-	/*
-	
-	@ApiOperation(value = "Get all Event in Place", response = EventInPlaceResponse.class)
+	@ApiOperation(value = "Get all Event in Place", response = EventsResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -209,16 +200,10 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("{id}/event-in-place")
-	public ResponseEntity<EventInPlaceResponse> getEventsInPlace(@PathVariable("id") Long id) {
+	public ResponseEntity<EventsResponse> getEventsInPlace(@PathVariable("id") Long id) {
 		ArrayList<Event> events = placeService.getEventsInPlace(id);
-		return new ResponseEntity<>(new EventInPlaceResponse(events), HttpStatus.OK);
+		return new ResponseEntity<>(new EventsResponse(events), HttpStatus.OK);
 	}
-
-	
-	*/
-	
-
-
 
 	/**
 	 * 
@@ -236,17 +221,6 @@ public class PlaceResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
-
-	@DeleteMapping("/Place/{id}")
-	public void deleteProjection(@PathVariable("id") Long id) {
-		if (placeService.deletePlace(id) == null) {
-			throw new IllegalArgumentException("Invalid id!");
-		}
-		placeService.deletePlace(id);
-	}
-	
-	
 	
 
 	@GetMapping("/{id}/repertories")
@@ -256,6 +230,25 @@ public class PlaceResource {
 		}
 		ArrayList<Repertory> reprtories = placeService.getRepertoriesInPlace(id);
 		return new ResponseEntity<>(new RepertoryResponse(reprtories), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Get all vote for Place", response = RepertoryResponse.class)
+
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	
+
+	@GetMapping("/{id}/vote")
+	public ResponseEntity<VoteForPlaceResponse> getVoteForPlace(@PathVariable("id") Long id) {
+		if (placeRepository.findOneById(id) == null) {
+			throw new IllegalArgumentException("Invalid id !");
+		}
+		int vote = placeService.getVoteForPlace(id);
+		return new ResponseEntity<>(new VoteForPlaceResponse(vote), HttpStatus.OK);
 	}
 
 }

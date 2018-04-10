@@ -63,8 +63,8 @@ public class UserResource {
 
     @MessageMapping("/send-friend-request")
     public void sendFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO){
-        Object object = null;
-        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",object);
+        User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",logged.getEmail());
     }
 
     @MessageMapping("/accept-friend-request")
@@ -74,10 +74,9 @@ public class UserResource {
     }
 
     @MessageMapping("/delete-friend-request")
-    @SendTo("/friend-request/delete")
     public void deleteFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO) {
         Object object = null;
-        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",object);
+        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/delete",object);
     }
 
     @MessageMapping("/decline-friend-request")

@@ -12,4 +12,5 @@ public class BeanHandler {
     public TaskScheduler taskScheduler() {
         return new ConcurrentTaskScheduler();
     }
+
 }

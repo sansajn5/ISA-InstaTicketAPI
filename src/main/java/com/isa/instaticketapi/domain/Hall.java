@@ -1,4 +1,4 @@
-package com.isa.instaticketapi.domain;
+		package com.isa.instaticketapi.domain;
 
 import java.io.Serializable;
 

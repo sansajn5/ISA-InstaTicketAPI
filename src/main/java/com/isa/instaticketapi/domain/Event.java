@@ -30,7 +30,7 @@ public class Event extends AbstractAuditingEntity implements Serializable {
 
 	@NotNull
 	@Size(min = 1, max = 60)
-	@Column(name = "name", length = 60, unique = true)
+	@Column(name = "name", length = 60)
 	private String name;
 
 	@Size(max = 5000)
