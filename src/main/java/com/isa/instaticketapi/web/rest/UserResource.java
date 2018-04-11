@@ -61,10 +61,9 @@ public class UserResource {
         return new ResponseEntity<>(friendsResponse, HttpStatus.OK);
     }
 
-    @MessageMapping("/send-friend-request")
+    @PostMapping("/send-friend-request")
     public void sendFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO){
-        User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-        messageSendingOperations.convertAndSendToUser(friendRequestDTO.getEmail(),"/friend-request/send",logged.getEmail());
+
     }
 
     @MessageMapping("/accept-friend-request")
