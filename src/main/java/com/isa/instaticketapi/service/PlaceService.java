@@ -17,12 +17,14 @@ import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.domain.VoteForPlace;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.repository.VoteForPlaceRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
@@ -55,6 +57,9 @@ public class PlaceService {
 
 	@Autowired
 	private RepertotyRepository repertoryRepository;
+
+	@Autowired
+	private VoteForPlaceRepository voteForPlaceRepository;
 
 	/**
 	 * 
@@ -111,7 +116,7 @@ public class PlaceService {
 		Place place = new Place();
 
 		place.setName(placeDTO.getName());
-		place.setAddress(place.getAddress());
+		place.setAddress(placeDTO.getAddress());
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		place.setCreatedBy(logged.getUsername());
 		place.setDescripton(placeDTO.getDescription());
@@ -119,11 +124,7 @@ public class PlaceService {
 
 		placeRepository.save(place); // maybe error - unique name
 
-		
-			
 	}
-	
-
 
 	/**
 	 * Deleting place from database
@@ -184,5 +185,19 @@ public class PlaceService {
 		return repertoryRepository.findAllByPlace(place);
 	}
 
+	public int getVoteForPlace(Long id) {
+
+		int voteSum = 0;
+		int vote = 0;
+		ArrayList<VoteForPlace> votes = voteForPlaceRepository.findAllByPlace(placeRepository.findOneById(id));
+		for (int i = 0; i < votes.size(); i++) {
+			voteSum += votes.get(i).getVote();
+		}
+		if(votes.isEmpty()){
+			return vote;
+		}
+		vote = voteSum / votes.size();
+		return vote;
+	}
 
 }

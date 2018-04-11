@@ -4,13 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.isa.instaticketapi.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +24,11 @@ import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.PlaceService;
 import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
+import com.isa.instaticketapi.web.rest.vm.VoteForPlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.EventResponse.EventsResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.PlaceResponse;
@@ -221,15 +221,6 @@ public class PlaceResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-
-
-	@DeleteMapping("/Place/{id}")
-	public void deleteProjection(@PathVariable("id") Long id) {
-		if (placeService.deletePlace(id) == null) {
-			throw new IllegalArgumentException("Invalid id!");
-		}
-		placeService.deletePlace(id);
-	}
 	
 
 	@GetMapping("/{id}/repertories")
@@ -239,6 +230,25 @@ public class PlaceResource {
 		}
 		ArrayList<Repertory> reprtories = placeService.getRepertoriesInPlace(id);
 		return new ResponseEntity<>(new RepertoryResponse(reprtories), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Get all vote for Place", response = RepertoryResponse.class)
+
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	
+
+	@GetMapping("/{id}/vote")
+	public ResponseEntity<VoteForPlaceResponse> getVoteForPlace(@PathVariable("id") Long id) {
+		if (placeRepository.findOneById(id) == null) {
+			throw new IllegalArgumentException("Invalid id !");
+		}
+		int vote = placeService.getVoteForPlace(id);
+		return new ResponseEntity<>(new VoteForPlaceResponse(vote), HttpStatus.OK);
 	}
 
 }

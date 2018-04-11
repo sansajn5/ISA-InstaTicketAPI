@@ -2,6 +2,8 @@ package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
 @Service
 @Transactional
 public class ProjectionService {
+
+	private final Logger log = LoggerFactory.getLogger(ProjectionService.class);
 
 	@Autowired
 	private HallRepository hallRepository;
@@ -62,11 +66,14 @@ public class ProjectionService {
 			Place placeRepertory = (repertories.get(i)).getPlace();
 			if (placeRepertory.equals(hall.getPlace())) {
 				flag = true;
+				
 				r = repertories.get(i);
 				projection.setReperotry(repertories.get(i));
+				projection.setDate(repertories.get(i).getDate());
 				break;
 			}
 		}
+		
 		if (repertories.isEmpty() || flag == false) {
 			Repertory reprtory1 = new Repertory();
 			reprtory1.setDate(projectionDTO.getDate());
@@ -81,6 +88,7 @@ public class ProjectionService {
 			repertoryRepository.save(reprtory1);
 			r = reprtory1;
 			projection.setReperotry(reprtory1);
+			//projection.setDate(reprtory1.getDate());
 
 		}
 		ArrayList<Projection> projections = projectionRepository.findAll();
@@ -103,7 +111,7 @@ public class ProjectionService {
 		projection.setEvent(event);
 
 		// VALIDACIJA ZA POCETNO I KRAJNJE VREME
-		projection.setDate(projectionDTO.getDate());
+		//projection.setDate(projectionDTO.getDate());
 		projection.setStartTime(projectionDTO.getStartTime());
 		projection.setEndTime(projectionDTO.getEndTime());
 		projectionRepository.save(projection);
