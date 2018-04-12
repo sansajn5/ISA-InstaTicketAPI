@@ -8,6 +8,15 @@ public class ChangeItemDTO {
 	
 	private String description;
 	
+	private String price;
+	
+	
+
+
+
+
+
+
 	private String image;
 	
 	
@@ -19,11 +28,12 @@ public class ChangeItemDTO {
 	
 	
 	
-	public ChangeItemDTO(String name, String description, String image) {
+	public ChangeItemDTO(String name, String description, String image, String price) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.image = image;
+		this.price = price;
 	}
 
 
@@ -89,7 +99,17 @@ public class ChangeItemDTO {
 	}
 
 
+	public String getPrice() {
+		return price;
+	}
 
+
+
+
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
 
 
 
