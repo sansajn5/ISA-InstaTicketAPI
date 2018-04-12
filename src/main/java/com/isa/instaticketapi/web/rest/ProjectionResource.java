@@ -44,10 +44,10 @@ public class ProjectionResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping("{id}/projection")
-	public void createProjection(@RequestBody ProjectionDTO projectionDTO, @PathVariable("id") Long id) {
+	@PostMapping("/{id}/projection")
+	public void createProjection(@RequestBody ProjectionDTO projectionDTO,@PathVariable("id") Long id) {
 		log.debug("REST request to create Projection : {}", projectionDTO);
-		projectionService.createProjection(projectionDTO, id);
+		projectionService.createProjection(projectionDTO,id);
 	}
 
 	/**

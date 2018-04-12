@@ -94,7 +94,7 @@ public class PlaceService {
 	 *            id of object
 	 */
 
-	public Place changePlace(ChangePlaceDTO changePlaceDTO, long id) {
+	public Place changePlace(PlaceDTO placeDTO, long id) {
 		Place place = placeRepository.findOneById(id);
 		if (place == null) {
 			return null;
@@ -102,10 +102,10 @@ public class PlaceService {
 
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		place.setLastModifiedBy(logged.getUsername());
-		place.setName(changePlaceDTO.getName());
-		place.setAddress(changePlaceDTO.getAddress());
-		place.setDescripton(changePlaceDTO.getDescripton());
-		place.setType(changePlaceDTO.getType());
+		place.setName(placeDTO.getName());
+		place.setAddress(placeDTO.getAddress());
+		place.setDescripton(placeDTO.getDescription());
+		place.setType(placeDTO.getType());
 		placeRepository.save(place);
 		return place;
 

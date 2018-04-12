@@ -612,27 +612,27 @@ public class DataLoader implements ApplicationRunner {
 
 		Repertory repertory = new Repertory();
 		repertory.setCreatedBy("milica");
-		repertory.setDate("23-04-2018");
+		repertory.setDate("23-4-2018");
 		repertory.setPlace(place);
 
 		Repertory repertory1 = new Repertory();
 		repertory1.setCreatedBy("milica");
-		repertory1.setDate("24-04-2018");
+		repertory1.setDate("24-4-2018");
 		repertory1.setPlace(place);
 
 		Repertory repertory2 = new Repertory();
 		repertory2.setCreatedBy("milica");
-		repertory2.setDate("23-04-2018");
+		repertory2.setDate("23-4-2018");
 		repertory2.setPlace(place1);
 
 		Repertory repertory3 = new Repertory();
 		repertory3.setCreatedBy("milica");
-		repertory3.setDate("24-04-2018");
+		repertory3.setDate("24-4-2018");
 		repertory3.setPlace(place2);
 
 		Repertory repertory4 = new Repertory();
 		repertory4.setCreatedBy("milica");
-		repertory4.setDate("25-04-2018");
+		repertory4.setDate("25-4-2018");
 		repertory4.setPlace(place2);
 
 		Projection projection = new Projection();
@@ -720,6 +720,11 @@ public class DataLoader implements ApplicationRunner {
 		vote1.setUser(comi);
 		vote1.setPlace(place1);
 		vote1.setVote(4);
+		
+		VoteForPlace vote2 = new VoteForPlace();
+		vote2.setUser(comi);
+		vote2.setPlace(place1);
+		vote2.setVote(3);
 
 		Projection projection1 = new Projection();
 		projection1.setCreatedBy("milica");
@@ -773,6 +778,7 @@ public class DataLoader implements ApplicationRunner {
 
 			userRepository.save(comi);
 			voteForPlaceRepository.save(vote1);
+			voteForPlaceRepository.save(vote2);
 			log.info("Starting seed for projection");
 
 		} catch (Exception e) {

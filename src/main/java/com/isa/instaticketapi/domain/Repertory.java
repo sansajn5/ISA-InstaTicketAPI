@@ -30,7 +30,6 @@ public class Repertory extends AbstractAuditingEntity implements Serializable {
 	private Long id;
 
 	@NotNull
-	@Size(min = 10, max = 10)
 	@Column(name = "date", length = 10)
 	private String date;
 
