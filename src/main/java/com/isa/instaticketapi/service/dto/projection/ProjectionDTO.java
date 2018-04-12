@@ -3,6 +3,7 @@ package com.isa.instaticketapi.service.dto.projection;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class ProjectionDTO {
 
@@ -21,6 +22,16 @@ public class ProjectionDTO {
 	private String hallName;
 
 	private String date;
+
+	private List<SeatDTO> seatDTO;
+
+	private int regularPrice;
+
+	private int vipPrice;
+
+	private int balconyPrice;
+
+	private int salePercentage;
 
 	public ProjectionDTO() {
 		super();
@@ -85,4 +96,43 @@ public class ProjectionDTO {
 		this.hallName = hallName;
 	}
 
+	public List<SeatDTO> getSeatDTO() {
+		return seatDTO;
+	}
+
+	public void setSeatDTO(List<SeatDTO> seatDTO) {
+		this.seatDTO = seatDTO;
+	}
+
+	public int getRegularPrice() {
+		return regularPrice;
+	}
+
+	public void setRegularPrice(int regularPrice) {
+		this.regularPrice = regularPrice;
+	}
+
+	public int getVipPrice() {
+		return vipPrice;
+	}
+
+	public void setVipPrice(int vipPrice) {
+		this.vipPrice = vipPrice;
+	}
+
+	public int getBalconyPrice() {
+		return balconyPrice;
+	}
+
+	public void setBalconyPrice(int balconyPrice) {
+		this.balconyPrice = balconyPrice;
+	}
+
+	public int getSalePercentage() {
+		return salePercentage;
+	}
+
+	public void setSalePercentage(int salePercentage) {
+		this.salePercentage = salePercentage;
+	}
 }

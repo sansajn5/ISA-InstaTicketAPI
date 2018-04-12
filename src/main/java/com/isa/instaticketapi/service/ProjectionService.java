@@ -1,25 +1,19 @@
 package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import com.isa.instaticketapi.config.Constants;
+import com.isa.instaticketapi.domain.*;
+import com.isa.instaticketapi.repository.*;
+import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isa.instaticketapi.domain.Event;
-import com.isa.instaticketapi.domain.Hall;
-import com.isa.instaticketapi.domain.Place;
-import com.isa.instaticketapi.domain.Projection;
-import com.isa.instaticketapi.domain.Repertory;
-import com.isa.instaticketapi.domain.User;
-import com.isa.instaticketapi.repository.EventRepository;
-import com.isa.instaticketapi.repository.HallRepository;
-import com.isa.instaticketapi.repository.PlaceRepository;
-import com.isa.instaticketapi.repository.ProjectionRepository;
-import com.isa.instaticketapi.repository.RepertotyRepository;
-import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
 
@@ -52,6 +46,9 @@ public class ProjectionService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private SeatRepository seatRepository;
 
 	public void createProjection(ProjectionDTO projectionDTO, Long id) {
 		Projection projection = new Projection();
@@ -123,7 +120,34 @@ public class ProjectionService {
 		// =SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		// projection.setCreatedBy(logged.getUsername());
 
+		projection.setRegularPrice(projectionDTO.getRegularPrice());
+		projection.setVipPrice(projectionDTO.getVipPrice());
+		projection.setBalconyPrice(projectionDTO.getBalconyPrice());
+		projection.setQuickTicketPrice( projectionDTO.getRegularPrice() * (projectionDTO.getSalePercentage() / 100 ));
+
 		projectionRepository.save(projection);
+
+		for (int i = 1; i <= h.getRow(); i++) {
+			for (int j = 1; j < h.getCol(); j++) {
+				Seat seatForProjection = new Seat();
+				seatForProjection.setCordX(i);
+				seatForProjection.setCordY(j);
+				seatForProjection.setProjection(projection);
+				seatForProjection.setHall(h);
+				seatForProjection.setReserved(false);
+				seatForProjection.setSeat(true);
+				seatForProjection.setSeatType(Constants.REGULAR_SEAT);
+				seatRepository.save(seatForProjection);
+			}
+		}
+
+		for (SeatDTO seat : projectionDTO.getSeatDTO()) {
+			Seat tempSeat = seatRepository.findOneByCordXAndCordYAndProjection(seat.getCordX(), seat.getCordY(), projection);
+			tempSeat.setSeatType(seat.getType());
+			tempSeat.setSeat(seat.isSeat());
+			seatRepository.save(tempSeat);
+		}
+
 
 	}
 

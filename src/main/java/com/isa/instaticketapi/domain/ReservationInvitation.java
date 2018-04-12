@@ -30,7 +30,7 @@ public class ReservationInvitation implements Serializable {
     @Column(name = "isDeleted")
     private Boolean isDeleted;
 
-    @Column(name = "reservation_id")
+    @ManyToOne
     private Reservation reservation;
 
     public ReservationInvitation() {

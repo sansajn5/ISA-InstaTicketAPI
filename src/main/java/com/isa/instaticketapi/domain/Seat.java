@@ -22,6 +22,11 @@ public class Seat implements Serializable {
 
     private String seatType;
 
+    @OneToOne
+    private Projection projection;
+
+    private boolean isReserved;
+
     public Seat() {
 
     }
@@ -72,5 +77,21 @@ public class Seat implements Serializable {
 
     public void setSeatType(String seatType) {
         this.seatType = seatType;
+    }
+
+    public Projection getProjection() {
+        return projection;
+    }
+
+    public void setProjection(Projection projection) {
+        this.projection = projection;
+    }
+
+    public boolean isReserved() {
+        return isReserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        isReserved = reserved;
     }
 }

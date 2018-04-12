@@ -42,9 +42,6 @@ public class ReservationService {
     SeatRepository seatRepository;
 
     @Autowired
-    SeatReservationRepository seatReservationRepository;
-
-    @Autowired
     TicketRepository ticketRepository;
 
     public void createReservation(List<String> invitations, List<Integer[]> seats,Long projectionId) {
@@ -63,36 +60,35 @@ public class ReservationService {
             throw new IllegalArgumentException("Projection with provided id doesn't exsist");
 
         reservation.setProjection(projection);
-        Hall hall = projection.getHall();
-        List<Seat> seatsInHall  = seatRepository.findAllByHall(hall);
 
         for (Integer[] seat : seats) {
-            for (Seat seatInHall : seatsInHall) {
-                if (seatInHall.getCordX() == seat[0] && seatInHall.getCordY() == seat[1]) {
-                    if (!seatInHall.isSeat())
-                        throw new IllegalArgumentException("Seat doesn't exist at provided position");
+            Seat seatInHall = seatRepository.findOneByCordXAndCordYAndProjection(seat[0],seat[1],projection);
+            if (!seatInHall.isSeat())
+                throw new IllegalArgumentException("Seat doesn't exist at provided position");
 
-                    SeatReservation seatState = seatReservationRepository.findOneByProjectionAndSeat(projection,seatInHall);
+            if(seatInHall.isReserved())
+                throw new IllegalArgumentException("Seat is already reserved");
 
-                    if(seatState.isReserved())
-                        throw new IllegalArgumentException("Seat is already reserved");
+            Ticket ticket = createTicket(seatInHall,reservation);
+            tickets.add(ticket);
+            seatInHall.setReserved(true);
+            seatInHall.setProjection(projection);
+            seatRepository.save(seatInHall);
 
-                    Ticket ticket = createTicket(seatInHall,reservation);
-                    tickets.add(ticket);
-                    seatState.setReserved(true);
-                    seatState.setProjection(projection);
-                    seatReservationRepository.save(seatState);
-                }
-            }
         }
         reservationRepository.save(reservation);
     }
 
     public Ticket createTicket(Seat seat, Reservation reservation) {
         Ticket ticket = new Ticket();
-        if(seat.getSeatType() == Constants.VIP_SEAT)
+        if(seat.getSeatType() == Constants.VIP_SEAT) {
             ticket.setTickeyType(Constants.VIP_TICKET);
-        ticket.setTickeyType(Constants.REGULAR_TICKET);
+            //price
+        } else if (seat.getSeatType() == Constants.BALCONY_TICKET) {
+            ticket.setTickeyType(Constants.BALCONY_SEAT);
+        } else if (seat.getSeatType() == Constants.REGULAR_SEAT) {
+            ticket.setTickeyType(Constants.REGULAR_TICKET);
+        }
         ticket.setSeat(seat);
         ticket.setReservation(reservation);
         return ticketRepository.save(ticket);
