@@ -1,3 +1,4 @@
+
 package com.isa.instaticketapi.service.dto.projection;
 
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,9 @@ public class ProjectionDTO {
 	@Size(min = 5, max = 5)
 	private String endTime;
 
-	private String event;
+	private String eventName;
+
+	private String hallName;
 
 	private String date;
 
@@ -24,12 +27,21 @@ public class ProjectionDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProjectionDTO(Long id, String startTime, String endTime, String event, String date) {
+	public ProjectionDTO(Long id, String startTime, String endTime, String eventName, String hallName, String date) {
 		super();
 		this.id = id;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.event = event;
+		this.eventName = eventName;
+		this.hallName = hallName;
+		this.date = date;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -57,20 +69,20 @@ public class ProjectionDTO {
 		this.endTime = endTime;
 	}
 
-	public String getEvent() {
-		return event;
+	public String getEventName() {
+		return eventName;
 	}
 
-	public void setEvent(String event) {
-		this.event = event;
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
-	public String getDate() {
-		return date;
+	public String getHallName() {
+		return hallName;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setHallName(String hallName) {
+		this.hallName = hallName;
 	}
 
 }

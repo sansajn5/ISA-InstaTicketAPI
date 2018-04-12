@@ -29,9 +29,7 @@ public class VoteForPlace implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-
-	@Size(min = 1, max = 1)
-	@Column(name = "vote", length = 1)
+	@Column(name = "vote")
 	private int vote;
 
 	@ManyToOne(fetch = FetchType.EAGER)

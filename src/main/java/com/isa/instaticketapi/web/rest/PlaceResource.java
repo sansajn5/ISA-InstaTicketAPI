@@ -130,11 +130,11 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@PutMapping("/place/{id}")
-	public void editPlace(@RequestBody ChangePlaceDTO changePlaceDTO, @PathVariable("id") Long id) {
-		if (placeService.changePlace(changePlaceDTO, id) == null) {
+	public void editPlace(@RequestBody PlaceDTO placeDTO, @PathVariable("id") Long id) {
+		if (placeService.changePlace(placeDTO, id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
 		}
-		placeService.changePlace(changePlaceDTO, id);
+		placeService.changePlace(placeDTO, id);
 	}
 
 	/**
