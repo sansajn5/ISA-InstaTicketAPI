@@ -12,11 +12,9 @@ public class ReservationState implements Serializable {
     private Long id;
 
     @ManyToOne
-    @Column(name = "reservatio_id")
     private Reservation reservation;
 
     @ManyToOne
-    @Column(name = "user_id")
     private User userIncludedInReservation;
 
     @Column(name = "drop_out")

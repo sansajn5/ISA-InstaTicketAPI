@@ -54,7 +54,7 @@ public class ReservationService {
             ReservationInvitation reservationInvitation = new ReservationInvitation();
             reservationInvitation.setToUser(invitedUser);
             reservationInvitation.setFromUser(logged.get());
-            reservationInvitationRepository.save(reservationInvitationRepository);
+            reservationInvitationRepository.save(reservationInvitation);
         });
         Reservation reservation = new Reservation();
         List<Ticket> tickets = new ArrayList<>();
