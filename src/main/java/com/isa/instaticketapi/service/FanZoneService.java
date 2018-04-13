@@ -127,9 +127,7 @@ public class FanZoneService {
 		
 		Offer offer = new Offer();
 		
-		/*
-		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		System.out.println("ULOGOVAN " + logged.getUsername());  */
+		
 		
 		
 		offer.setCreatedBy("User");
@@ -137,13 +135,11 @@ public class FanZoneService {
 		offer.setName(offerDTO.getName());
 		offer.setDescription(offerDTO.getDescription());
 		offer.setImage(offerDTO.getImage());
+		offer.setStartPrice(offerDTO.getStartPrice());
+		offer.setEndDate(offerDTO.getEndDate());
 		
 		offerRepository.save(offer);
 		
-		OfferRequest offerRequest = new OfferRequest();
-		offerRequest.setOffer(offer);
-		offerRequest.setCreatedBy("User");
-		offerRequestRepository.save(offerRequest);
 		
 		
 		
