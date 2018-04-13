@@ -11,21 +11,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.service.VoteForPlaceService;
+import com.isa.instaticketapi.service.VoteForEventService;
 import com.isa.instaticketapi.service.dto.places.VoteForPlaceDTO;
+import com.isa.instaticketapi.service.dto.projection.VoteForEventDTO;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/vote-for-place")
-public class VoteForPlaceResource {
-
+@RequestMapping("/api/vote-for-event")
+public class VoteForEventResource {
 	@Autowired
-	private VoteForPlaceService voteForPlaceService;
+	private VoteForEventService voteForEventService;
 
-	@ApiOperation(value = "Creating new vote for place", response = HttpStatus.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created vote for place"),
+	@ApiOperation(value = "Creating new vote for event", response = HttpStatus.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created vote for projection"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -34,13 +35,13 @@ public class VoteForPlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/vote")
-	public void createVote(@RequestBody VoteForPlaceDTO voteForPlaceDTO) {
+	public void createVote(@RequestBody VoteForEventDTO voteForEventDTO) {
 
-		voteForPlaceService.createVote(voteForPlaceDTO);
+		voteForEventService.createVote(voteForEventDTO);
 
 	}
 
-	@ApiOperation(value = "Check if he voted for place", response = HttpStatus.class)
+	@ApiOperation(value = "Check if he voted for event", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -50,7 +51,7 @@ public class VoteForPlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@GetMapping("/check-vote/{id}")
 	public boolean checkIfHeVoted(@PathVariable("id") Long id) {
-		return voteForPlaceService.checkIfHeVoted(id);
+		return voteForEventService.checkIfHeVoted(id);
 	}
 
 }

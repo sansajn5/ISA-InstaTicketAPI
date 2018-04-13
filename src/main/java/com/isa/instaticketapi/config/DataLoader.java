@@ -22,6 +22,7 @@ import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForPlace;
+import com.isa.instaticketapi.domain.VoteForEvent;
 import com.isa.instaticketapi.repository.AuthorityRepository;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.FriendsRepository;
@@ -33,9 +34,8 @@ import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForPlaceRepository;
+import com.isa.instaticketapi.repository.VoteForEventRepository;
 import com.isa.instaticketapi.security.AuthoritiesConstants;
-
-
 
 /**
  * Class for making initial seed data
@@ -74,12 +74,15 @@ public class DataLoader implements ApplicationRunner {
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
-	
+
 	@Autowired
 	private VoteForPlaceRepository voteForPlaceRepository;
-	
+
 	@Autowired
 	private SeatRepository seatRepository;
+
+	@Autowired
+	private VoteForEventRepository voteForProjectionRepository;
 
 	private final Logger log = LoggerFactory.getLogger(DataLoader.class);
 
@@ -676,7 +679,7 @@ public class DataLoader implements ApplicationRunner {
 		projection4.setEvent(event5);
 		projection4.setDate(repertory1.getDate());
 		projection4.setSale(20);
-		projection4.setRegularPrice(470);
+		projection4.setRegularPrice(500);
 
 		Projection projection5 = new Projection();
 		projection5.setCreatedBy("milica");
@@ -686,6 +689,8 @@ public class DataLoader implements ApplicationRunner {
 		projection5.setHall(hall4);
 		projection5.setEvent(event3);
 		projection5.setDate(repertory2.getDate());
+		projection5.setSale(20);
+		projection5.setRegularPrice(500);
 
 		Projection projection6 = new Projection();
 		projection6.setCreatedBy("milica");
@@ -727,12 +732,42 @@ public class DataLoader implements ApplicationRunner {
 		vote1.setUser(comi);
 		vote1.setPlace(place1);
 		vote1.setVote(4);
-		
+
 		VoteForPlace vote2 = new VoteForPlace();
 		vote2.setUser(comi);
 		vote2.setPlace(place1);
 		vote2.setVote(2);
-		
+
+		VoteForPlace vote3 = new VoteForPlace();
+		vote3.setUser(comi);
+		vote3.setPlace(place);
+		vote3.setVote(5);
+
+		VoteForEvent v1 = new VoteForEvent();
+		v1.setUser(comi);
+		v1.setEvent(event1);
+		v1.setVote(3);
+
+		VoteForEvent v2 = new VoteForEvent();
+		v2.setUser(comi);
+		v2.setEvent(event1);
+		v2.setVote(3);
+
+		VoteForEvent v3 = new VoteForEvent();
+		v3.setUser(comi);
+		v3.setEvent(event3);
+		v3.setVote(5);
+
+		VoteForEvent v4 = new VoteForEvent();
+		v4.setUser(comi);
+		v4.setEvent(event2);
+		v4.setVote(4);
+
+		VoteForEvent v5 = new VoteForEvent();
+		v5.setUser(comi);
+		v5.setEvent(event6);
+		v5.setVote(4);
+
 		Seat seat1 = new Seat();
 		seat1.setHall(hall1);
 		seat1.setCordX(1);
@@ -741,7 +776,6 @@ public class DataLoader implements ApplicationRunner {
 		seat1.setReserved(false);
 		seat1.setSeat(true);
 		seat1.setSeatType("Brza rezervacija");
-		
 
 		Seat seat2 = new Seat();
 		seat2.setHall(hall1);
@@ -751,7 +785,7 @@ public class DataLoader implements ApplicationRunner {
 		seat2.setReserved(true);
 		seat2.setSeat(true);
 		seat2.setSeatType("Brza rezervacija");
-		
+
 		Seat seat3 = new Seat();
 		seat3.setHall(hall3);
 		seat3.setCordX(5);
@@ -760,6 +794,15 @@ public class DataLoader implements ApplicationRunner {
 		seat3.setReserved(false);
 		seat3.setSeat(true);
 		seat3.setSeatType("Brza rezervacija");
+
+		Seat seat4 = new Seat();
+		seat4.setHall(hall4);
+		seat4.setCordX(4);
+		seat4.setCordY(4);
+		seat4.setProjection(projection5);
+		seat4.setReserved(false);
+		seat4.setSeat(true);
+		seat4.setSeatType("Brza rezervacija");
 
 		try {
 
@@ -805,9 +848,18 @@ public class DataLoader implements ApplicationRunner {
 			userRepository.save(comi);
 			voteForPlaceRepository.save(vote1);
 			voteForPlaceRepository.save(vote2);
+			voteForPlaceRepository.save(vote3);
+
+			voteForProjectionRepository.save(v1);
+			voteForProjectionRepository.save(v2);
+			voteForProjectionRepository.save(v3);
+			voteForProjectionRepository.save(v4);
+			voteForProjectionRepository.save(v5);
+
 			seatRepository.save(seat1);
 			seatRepository.save(seat2);
 			seatRepository.save(seat3);
+			seatRepository.save(seat4);
 			log.info("Starting seed for projection");
 
 		} catch (Exception e) {

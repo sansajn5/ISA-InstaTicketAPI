@@ -1,21 +1,32 @@
 package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-import com.isa.instaticketapi.config.Constants;
-import com.isa.instaticketapi.domain.*;
-import com.isa.instaticketapi.repository.*;
-import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isa.instaticketapi.security.SecurityUtils;
+import com.isa.instaticketapi.config.Constants;
+import com.isa.instaticketapi.domain.Event;
+import com.isa.instaticketapi.domain.Hall;
+import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Repertory;
+import com.isa.instaticketapi.domain.Seat;
+import com.isa.instaticketapi.domain.VoteForPlace;
+import com.isa.instaticketapi.domain.VoteForEvent;
+import com.isa.instaticketapi.repository.EventRepository;
+import com.isa.instaticketapi.repository.HallRepository;
+import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.RepertotyRepository;
+import com.isa.instaticketapi.repository.SeatRepository;
+import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.repository.VoteForEventRepository;
 import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
+import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 
 /**
  * Service for managing projection
@@ -49,6 +60,9 @@ public class ProjectionService {
 
 	@Autowired
 	private SeatRepository seatRepository;
+
+	@Autowired
+	private VoteForEventRepository voteForEventRepository;
 
 	public void createProjection(ProjectionDTO projectionDTO, Long id) {
 		Projection projection = new Projection();
@@ -123,7 +137,7 @@ public class ProjectionService {
 		projection.setRegularPrice(projectionDTO.getRegularPrice());
 		projection.setVipPrice(projectionDTO.getVipPrice());
 		projection.setBalconyPrice(projectionDTO.getBalconyPrice());
-		projection.setQuickTicketPrice( projectionDTO.getRegularPrice() * (projectionDTO.getSalePercentage() / 100 ));
+		projection.setQuickTicketPrice(projectionDTO.getRegularPrice() * (projectionDTO.getSalePercentage() / 100));
 
 		projectionRepository.save(projection);
 
@@ -142,12 +156,12 @@ public class ProjectionService {
 		}
 
 		for (SeatDTO seat : projectionDTO.getSeatDTO()) {
-			Seat tempSeat = seatRepository.findOneByCordXAndCordYAndProjection(seat.getCordX(), seat.getCordY(), projection);
+			Seat tempSeat = seatRepository.findOneByCordXAndCordYAndProjection(seat.getCordX(), seat.getCordY(),
+					projection);
 			tempSeat.setSeatType(seat.getType());
 			tempSeat.setSeat(seat.isSeat());
 			seatRepository.save(tempSeat);
 		}
-
 
 	}
 
@@ -168,5 +182,23 @@ public class ProjectionService {
 	 */
 	public Projection getProjection(Long id) {
 		return projectionRepository.findOneById(id);
+	}
+
+	public int getVoteForEvent(Long id) {
+
+		Projection projection = projectionRepository.findOneById(id);
+		Event event= projection.getEvent();
+		int voteSum = 0;
+		int vote = 0;
+		ArrayList<VoteForEvent> votes = voteForEventRepository
+				.findAllByEvent(event);
+		for (int i = 0; i < votes.size(); i++) {
+			voteSum += votes.get(i).getVote();
+		}
+		if (votes.isEmpty()) {
+			return vote;
+		}
+		vote = voteSum / votes.size();
+		return vote;
 	}
 }

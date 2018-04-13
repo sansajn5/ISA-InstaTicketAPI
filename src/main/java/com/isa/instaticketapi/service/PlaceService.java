@@ -189,6 +189,12 @@ public class PlaceService {
 		return repertoryRepository.findAllByPlace(place);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return vote for place
+	 */
 	public int getVoteForPlace(Long id) {
 
 		int voteSum = 0;
@@ -204,6 +210,11 @@ public class PlaceService {
 		return vote;
 	}
 
+	/**
+	 * 
+	 * @param id id of place
+	 * @return list of seat object
+	 */
 	public ArrayList<Seat> getQuickSeats(Long id) {
 		Place place = placeRepository.findOneById(id);
 		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);

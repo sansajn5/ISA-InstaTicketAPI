@@ -231,6 +231,11 @@ public class PlaceResource {
 		return new ResponseEntity<>(new RepertoryResponse(reprtories), HttpStatus.OK);
 	}
 
+	/**
+	 * 
+	 * @param id id of place 
+	 * @return place vote
+	 */
 	@ApiOperation(value = "Get all vote for Place", response = RepertoryResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -275,7 +280,8 @@ public class PlaceResource {
 
 	/**
 	 * 
-	 * @param id id of seat for quick reservation
+	 * @param id
+	 *            id of seat for quick reservation
 	 */
 	@ApiOperation(value = "Reservation for  quick seats for Place", response = QuickSeatrsResponse.class)
 
