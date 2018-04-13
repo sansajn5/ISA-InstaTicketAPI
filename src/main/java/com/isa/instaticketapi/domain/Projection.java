@@ -58,6 +58,8 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 
 	private int quickTicketPrice;
 
+	private int sale;
+
 	public Repertory getReperotry() {
 		return reperotry;
 	}
@@ -149,4 +151,13 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 	public void setQuickTicketPrice(int quickTicketPrice) {
 		this.quickTicketPrice = quickTicketPrice;
 	}
+
+	public int getSale() {
+		return sale;
+	}
+
+	public void setSale(int sale) {
+		this.sale = sale;
+	}
+
 }

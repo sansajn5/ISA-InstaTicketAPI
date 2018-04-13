@@ -212,7 +212,8 @@ public class PlaceService {
 		for (int i = 0; i < halls.size(); i++) {
 			ArrayList<Seat> allSeat = seatRepository.findAllByHall(halls.get(i));
 			for (int j = 0; j < allSeat.size(); j++) {
-				if ((allSeat.get(j).getSeatType()).equals("Brza rezervacija") && !allSeat.get(j).isReserved()) {
+				if ((allSeat.get(j).getSeatType()).equals("Brza rezervacija") && !allSeat.get(j).isReserved()
+						&& allSeat.get(j).isSeat()) {
 					seats.add(allSeat.get(j));
 				}
 			}
@@ -223,7 +224,8 @@ public class PlaceService {
 
 	/**
 	 * 
-	 * @param id of seat for reservation
+	 * @param id
+	 *            of seat for reservation
 	 */
 	public void reservation(Long id) {
 		Seat seat = seatRepository.findOneById(id);

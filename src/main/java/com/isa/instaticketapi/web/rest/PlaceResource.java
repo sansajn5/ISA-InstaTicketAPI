@@ -273,6 +273,10 @@ public class PlaceResource {
 		return new ResponseEntity<>(new QuickSeatrsResponse(seats), HttpStatus.OK);
 	}
 
+	/**
+	 * 
+	 * @param id id of seat for quick reservation
+	 */
 	@ApiOperation(value = "Reservation for  quick seats for Place", response = QuickSeatrsResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
