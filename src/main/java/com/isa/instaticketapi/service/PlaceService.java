@@ -16,6 +16,7 @@ import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
+import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForPlace;
 import com.isa.instaticketapi.repository.EventRepository;
@@ -23,10 +24,10 @@ import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
+import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForPlaceRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
-import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 
 /**
@@ -60,6 +61,9 @@ public class PlaceService {
 
 	@Autowired
 	private VoteForPlaceRepository voteForPlaceRepository;
+
+	@Autowired
+	private SeatRepository seatRepository;
 
 	/**
 	 * 
@@ -193,11 +197,27 @@ public class PlaceService {
 		for (int i = 0; i < votes.size(); i++) {
 			voteSum += votes.get(i).getVote();
 		}
-		if(votes.isEmpty()){
+		if (votes.isEmpty()) {
 			return vote;
 		}
 		vote = voteSum / votes.size();
 		return vote;
 	}
 
+	public ArrayList<Seat> getQuickSeats(Long id) {
+		Place place = placeRepository.findOneById(id);
+		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
+
+		ArrayList<Seat> seats = new ArrayList<Seat>();
+		for (int i = 0; i < halls.size(); i++) {
+			ArrayList<Seat> allSeat = seatRepository.findAllByHall(halls.get(i));
+			for (int j = 0; j < allSeat.size(); j++) {
+				if ((allSeat.get(j).getSeatType()).equals("Brza rezervacija")) {
+					seats.add(allSeat.get(j));
+				}
+			}
+		}
+
+		return seats;
+	}
 }
