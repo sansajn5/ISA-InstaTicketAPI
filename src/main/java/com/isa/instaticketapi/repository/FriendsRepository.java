@@ -16,4 +16,5 @@ import java.util.List;
 public interface FriendsRepository extends JpaRepository<Friends, Long> {
 
     List<Friends> findAllByUser(User u);
+    Friends findOneByFriend(User u);
 }

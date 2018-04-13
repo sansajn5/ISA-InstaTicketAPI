@@ -50,6 +50,16 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Repertory reperotry;
 
+	private int regularPrice;
+
+	private int vipPrice;
+
+	private int balconyPrice;
+
+	private int quickTicketPrice;
+
+	private int sale;
+
 	public Repertory getReperotry() {
 		return reperotry;
 	}
@@ -108,6 +118,46 @@ public class Projection extends AbstractAuditingEntity implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public int getRegularPrice() {
+		return regularPrice;
+	}
+
+	public void setRegularPrice(int regularPrice) {
+		this.regularPrice = regularPrice;
+	}
+
+	public int getVipPrice() {
+		return vipPrice;
+	}
+
+	public void setVipPrice(int vipPrice) {
+		this.vipPrice = vipPrice;
+	}
+
+	public int getBalconyPrice() {
+		return balconyPrice;
+	}
+
+	public void setBalconyPrice(int balconyPrice) {
+		this.balconyPrice = balconyPrice;
+	}
+
+	public int getQuickTicketPrice() {
+		return quickTicketPrice;
+	}
+
+	public void setQuickTicketPrice(int quickTicketPrice) {
+		this.quickTicketPrice = quickTicketPrice;
+	}
+
+	public int getSale() {
+		return sale;
+	}
+
+	public void setSale(int sale) {
+		this.sale = sale;
 	}
 
 }

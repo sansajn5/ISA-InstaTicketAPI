@@ -1,7 +1,5 @@
 package com.isa.instaticketapi.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,15 +10,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Entity vote for place
+ * Entity vote for projection
  * 
  * @author Milica
  *
  */
 @Entity
-@Table(name = "VoteForPlace")
-public class VoteForPlace implements Serializable {
-
+@Table(name = "VoteForEvent")
+public class VoteForEvent {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,23 +28,10 @@ public class VoteForPlace implements Serializable {
 	private int vote;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Place place;
+	private Event event;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
-
-	public VoteForPlace(Long id, int vote, Place place, User user) {
-		super();
-		this.id = id;
-		this.vote = vote;
-		this.place = place;
-		this.user = user;
-	}
-
-	public VoteForPlace() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	public Long getId() {
 		return id;
@@ -65,12 +49,12 @@ public class VoteForPlace implements Serializable {
 		this.vote = vote;
 	}
 
-	public Place getPlace() {
-		return place;
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setPlace(Place place) {
-		this.place = place;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
 	public User getUser() {

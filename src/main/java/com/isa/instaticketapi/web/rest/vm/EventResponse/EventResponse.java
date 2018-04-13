@@ -3,19 +3,24 @@ package com.isa.instaticketapi.web.rest.vm.EventResponse;
 import com.isa.instaticketapi.domain.Event;
 
 public class EventResponse {
-	Event event;
+	private Event event;
 
-	public EventResponse(Event projection) {
+	public EventResponse() {
 		super();
-		this.event = projection;
+		// TODO Auto-generated constructor stub
 	}
 
-	public Event getProjection() {
+	public Event getEvent() {
 		return event;
 	}
 
-	public void setProjection(Event projection) {
-		this.event = projection;
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public EventResponse(Event event) {
+		super();
+		this.event = event;
 	}
 
 }

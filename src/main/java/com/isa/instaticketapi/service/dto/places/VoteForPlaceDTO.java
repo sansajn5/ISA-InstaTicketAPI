@@ -1,6 +1,5 @@
-package com.isa.instaticketapi.service.dto;
+package com.isa.instaticketapi.service.dto.places;
 
-import com.isa.instaticketapi.domain.Place;
 
 public class VoteForPlaceDTO {
 

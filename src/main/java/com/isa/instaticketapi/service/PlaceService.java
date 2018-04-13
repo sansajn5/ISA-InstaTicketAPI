@@ -16,6 +16,7 @@ import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
+import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForPlace;
 import com.isa.instaticketapi.repository.EventRepository;
@@ -23,10 +24,10 @@ import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
+import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForPlaceRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
-import com.isa.instaticketapi.service.dto.places.ChangePlaceDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 
 /**
@@ -61,6 +62,9 @@ public class PlaceService {
 	@Autowired
 	private VoteForPlaceRepository voteForPlaceRepository;
 
+	@Autowired
+	private SeatRepository seatRepository;
+
 	/**
 	 * 
 	 * @return list of all cinemas
@@ -94,7 +98,7 @@ public class PlaceService {
 	 *            id of object
 	 */
 
-	public Place changePlace(ChangePlaceDTO changePlaceDTO, long id) {
+	public Place changePlace(PlaceDTO placeDTO, long id) {
 		Place place = placeRepository.findOneById(id);
 		if (place == null) {
 			return null;
@@ -102,10 +106,10 @@ public class PlaceService {
 
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		place.setLastModifiedBy(logged.getUsername());
-		place.setName(changePlaceDTO.getName());
-		place.setAddress(changePlaceDTO.getAddress());
-		place.setDescripton(changePlaceDTO.getDescripton());
-		place.setType(changePlaceDTO.getType());
+		place.setName(placeDTO.getName());
+		place.setAddress(placeDTO.getAddress());
+		place.setDescripton(placeDTO.getDescription());
+		place.setType(placeDTO.getType());
 		placeRepository.save(place);
 		return place;
 
@@ -185,6 +189,12 @@ public class PlaceService {
 		return repertoryRepository.findAllByPlace(place);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            id of place
+	 * @return vote for place
+	 */
 	public int getVoteForPlace(Long id) {
 
 		int voteSum = 0;
@@ -193,11 +203,43 @@ public class PlaceService {
 		for (int i = 0; i < votes.size(); i++) {
 			voteSum += votes.get(i).getVote();
 		}
-		if(votes.isEmpty()){
+		if (votes.isEmpty()) {
 			return vote;
 		}
 		vote = voteSum / votes.size();
 		return vote;
 	}
 
+	/**
+	 * 
+	 * @param id id of place
+	 * @return list of seat object
+	 */
+	public ArrayList<Seat> getQuickSeats(Long id) {
+		Place place = placeRepository.findOneById(id);
+		ArrayList<Hall> halls = hallRepository.findAllByPlace(place);
+
+		ArrayList<Seat> seats = new ArrayList<Seat>();
+		for (int i = 0; i < halls.size(); i++) {
+			ArrayList<Seat> allSeat = seatRepository.findAllByHall(halls.get(i));
+			for (int j = 0; j < allSeat.size(); j++) {
+				if ((allSeat.get(j).getSeatType()).equals("Brza rezervacija") && !allSeat.get(j).isReserved()
+						&& allSeat.get(j).isSeat()) {
+					seats.add(allSeat.get(j));
+				}
+			}
+		}
+
+		return seats;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            of seat for reservation
+	 */
+	public void reservation(Long id) {
+		Seat seat = seatRepository.findOneById(id);
+		seat.setReserved(true);
+	}
 }

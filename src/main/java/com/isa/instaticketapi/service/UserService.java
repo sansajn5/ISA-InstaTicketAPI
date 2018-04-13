@@ -1,6 +1,7 @@
 package com.isa.instaticketapi.service;
 
 
+import com.isa.instaticketapi.domain.FriendRequest;
 import com.isa.instaticketapi.domain.Friends;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.FriendRequestRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class for managing user.
@@ -53,9 +55,71 @@ public class UserService {
         return friends;
     }
 
-    public User sendFriendRequest(String email) {
-        return null;
+    /**
+     * Deleting friend by email from current user friend list
+     * @param email
+     */
+    public void deleteFriend(String email) {
+        SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).ifPresent(user -> {
+            userRepository.findOneByEmailIgnoreCase(email).ifPresent(friend -> {
+                Friends friends = friendsRepository.findOneByFriend(friend);
+                friendsRepository.delete(friends);
+            });
+        });
     }
+
+    /**
+     * Sending friend request to person with email
+     * @param email
+     */
+    public void sendFriendRequest(String email) {
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setFromUser(SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get());
+        Optional<User> userTo = userRepository.findOneByEmailIgnoreCase(email);
+        if(!userTo.isPresent()) {
+            throw new IllegalArgumentException("No user found with this email");
+        }
+        userTo.ifPresent(user -> friendRequest.setToUser(user));
+
+        friendRequestRepository.save(friendRequest);
+    }
+
+    /**
+     * Accepting recived friend request
+     * @param id
+     * @return
+     */
+    public Optional<FriendRequest> acceptFriendRequest(Long id) {
+        return friendRequestRepository.findOneById(id).map(friendRequest -> {
+            User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+            if(friendRequest.getFromUser().equals(logged)) {
+                friendRequest.setAccepted(true);
+                Friends friends = new Friends();
+                friends.setUser(logged);
+                friends.setFriend(friendRequest.getToUser());
+                friendsRepository.save(friends);
+            }
+            else
+                throw new IllegalArgumentException("Your friend request doesn't exist");
+            return friendRequest;
+        });
+    }
+
+    /**
+     * Declining friend request
+     * @param id
+     * @return
+     */
+    public Optional<FriendRequest> deleteFriendRequest(Long id) {
+        return friendRequestRepository.findOneById(id).map(friendRequest -> {
+            if(friendRequest.getFromUser().equals(SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get()))
+                friendRequest.setDeleted(true);
+            else
+                throw new IllegalArgumentException("Your friend request doesn't exist");
+            return friendRequest;
+        });
+    }
+
 
 
 }

@@ -6,51 +6,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
-import com.isa.instaticketapi.domain.VoteForPlace;
+import com.isa.instaticketapi.domain.VoteForEvent;
+import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
+import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.repository.VoteForPlaceRepository;
+import com.isa.instaticketapi.repository.VoteForEventRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
-import com.isa.instaticketapi.service.dto.places.VoteForPlaceDTO;
+import com.isa.instaticketapi.service.dto.projection.VoteForEventDTO;
 
 /**
- * services for vote for place
+ * services for vote for event
  * 
  * @author Milica
  *
  */
 @Service
 @Transactional
-public class VoteForPlaceService {
-
+public class VoteForEventService {
 	@Autowired
 	private PlaceRepository placeRepository;
 
 	@Autowired
-	private VoteForPlaceRepository voteForPlaceRepository;
+	private VoteForEventRepository voteForEventRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
-	public void createVote(VoteForPlaceDTO voteForPlaceDTO) {
-		VoteForPlace vote = new VoteForPlace();
-		Place place = placeRepository.findOneByName(voteForPlaceDTO.getPlace());
+	@Autowired
+	private EventRepository eventrepository;
 
-		vote.setVote(voteForPlaceDTO.getVote());
-		vote.setPlace(place);
+	@Autowired
+	private ProjectionRepository projectionRepository;
+
+	public void createVote(VoteForEventDTO voteForEventDTO) {
+		VoteForEvent vote = new VoteForEvent();
+		Event event = eventrepository.findOneByName(voteForEventDTO.getEvent());
+		vote.setVote(voteForEventDTO.getVote());
+		vote.setEvent(event);
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		vote.setUser(logged);
 
-		voteForPlaceRepository.save(vote);
+		voteForEventRepository.save(vote);
 
 	}
 
 	public boolean checkIfHeVoted(Long id) {
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		Place place = placeRepository.findOneById(id);
-		ArrayList<VoteForPlace> votes = voteForPlaceRepository.findAllByPlace(place);
+		Event event = eventrepository.findOneById(id);
+		ArrayList<VoteForEvent> votes = voteForEventRepository.findAllByEvent(event);
 		boolean isVote = false;
 		for (int i = 0; i < votes.size(); i++) {
 			if (votes.get(i).getUser().equals(logged)) {
@@ -60,5 +68,4 @@ public class VoteForPlaceService {
 		}
 		return isVote;
 	}
-
 }
