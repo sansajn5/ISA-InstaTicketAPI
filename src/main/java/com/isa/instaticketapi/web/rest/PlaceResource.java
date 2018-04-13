@@ -251,7 +251,8 @@ public class PlaceResource {
 
 	/**
 	 * 
-	 * @param id id of place
+	 * @param id
+	 *            id of place
 	 * @return list objects quick seats
 	 */
 	@ApiOperation(value = "Get all quick seats for Place", response = QuickSeatrsResponse.class)
@@ -270,6 +271,21 @@ public class PlaceResource {
 		}
 		ArrayList<Seat> seats = placeService.getQuickSeats(id);
 		return new ResponseEntity<>(new QuickSeatrsResponse(seats), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Reservation for  quick seats for Place", response = QuickSeatrsResponse.class)
+
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@PutMapping("/quick-seats/{id}")
+	public void reservation(@PathVariable("id") Long id) {
+		placeService.reservation(id);
+
 	}
 
 }

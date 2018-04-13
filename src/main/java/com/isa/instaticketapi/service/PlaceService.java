@@ -212,12 +212,21 @@ public class PlaceService {
 		for (int i = 0; i < halls.size(); i++) {
 			ArrayList<Seat> allSeat = seatRepository.findAllByHall(halls.get(i));
 			for (int j = 0; j < allSeat.size(); j++) {
-				if ((allSeat.get(j).getSeatType()).equals("Brza rezervacija")) {
+				if ((allSeat.get(j).getSeatType()).equals("Brza rezervacija") && !allSeat.get(j).isReserved()) {
 					seats.add(allSeat.get(j));
 				}
 			}
 		}
 
 		return seats;
+	}
+
+	/**
+	 * 
+	 * @param id of seat for reservation
+	 */
+	public void reservation(Long id) {
+		Seat seat = seatRepository.findOneById(id);
+		seat.setReserved(true);
 	}
 }
