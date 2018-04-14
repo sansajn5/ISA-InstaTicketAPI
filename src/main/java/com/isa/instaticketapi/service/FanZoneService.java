@@ -12,13 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.Offer;
-import com.isa.instaticketapi.domain.OfferRequest;
-import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.OfferRepository;
 import com.isa.instaticketapi.repository.OfferRequestRepository;
 import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
@@ -127,9 +124,7 @@ public class FanZoneService {
 		
 		Offer offer = new Offer();
 		
-		/*
-		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		System.out.println("ULOGOVAN " + logged.getUsername());  */
+		
 		
 		
 		offer.setCreatedBy("User");
@@ -137,13 +132,13 @@ public class FanZoneService {
 		offer.setName(offerDTO.getName());
 		offer.setDescription(offerDTO.getDescription());
 		offer.setImage(offerDTO.getImage());
+		offer.setStartPrice(offerDTO.getStartPrice());
+		offer.setEndDate(offerDTO.getEndDate());
+		
+		offer.setAccepted(false);
 		
 		offerRepository.save(offer);
 		
-		OfferRequest offerRequest = new OfferRequest();
-		offerRequest.setOffer(offer);
-		offerRequest.setCreatedBy("User");
-		offerRequestRepository.save(offerRequest);
 		
 		
 		
@@ -179,6 +174,19 @@ public class FanZoneService {
 		offer.setName(offerDTO.getName());
 		offer.setDescription(offerDTO.getDescription());
 		offer.setImage(offerDTO.getImage());
+		
+		offerRepository.save(offer);
+		
+		return offer;
+		
+	}
+	
+	
+	public Offer acceptOfferRequest(Long id) throws SQLException {
+		
+		Offer offer = offerRepository.findOneById(id);
+		
+		offer.setAccepted(true);
 		
 		offerRepository.save(offer);
 		

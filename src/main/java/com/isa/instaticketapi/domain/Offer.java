@@ -28,16 +28,32 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 	@Column
 	private String image;
 	
+	@Column
+	private String startPrice;
+	
+	@Column
+	private String endDate;
+	
+	@Column
+	private Boolean accepted;
+	
+	
+
+
 	public Offer() {
-		// TODO Auto-generated constructor stub
+		
+		this.accepted = false;
 	}
 	
 	
-	public Offer(String name, String description, String image) {
+	public Offer(String name, String description, String image, String startPrice, String endDate) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.image = image;
+		this.startPrice = startPrice;
+		this.endDate = endDate;
+		this.accepted = false;
 	}
 
 	public Long getId() {
@@ -74,5 +90,36 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 		this.image = image;
 	}
 
+	
+	public String getStartPrice() {
+		return startPrice;
+	}
+
+
+	public void setStartPrice(String startPrice) {
+		this.startPrice = startPrice;
+	}
+
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+
+	public Boolean getAccepted() {
+		return accepted;
+	}
+
+
+	public void setAccepted(Boolean accepted) {
+		this.accepted = accepted;
+	}
+	
+	
 	
 }
