@@ -41,7 +41,8 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 
 
 	public Offer() {
-		// TODO Auto-generated constructor stub
+		
+		this.accepted = false;
 	}
 	
 	
@@ -52,6 +53,7 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 		this.image = image;
 		this.startPrice = startPrice;
 		this.endDate = endDate;
+		this.accepted = false;
 	}
 
 	public Long getId() {
@@ -107,5 +109,17 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+
+
+	public Boolean getAccepted() {
+		return accepted;
+	}
+
+
+	public void setAccepted(Boolean accepted) {
+		this.accepted = accepted;
+	}
+	
+	
 	
 }

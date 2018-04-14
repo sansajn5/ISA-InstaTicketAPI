@@ -1,6 +1,7 @@
 package com.isa.instaticketapi.web.rest;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -167,6 +168,33 @@ public class FanZoneResource {
 	}
 	
 	
+	@ApiOperation(value = "Listing all offers from fan zone", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@GetMapping("/get-offers-requests")
+	public ResponseEntity<OffersResponse> getOffersRequests() {
+
+		
+		List<Offer> offers = fanZoneService.getOffers();		
+		List<Offer> offersRequests = new ArrayList<Offer>();
+		
+		for(Offer of : offers) {
+			if(of.getAccepted() == false){
+				offersRequests.add(of);
+			}
+		}
+		
+		return new ResponseEntity<>(new OffersResponse(offersRequests), HttpStatus.OK);
+		
+		
+	}
+	
+	
 	
 	@ApiOperation(value = "Adding new offer", response = AdminRole.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
@@ -219,5 +247,25 @@ public class FanZoneResource {
 		return new ResponseEntity<>(new OfferResponse(offer),HttpStatus.OK);
 		
 	}
+	
+	
+	
+	@ApiOperation(value = "Editing existing offer", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@PutMapping("/accept-offers-requests/{id}")
+	public ResponseEntity<OfferResponse> editOffer(@PathVariable("id") Long id) throws SQLException {
+		
+		Offer offer = fanZoneService.acceptOfferRequest(id);
+		
+		return new ResponseEntity<>(new OfferResponse(offer),HttpStatus.OK);
+		
+	}
+	
 	
 }
