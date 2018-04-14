@@ -42,8 +42,17 @@ public class VoteForPlaceService {
 		vote.setPlace(place);
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		vote.setUser(logged);
-
 		voteForPlaceRepository.save(vote);
+		
+		int voteSum = 0;
+		ArrayList<VoteForPlace> votes = voteForPlaceRepository.findAllByPlace(place);
+		for (int i = 0; i < votes.size(); i++) {
+			voteSum += votes.get(i).getVote();
+		}
+
+		int vote1 = voteSum / votes.size();
+		place.setVote(vote1);
+		placeRepository.save(place);
 
 	}
 

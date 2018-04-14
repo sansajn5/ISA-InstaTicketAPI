@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 /**
  * Model for placas
  * 
@@ -32,24 +31,33 @@ public class Place extends AbstractAuditingEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	@Size(min = 1, max = 50)
-	@Column(name = "name",length = 50, unique = true)
+	@Column(name = "name", length = 50, unique = true)
 	private String name;
 
 	@Size(max = 50)
-	@Column(name = "address",length = 50)
+	@Column(name = "address", length = 50)
 	private String address;
 
 	@Size(max = 5000)
-	@Column(name = "descripton",length = 5000)
+	@Column(name = "descripton", length = 5000)
 	private String descripton;
-	
+
 	@Size(max = 20)
-	@Column(name = "type",length = 20)
+	@Column(name = "type", length = 20)
 	private String type;
-	
+
+	private int vote=0;
+
+	public int getVote() {
+		return vote;
+	}
+
+	public void setVote(int vote) {
+		this.vote = vote;
+	}
 
 	public String getType() {
 		return type;

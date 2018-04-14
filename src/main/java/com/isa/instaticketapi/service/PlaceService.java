@@ -16,6 +16,8 @@ import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
+import com.isa.instaticketapi.domain.Reservation;
+import com.isa.instaticketapi.domain.ReservationState;
 import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForPlace;
@@ -24,6 +26,8 @@ import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
+import com.isa.instaticketapi.repository.ReservationRepository;
+import com.isa.instaticketapi.repository.ReservationStateRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForPlaceRepository;
@@ -64,6 +68,12 @@ public class PlaceService {
 
 	@Autowired
 	private SeatRepository seatRepository;
+	
+	@Autowired
+	private ReservationRepository reservationrepository;
+	
+	@Autowired
+	private ReservationStateRepository reservationStaterepository;
 
 	/**
 	 * 
@@ -241,5 +251,14 @@ public class PlaceService {
 	public void reservation(Long id) {
 		Seat seat = seatRepository.findOneById(id);
 		seat.setReserved(true);
+		
+		Reservation reservation = new Reservation();
+		reservation.setProjection(seat.getProjection());
+		reservationrepository.save(reservation);
+		
+		ReservationState reservationState= new ReservationState();
+		reservationState.setReservation(reservation);
+		reservationStaterepository.save(reservationState);
+		
 	}
 }

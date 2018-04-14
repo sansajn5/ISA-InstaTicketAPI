@@ -2,6 +2,7 @@ package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ public class HallService {
 				throw new IllegalArgumentException("Validation error on name");
 			}
 		}
+
 		hall.setName(hallDTO.getName());
 		hall.setCol(hallDTO.getCol());
 		hall.setRow(hallDTO.getRow());
