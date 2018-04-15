@@ -2,6 +2,7 @@ package com.isa.instaticketapi.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,18 +24,21 @@ public class Bid extends AbstractAuditingEntity implements Serializable {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Offer offer;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	private User user;
+	
 	@Column
-	private String price;
+	private String sum;
 	
 	public Bid() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Bid(Long id, Offer offer, String price) {
+	public Bid(User user, Offer offer, String sum) {
 		super();
-		this.id = id;
+		this.user = user;
 		this.offer = offer;
-		this.price = price;
+		this.sum = sum;
 	}
 
 	public Long getId() {
@@ -52,12 +57,20 @@ public class Bid extends AbstractAuditingEntity implements Serializable {
 		this.offer = offer;
 	}
 
-	public String getPrice() {
-		return price;
+	public String getSum() {
+		return sum;
 	}
 
-	public void setPrice(String price) {
-		this.price = price;
+	public void setSum(String sum) {
+		this.sum = sum;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	

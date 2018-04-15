@@ -2,6 +2,7 @@ package com.isa.instaticketapi.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -10,12 +11,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.instaticketapi.domain.Bid;
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.Offer;
+import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.repository.BidRepository;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.OfferRepository;
 import com.isa.instaticketapi.repository.OfferRequestRepository;
 import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.service.dto.BidDTO;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
@@ -38,6 +43,10 @@ public class FanZoneService {
 	
 	@Autowired
 	private OfferRequestRepository offerRequestRepository;
+	
+	@Autowired
+	private BidRepository bidRepository;
+	
 	
 	
 	public List<Item> getItems() {
@@ -124,24 +133,21 @@ public class FanZoneService {
 		
 		Offer offer = new Offer();
 		
-		
-		
-		
+				
 		offer.setCreatedBy("User");
 		
 		offer.setName(offerDTO.getName());
 		offer.setDescription(offerDTO.getDescription());
 		offer.setImage(offerDTO.getImage());
 		offer.setStartPrice(offerDTO.getStartPrice());
+		offer.setBestPrice(offerDTO.getStartPrice());
 		offer.setEndDate(offerDTO.getEndDate());
+		
 		
 		offer.setAccepted(false);
 		
 		offerRepository.save(offer);
-		
-		
-		
-		
+				
 		return offer;	
 		
 	}
@@ -184,14 +190,38 @@ public class FanZoneService {
 	
 	public Offer acceptOfferRequest(Long id) throws SQLException {
 		
-		Offer offer = offerRepository.findOneById(id);
-		
+		Offer offer = offerRepository.findOneById(id);	
 		offer.setAccepted(true);
-		
+
 		offerRepository.save(offer);
 		
 		return offer;
 		
+	}
+	
+	
+	public Bid addNewBid(BidDTO bidDTO, Long id) {
+		
+		Offer offer = offerRepository.findOne(id);
+		
+		User user = userRepository.findOneByUsername("sansajn").get();
+
+		
+			
+		Bid bid = new Bid(user, offer, bidDTO.getSum());
+		bid.setCreatedBy(user.getUsername());
+		bidRepository.save(bid);
+		
+		System.out.println("UNETA " + bidDTO.getSum() + " NAJBOLJA " + offer.getBestPrice()) ;
+		
+		
+		if(Integer.parseInt(bidDTO.getSum()) > Integer.parseInt(offer.getBestPrice())){
+			
+			offer.setBestPrice(bidDTO.getSum());
+			offerRepository.save(offer);
+		}
+		
+		return bid;
 	}
 	
 	
