@@ -104,7 +104,7 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("/place/{id}")
-	public ResponseEntity<PlaceResponse> getCinema(@PathVariable("id") Long id) {
+	public ResponseEntity<PlaceResponse> getPlace(@PathVariable("id") Long id) {
 		Place place = placeService.getPlace(id);
 		if (place == null) {
 			throw new IllegalArgumentException("Invalid id!");
