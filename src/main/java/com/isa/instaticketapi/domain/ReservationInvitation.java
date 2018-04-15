@@ -8,7 +8,9 @@ import java.io.Serializable;
 @Table(name = "ticket_invitation")
 public class ReservationInvitation implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

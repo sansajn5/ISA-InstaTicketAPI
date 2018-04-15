@@ -52,6 +52,13 @@ public class EventService {
 		Event event = new Event();
 		Place place = placeRepository.findOneById(id);
 
+		ArrayList<Event> eventsInPlace = eventRepository.findAllByPlace(place);
+
+		for (int i = 0; i < eventsInPlace.size(); i++) {
+			if ((eventsInPlace.get(i).getName()).equals(eventDTO.getName())) {
+				throw new IllegalArgumentException("Validation error on name");
+			}
+		}
 		event.setPlace(place);
 		event.setName(eventDTO.getName());
 		event.setActors(eventDTO.getActors());

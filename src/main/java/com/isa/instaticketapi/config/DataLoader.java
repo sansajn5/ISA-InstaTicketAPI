@@ -433,7 +433,7 @@ public class DataLoader implements ApplicationRunner {
 				"Arena Cineplex je kompletno renovirana 2010. godine u skladu sa najnovijim svetskim standardima. Rekonstrukcijom i adaptacijom starog bioskopskog prostora dobijen je prvi multipleks u Vojvodini, sa šest vrhunski opremljenih sala, ukupnog kapaciteta od skoro 1.000 mesta, kao i dva ugostiteljska objekta -"
 						+ " Cinema i The End cafe.Pored redovnog filmskog repertoara, u Areni Cineplex se organizuju svečane premijere domaćih filmova, kao i festivali FEST, Cinema City, Cinemania i Kids Fest. Važan segment naše ponude čine i mogućnost kupovine koncesija (kokice, naćosi i razna bezalkoholna pića) koje publika može da konzumira tokom trajanja projekcije."
 						+ "");
-
+		place.setVote(5);
 		place1.setName("Cinestar Pancevo");
 		place1.setType("Bioskop");
 		place1.setCreatedBy("Milica");
@@ -441,6 +441,7 @@ public class DataLoader implements ApplicationRunner {
 		place1.setDescripton(
 				"Brend CineStar razvio se iz bioskopa kompanije Kieft & Kieft Filmtheater GmbH, koja je, posle više od četiri decenije rada kao operater klasičnog bioskopa, još 1993. otvorila svoj prvi multipleks u Nemačkoj, pa brend od tada predstavlja veličanstveni spoj jedinstvene arhitekture, vrhunskog komfora, sofisticiranog enterijera, kao i inovativnih tehnologija zvuka i slike – sa više od 100 multipleksa - i to ne samo u Nemačkoj, nego u više evropskih zemalja (Češka, Švajcarska, Hrvatska, Bosna i Hercegovina i dr.)");
 
+		place1.setVote(3);
 		place2.setName("Cinestar NS");
 		place2.setType("Bioskop");
 		place2.setCreatedBy("Milica");
