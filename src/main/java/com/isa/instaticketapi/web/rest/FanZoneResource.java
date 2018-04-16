@@ -320,4 +320,22 @@ public class FanZoneResource {
 		
 	}
 	
+	
+	@ApiOperation(value = "Accepting bid for offer", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@PostMapping("/accept-bid/{id}")
+	public ResponseEntity<BidResponse> acceptBid(@PathVariable("id") Long id) throws SQLException {
+				
+		Bid bid = fanZoneService.acceptBid(id);
+		
+		return new ResponseEntity<>(new BidResponse(bid),HttpStatus.OK);
+	}
+	
+	
 }

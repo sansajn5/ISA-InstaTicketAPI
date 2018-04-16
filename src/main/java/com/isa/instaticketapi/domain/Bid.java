@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Bid")
 public class Bid extends AbstractAuditingEntity implements Serializable {
@@ -21,6 +23,7 @@ public class Bid extends AbstractAuditingEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Offer offer;
 	

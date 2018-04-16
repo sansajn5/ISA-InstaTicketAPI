@@ -38,12 +38,16 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 	private Boolean accepted;
 	
 	@Column
+	private Boolean sold;
+	
+	@Column
 	private String bestPrice;
 
 
 	public Offer() {
 		
 		this.accepted = false;
+		this.sold = false;
 	}
 	
 	
@@ -55,6 +59,7 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 		this.startPrice = startPrice;
 		this.endDate = endDate;
 		this.accepted = false;
+		this.sold = false;
 	}
 
 	public Long getId() {
@@ -130,6 +135,17 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 	public void setBestPrice(String bestPrice) {
 		this.bestPrice = bestPrice;
 	}
+
+
+	public Boolean getSold() {
+		return sold;
+	}
+
+
+	public void setSold(Boolean sold) {
+		this.sold = sold;
+	}
+	
 	
 	
 	
