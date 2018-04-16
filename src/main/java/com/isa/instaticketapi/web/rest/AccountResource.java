@@ -104,6 +104,9 @@ public class AccountResource {
 	public void signupAccount(@Valid @RequestBody UserDTO userDTO) {
 		log.debug("REST request to sign-up User : {}", userDTO);
 
+		if(!userDTO.getPassword().equals(userDTO.getRepassword()))
+			throw new IllegalArgumentException("Password doesn't match");
+
 		userRepository.findOneByUsername(userDTO.getUsername()).ifPresent(user -> {
 			throw new IllegalArgumentException("Username is already used");
 		});
