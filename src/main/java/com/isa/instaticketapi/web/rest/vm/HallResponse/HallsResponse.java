@@ -7,6 +7,11 @@ import com.isa.instaticketapi.domain.Hall;
 public class HallsResponse {
 	private List<Hall> halls;
 
+	public HallsResponse() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public List<Hall> getHalls() {
 		return halls;
 	}

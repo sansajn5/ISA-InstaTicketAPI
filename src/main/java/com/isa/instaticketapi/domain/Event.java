@@ -60,6 +60,16 @@ public class Event extends AbstractAuditingEntity implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Place place;
 
+	private int vote = 0;
+
+	public int getVote() {
+		return vote;
+	}
+
+	public void setVote(int vote) {
+		this.vote = vote;
+	}
+
 	public Place getPlace() {
 		return place;
 	}

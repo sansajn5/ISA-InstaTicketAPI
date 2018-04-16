@@ -7,6 +7,9 @@ import com.isa.instaticketapi.domain.Place;
 public class TheaterResponse {
 	private List<Place> theaters;
 
+	public TheaterResponse() {
+	}
+
 	public List<Place> getTheaters() {
 		return theaters;
 	}

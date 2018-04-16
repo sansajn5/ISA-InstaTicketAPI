@@ -71,7 +71,7 @@ public class RepertoryResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@ResponseStatus(HttpStatus.OK)
-	@DeleteMapping("repertory/{id}")
+	@DeleteMapping("/repertory/{id}")
 	public void deleteRepertory(@PathVariable("id") Long id) {
 		if (repertoryService.deleteRepertory(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");

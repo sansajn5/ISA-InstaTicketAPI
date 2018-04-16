@@ -75,7 +75,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@ResponseStatus(HttpStatus.OK)
-	@DeleteMapping("projection/{id}")
+	@DeleteMapping("/projection/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
 		if (projectionRepository.findOneById(id) == null) {
 			throw new IllegalArgumentException("Invalid id!");
