@@ -29,6 +29,7 @@ import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
 import com.isa.instaticketapi.service.dto.OfferDTO;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.BidResponse;
+import com.isa.instaticketapi.web.rest.vm.FanZoneResource.BidsResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ItemResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ItemsResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.OfferResponse;
@@ -294,5 +295,27 @@ public class FanZoneResource {
 		return new ResponseEntity<>(new BidResponse(bid),HttpStatus.OK);
 	}
 	
+	
+	
+	
+	@ApiOperation(value = "Listing all bids for offers from fan zone", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@GetMapping("/get-bids-for-offer/{id}")
+	public ResponseEntity<BidsResponse> gettBidsByOffer(@PathVariable("id") Long id) {
+
+		List<Bid> bids = fanZoneService.getBidsByOffer(id);
+		
+		
+		
+		return new ResponseEntity<>(new BidsResponse(bids),HttpStatus.OK);
+		
+		
+	}
 	
 }

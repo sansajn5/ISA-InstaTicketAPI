@@ -20,6 +20,7 @@ import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.OfferRepository;
 import com.isa.instaticketapi.repository.OfferRequestRepository;
 import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.BidDTO;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
@@ -205,10 +206,11 @@ public class FanZoneService {
 		Offer offer = offerRepository.findOne(id);
 		
 		User user = userRepository.findOneByUsername("sansajn").get();
-
+		
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		
 			
-		Bid bid = new Bid(user, offer, bidDTO.getSum());
+		Bid bid = new Bid(logged, offer, bidDTO.getSum());
 		bid.setCreatedBy(user.getUsername());
 		bidRepository.save(bid);
 		
@@ -222,6 +224,14 @@ public class FanZoneService {
 		}
 		
 		return bid;
+	}
+	
+	
+	public List<Bid> getBidsByOffer(Long id) {
+		
+		List<Bid> bids = bidRepository.findAllByOfferId(id);
+		
+		return bids;
 	}
 	
 	
