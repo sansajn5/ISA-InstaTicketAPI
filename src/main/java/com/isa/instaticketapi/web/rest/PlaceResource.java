@@ -236,7 +236,7 @@ public class PlaceResource {
 	 * @param id id of place 
 	 * @return place vote
 	 */
-	@ApiOperation(value = "Get all vote for Place", response = RepertoryResponse.class)
+	@ApiOperation(value = "Get all vote for Place", response = VoteForPlaceResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -283,7 +283,7 @@ public class PlaceResource {
 	 * @param id
 	 *            id of seat for quick reservation
 	 */
-	@ApiOperation(value = "Reservation for  quick seats for Place", response = QuickSeatrsResponse.class)
+	@ApiOperation(value = "Reservation for  quick seats for Place", response = HttpStatus.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),

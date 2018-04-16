@@ -117,7 +117,7 @@ public class HallResource {
 	 * @return object hall
 	 */
 
-	@ApiOperation(value = "All data for hall.", response = HallsResponse.class)
+	@ApiOperation(value = "All data for hall.", response = HallResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -126,7 +126,7 @@ public class HallResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@GetMapping("/hall/{id}")
-	public ResponseEntity<HallResponse> getCinema(@PathVariable("id") Long id) {
+	public ResponseEntity<HallResponse> getHall(@PathVariable("id") Long id) {
 		Hall hall = hallService.getHall(id);
 		if (hall == null) {
 			throw new IllegalArgumentException("Invalid id!");

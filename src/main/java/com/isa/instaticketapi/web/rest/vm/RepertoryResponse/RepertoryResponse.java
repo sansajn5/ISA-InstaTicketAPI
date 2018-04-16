@@ -9,8 +9,6 @@ public class RepertoryResponse {
 	private ArrayList<Repertory> repertories;
 
 	public RepertoryResponse() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public RepertoryResponse(ArrayList<Repertory> repertories) {
