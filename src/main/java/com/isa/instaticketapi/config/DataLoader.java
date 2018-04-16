@@ -469,6 +469,7 @@ public class DataLoader implements ApplicationRunner {
 		event1.setCreatedBy("Milica");
 		event1.setImageUrl("x");
 		event1.setPlace(place);
+		event1.setVote(5);
 
 		event3.setName("Tomb Raider");
 		event3.setActors("Alicia Vikander, Walton Goggins");
@@ -480,6 +481,7 @@ public class DataLoader implements ApplicationRunner {
 		event3.setCreatedBy("Milica");
 		event3.setImageUrl("x");
 		event3.setPlace(place1);
+		event3.setVote(4);
 
 		event4.setName("Tomb Raider");
 		event4.setActors("Alicia Vikander, Walton Goggins");
@@ -491,6 +493,7 @@ public class DataLoader implements ApplicationRunner {
 		event4.setCreatedBy("Milica");
 		event4.setImageUrl("x");
 		event4.setPlace(place2);
+		event4.setVote(4);
 
 		event2.setName("Deadpool 2");
 		event2.setActors("Ryan Reynolds, Josh Brolin");
@@ -502,6 +505,7 @@ public class DataLoader implements ApplicationRunner {
 		event2.setCreatedBy("Milica");
 		event2.setImageUrl("x");
 		event2.setPlace(place);
+		event2.setVote(3);
 
 		event5.setName("Deadpool 2");
 		event5.setActors("Ryan Reynolds, Josh Brolin");
@@ -524,6 +528,7 @@ public class DataLoader implements ApplicationRunner {
 		event6.setCreatedBy("Milica");
 		event6.setImageUrl("x");
 		event6.setPlace(place2);
+		event6.setVote(4);
 
 		event7.setName("The Bride");
 		event7.setActors("Viktoriya Agalakova, Vyacheslav Chepurchenko");
@@ -535,6 +540,7 @@ public class DataLoader implements ApplicationRunner {
 		event7.setCreatedBy("Milica");
 		event7.setImageUrl("x");
 		event7.setPlace(place);
+		event7.setVote(2);
 
 		event8.setName("A Quiet Place");
 		event8.setActors("Emily Blunt, John Krasinski");
@@ -557,6 +563,7 @@ public class DataLoader implements ApplicationRunner {
 		event9.setCreatedBy("Milica");
 		event9.setImageUrl("x");
 		event9.setPlace(place);
+		event9.setVote(2);
 
 		Hall hall1 = new Hall();
 		Hall hall2 = new Hall();

@@ -11,6 +11,7 @@ import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForEvent;
+import com.isa.instaticketapi.domain.VoteForPlace;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
@@ -52,6 +53,16 @@ public class VoteForEventService {
 		vote.setUser(logged);
 
 		voteForEventRepository.save(vote);
+
+		int voteSum = 0;
+		ArrayList<VoteForEvent> votes = voteForEventRepository.findAllByEvent(event);
+		for (int i = 0; i < votes.size(); i++) {
+			voteSum += votes.get(i).getVote();
+		}
+
+		int vote1 = voteSum / votes.size();
+		event.setVote(vote1);
+		eventrepository.save(event);
 
 	}
 
