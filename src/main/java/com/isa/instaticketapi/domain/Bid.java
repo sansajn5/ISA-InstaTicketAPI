@@ -30,6 +30,12 @@ public class Bid extends AbstractAuditingEntity implements Serializable {
 	@Column
 	private String sum;
 	
+	@Column
+	private String userName;
+	
+	@Column
+	private String ordNum;
+	
 	public Bid() {
 		// TODO Auto-generated constructor stub
 	}
@@ -72,6 +78,24 @@ public class Bid extends AbstractAuditingEntity implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getOrdNum() {
+		return ordNum;
+	}
+
+	public void setOrdNum(String ordNum) {
+		this.ordNum = ordNum;
+	}
+	
+	
 	
 	
 	

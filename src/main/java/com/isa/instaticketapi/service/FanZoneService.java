@@ -124,6 +124,13 @@ public class FanZoneService {
 	}
 	
 	
+	public Offer getOfferById(Long id) throws SQLException {
+		
+		Offer offer = offerRepository.findOneById(id);
+		return offer;
+	}
+	
+	
 	public List<Offer> getOffers() {
 		
 		return offerRepository.findAll();
@@ -212,9 +219,16 @@ public class FanZoneService {
 			
 		Bid bid = new Bid(logged, offer, bidDTO.getSum());
 		bid.setCreatedBy(user.getUsername());
+		
+		int size = bidRepository.findAllByOfferId(id).size();
+		String ordNum = Integer.toString(size+1);
+		bid.setOrdNum(ordNum);
+		
+		bid.setUserName(user.getUsername());
+		
 		bidRepository.save(bid);
 		
-		System.out.println("UNETA " + bidDTO.getSum() + " NAJBOLJA " + offer.getBestPrice()) ;
+		
 		
 		
 		if(Integer.parseInt(bidDTO.getSum()) > Integer.parseInt(offer.getBestPrice())){

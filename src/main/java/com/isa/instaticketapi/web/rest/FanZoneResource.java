@@ -307,13 +307,15 @@ public class FanZoneResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@GetMapping("/get-bids-for-offer/{id}")
-	public ResponseEntity<BidsResponse> gettBidsByOffer(@PathVariable("id") Long id) {
+	public ResponseEntity<BidsResponse> gettBidsByOffer(@PathVariable("id") Long id) throws SQLException {
 
 		List<Bid> bids = fanZoneService.getBidsByOffer(id);
+		Offer offer = fanZoneService.getOfferById(id);
 		
+		BidsResponse bResp = new BidsResponse(bids);
+		bResp.setOffer(offer);
 		
-		
-		return new ResponseEntity<>(new BidsResponse(bids),HttpStatus.OK);
+		return new ResponseEntity<>(bResp,HttpStatus.OK);
 		
 		
 	}
