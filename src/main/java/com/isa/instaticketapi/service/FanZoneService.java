@@ -274,6 +274,21 @@ public class FanZoneService {
 	}
 	
 	
+	public Item itemReservation(Long id) {
+		
+		Item item = itemRepository.findOneById(id);
+		
+		return item;
+	}
+	
+	
+	public User getLogged() {
+		
+		
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		
+		return logged;
+	}
 	
 	
 	
