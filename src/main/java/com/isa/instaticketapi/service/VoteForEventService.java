@@ -46,23 +46,33 @@ public class VoteForEventService {
 
 	public void createVote(VoteForEventDTO voteForEventDTO) {
 		VoteForEvent vote = new VoteForEvent();
-		Event event = eventrepository.findOneByName(voteForEventDTO.getEvent());
-		vote.setVote(voteForEventDTO.getVote());
-		vote.setEvent(event);
+
+		Place place = placeRepository.findOneByName(voteForEventDTO.getPlace());
+		ArrayList<Event> events = eventrepository.findAllByPlace(place);
+		Event e = new Event();
+		for (int i = 0; i < events.size(); i++) {
+			if ((events.get(i).getName()).equals(voteForEventDTO.getEvent())) {
+				e = events.get(i);
+			}
+		}
+
+		String v = voteForEventDTO.getVote();
+		vote.setVote(Integer.parseInt(v));
+		vote.setEvent(e);
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		vote.setUser(logged);
 
 		voteForEventRepository.save(vote);
 
 		int voteSum = 0;
-		ArrayList<VoteForEvent> votes = voteForEventRepository.findAllByEvent(event);
+		ArrayList<VoteForEvent> votes = voteForEventRepository.findAllByEvent(e);
 		for (int i = 0; i < votes.size(); i++) {
 			voteSum += votes.get(i).getVote();
 		}
 
 		int vote1 = voteSum / votes.size();
-		event.setVote(vote1);
-		eventrepository.save(event);
+		e.setVote(vote1);
+		eventrepository.save(e);
 
 	}
 

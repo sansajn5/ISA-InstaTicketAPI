@@ -1,9 +1,8 @@
 package com.isa.instaticketapi.service.dto.places;
 
-
 public class VoteForPlaceDTO {
 
-	private int vote;
+	private String vote;
 	private String place;
 
 	public VoteForPlaceDTO() {
@@ -11,18 +10,18 @@ public class VoteForPlaceDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getVote() {
-		return vote;
-	}
-
-	public void setVote(int vote) {
-		this.vote = vote;
-	}
-
-	public VoteForPlaceDTO(int vote, String place) {
+	public VoteForPlaceDTO(String vote, String place) {
 		super();
 		this.vote = vote;
 		this.place = place;
+	}
+
+	public String getVote() {
+		return vote;
+	}
+
+	public void setVote(String vote) {
+		this.vote = vote;
 	}
 
 	public String getPlace() {

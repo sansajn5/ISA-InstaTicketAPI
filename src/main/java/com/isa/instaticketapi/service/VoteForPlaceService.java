@@ -38,7 +38,8 @@ public class VoteForPlaceService {
 		VoteForPlace vote = new VoteForPlace();
 		Place place = placeRepository.findOneByName(voteForPlaceDTO.getPlace());
 
-		vote.setVote(voteForPlaceDTO.getVote());
+		String v = voteForPlaceDTO.getVote();
+		vote.setVote(Integer.parseInt(v));
 		vote.setPlace(place);
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		vote.setUser(logged);

@@ -20,6 +20,8 @@ import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
+import com.isa.instaticketapi.domain.Reservation;
+import com.isa.instaticketapi.domain.ReservationState;
 import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForPlace;
@@ -32,6 +34,8 @@ import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
+import com.isa.instaticketapi.repository.ReservationRepository;
+import com.isa.instaticketapi.repository.ReservationStateRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForPlaceRepository;
@@ -84,6 +88,12 @@ public class DataLoader implements ApplicationRunner {
 
 	@Autowired
 	private VoteForEventRepository voteForProjectionRepository;
+
+	@Autowired
+	private ReservationRepository reservationRepository;
+
+	@Autowired
+	private ReservationStateRepository reservationStateRepository;
 
 	private final Logger log = LoggerFactory.getLogger(DataLoader.class);
 
@@ -325,12 +335,12 @@ public class DataLoader implements ApplicationRunner {
 		User u2 = userRepository.findOne(Long.parseLong("3"));
 		User u3 = userRepository.findOne(Long.parseLong("4"));
 
-		Friends friends1 = new Friends(new FriendsIdentity(u1.getId().toString(),u2.getId().toString()),u1,u2);
-		Friends friends2 = new Friends(new FriendsIdentity(u2.getId().toString(),u1.getId().toString()),u2,u1);
-		Friends friends3 = new Friends(new FriendsIdentity(u1.getId().toString(),u3.getId().toString()),u1,u3);
-		Friends friends4 = new Friends(new FriendsIdentity(u3.getId().toString(),u1.getId().toString()),u3,u1);
-		Friends friends5 = new Friends(new FriendsIdentity(u2.getId().toString(),u3.getId().toString()),u2,u3);
-		Friends friends6 = new Friends(new FriendsIdentity(u3.getId().toString(),u2.getId().toString()),u3,u2);
+		Friends friends1 = new Friends(new FriendsIdentity(u1.getId().toString(), u2.getId().toString()), u1, u2);
+		Friends friends2 = new Friends(new FriendsIdentity(u2.getId().toString(), u1.getId().toString()), u2, u1);
+		Friends friends3 = new Friends(new FriendsIdentity(u1.getId().toString(), u3.getId().toString()), u1, u3);
+		Friends friends4 = new Friends(new FriendsIdentity(u3.getId().toString(), u1.getId().toString()), u3, u1);
+		Friends friends5 = new Friends(new FriendsIdentity(u2.getId().toString(), u3.getId().toString()), u2, u3);
+		Friends friends6 = new Friends(new FriendsIdentity(u3.getId().toString(), u2.getId().toString()), u3, u2);
 
 		try {
 
@@ -396,7 +406,7 @@ public class DataLoader implements ApplicationRunner {
 		User comi = new User();
 
 		comi.setUsername("comi");
-		comi.setPassword(passwordEncoder.encode("comi"));
+		comi.setPassword(passwordEncoder.encode("comi123"));
 		comi.setFirstName("Comi");
 		comi.setLastName("Kovacevic");
 		comi.setAuthorities(authoritiesUser);
@@ -419,7 +429,6 @@ public class DataLoader implements ApplicationRunner {
 				"Arena Cineplex je kompletno renovirana 2010. godine u skladu sa najnovijim svetskim standardima. Rekonstrukcijom i adaptacijom starog bioskopskog prostora dobijen je prvi multipleks u Vojvodini, sa šest vrhunski opremljenih sala, ukupnog kapaciteta od skoro 1.000 mesta, kao i dva ugostiteljska objekta -"
 						+ " Cinema i The End cafe.Pored redovnog filmskog repertoara, u Areni Cineplex se organizuju svečane premijere domaćih filmova, kao i festivali FEST, Cinema City, Cinemania i Kids Fest. Važan segment naše ponude čine i mogućnost kupovine koncesija (kokice, naćosi i razna bezalkoholna pića) koje publika može da konzumira tokom trajanja projekcije."
 						+ "");
-		place.setVote(5);
 		place1.setName("Cinestar Pancevo");
 		place1.setType("Bioskop");
 		place1.setCreatedBy("Milica");
@@ -427,7 +436,7 @@ public class DataLoader implements ApplicationRunner {
 		place1.setDescripton(
 				"Brend CineStar razvio se iz bioskopa kompanije Kieft & Kieft Filmtheater GmbH, koja je, posle više od četiri decenije rada kao operater klasičnog bioskopa, još 1993. otvorila svoj prvi multipleks u Nemačkoj, pa brend od tada predstavlja veličanstveni spoj jedinstvene arhitekture, vrhunskog komfora, sofisticiranog enterijera, kao i inovativnih tehnologija zvuka i slike – sa više od 100 multipleksa - i to ne samo u Nemačkoj, nego u više evropskih zemalja (Češka, Švajcarska, Hrvatska, Bosna i Hercegovina i dr.)");
 
-		place1.setVote(3);
+		
 		place2.setName("Cinestar NS");
 		place2.setType("Bioskop");
 		place2.setCreatedBy("Milica");
@@ -467,7 +476,6 @@ public class DataLoader implements ApplicationRunner {
 		event3.setCreatedBy("Milica");
 		event3.setImageUrl("x");
 		event3.setPlace(place1);
-		event3.setVote(4);
 
 		event4.setName("Tomb Raider");
 		event4.setActors("Alicia Vikander, Walton Goggins");
@@ -491,7 +499,6 @@ public class DataLoader implements ApplicationRunner {
 		event2.setCreatedBy("Milica");
 		event2.setImageUrl("x");
 		event2.setPlace(place);
-		event2.setVote(3);
 
 		event5.setName("Deadpool 2");
 		event5.setActors("Ryan Reynolds, Josh Brolin");
@@ -732,35 +739,11 @@ public class DataLoader implements ApplicationRunner {
 		vote2.setPlace(place1);
 		vote2.setVote(2);
 
-		VoteForPlace vote3 = new VoteForPlace();
-		vote3.setUser(comi);
-		vote3.setPlace(place);
-		vote3.setVote(5);
 
 		VoteForEvent v1 = new VoteForEvent();
 		v1.setUser(comi);
 		v1.setEvent(event1);
 		v1.setVote(3);
-
-		VoteForEvent v2 = new VoteForEvent();
-		v2.setUser(comi);
-		v2.setEvent(event1);
-		v2.setVote(3);
-
-		VoteForEvent v3 = new VoteForEvent();
-		v3.setUser(comi);
-		v3.setEvent(event3);
-		v3.setVote(5);
-
-		VoteForEvent v4 = new VoteForEvent();
-		v4.setUser(comi);
-		v4.setEvent(event2);
-		v4.setVote(4);
-
-		VoteForEvent v5 = new VoteForEvent();
-		v5.setUser(comi);
-		v5.setEvent(event6);
-		v5.setVote(4);
 
 		Seat seat1 = new Seat();
 		seat1.setHall(hall1);
@@ -798,6 +781,32 @@ public class DataLoader implements ApplicationRunner {
 		seat4.setSeat(true);
 		seat4.setSeatType("Brza rezervacija");
 
+		Reservation reservation1 = new Reservation();
+		reservation1.setProjection(projection);
+
+		Reservation reservation2 = new Reservation();
+		reservation2.setProjection(projection3);
+
+		Reservation reservation3 = new Reservation();
+		reservation3.setProjection(projection4);
+
+		ReservationState reservationState1 = new ReservationState();
+		reservationState1.setDropOut(false);
+		reservationState1.setReservation(reservation1);
+		reservationState1.setUsed(true);
+		reservationState1.setUserIncludedInReservation(comi);
+
+		ReservationState reservationState2 = new ReservationState();
+		reservationState2.setDropOut(false);
+		reservationState2.setReservation(reservation2);
+		reservationState2.setUsed(true);
+		reservationState2.setUserIncludedInReservation(comi);
+
+		ReservationState reservationState3 = new ReservationState();
+		reservationState3.setDropOut(false);
+		reservationState3.setReservation(reservation3);
+		reservationState3.setUsed(true);
+		reservationState3.setUserIncludedInReservation(comi);
 		try {
 
 			placeRepository.save(place);
@@ -840,20 +849,22 @@ public class DataLoader implements ApplicationRunner {
 			projectionRepository.save(projection9);
 
 			userRepository.save(comi);
-			voteForPlaceRepository.save(vote1);
-			voteForPlaceRepository.save(vote2);
-			voteForPlaceRepository.save(vote3);
 
 			voteForProjectionRepository.save(v1);
-			voteForProjectionRepository.save(v2);
-			voteForProjectionRepository.save(v3);
-			voteForProjectionRepository.save(v4);
-			voteForProjectionRepository.save(v5);
 
 			seatRepository.save(seat1);
 			seatRepository.save(seat2);
 			seatRepository.save(seat3);
 			seatRepository.save(seat4);
+
+			reservationRepository.save(reservation1);
+			reservationRepository.save(reservation2);
+			reservationRepository.save(reservation3);
+
+			reservationStateRepository.save(reservationState1);
+			reservationStateRepository.save(reservationState2);
+			reservationStateRepository.save(reservationState3);
+
 			log.info("Starting seed for projection");
 
 		} catch (Exception e) {
