@@ -3,6 +3,7 @@ package com.isa.instaticketapi.config;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.isa.instaticketapi.domain.identity.FriendsIdentity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -324,27 +325,12 @@ public class DataLoader implements ApplicationRunner {
 		User u2 = userRepository.findOne(Long.parseLong("3"));
 		User u3 = userRepository.findOne(Long.parseLong("4"));
 
-		Friends friends1 = new Friends();
-		Friends friends2 = new Friends();
-		Friends friends3 = new Friends();
-		Friends friends4 = new Friends();
-		Friends friends5 = new Friends();
-		Friends friends6 = new Friends();
-
-		friends1.setUser(u1);
-		friends1.setFriend(u2);
-		friends2.setUser(u2);
-		friends2.setFriend(u1);
-
-		friends3.setUser(u1);
-		friends3.setFriend(u3);
-		friends4.setUser(u3);
-		friends4.setFriend(u1);
-
-		friends5.setUser(u2);
-		friends5.setFriend(u3);
-		friends6.setUser(u3);
-		friends6.setFriend(u2);
+		Friends friends1 = new Friends(new FriendsIdentity(u1.getId().toString(),u2.getId().toString()),u1,u2);
+		Friends friends2 = new Friends(new FriendsIdentity(u2.getId().toString(),u1.getId().toString()),u2,u1);
+		Friends friends3 = new Friends(new FriendsIdentity(u1.getId().toString(),u3.getId().toString()),u1,u3);
+		Friends friends4 = new Friends(new FriendsIdentity(u3.getId().toString(),u1.getId().toString()),u3,u1);
+		Friends friends5 = new Friends(new FriendsIdentity(u2.getId().toString(),u3.getId().toString()),u2,u3);
+		Friends friends6 = new Friends(new FriendsIdentity(u3.getId().toString(),u2.getId().toString()),u3,u2);
 
 		try {
 

@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -35,6 +37,12 @@ public class FriendRequest implements Serializable {
     @Column(name = "isDeleted")
     private Boolean isDeleted;
 
+    @JsonIgnore
+    private String emailFrom;
+
+    @JsonIgnore
+    private String usernameFrom;
+
     public FriendRequest() {
 
     }
@@ -53,6 +61,8 @@ public class FriendRequest implements Serializable {
 
     public void setFromUser(User fromUser) {
         this.fromUser = fromUser;
+        this.emailFrom = fromUser.getEmail();
+        this.usernameFrom = fromUser.getUsername();
     }
 
     public User getToUser() {
@@ -77,6 +87,22 @@ public class FriendRequest implements Serializable {
 
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public String getEmailFrom() {
+        return emailFrom;
+    }
+
+    public void setEmailFrom(String emailFrom) {
+        this.emailFrom = emailFrom;
+    }
+
+    public String getUsernameFrom() {
+        return usernameFrom;
+    }
+
+    public void setUsernameFrom(String usernameFrom) {
+        this.usernameFrom = usernameFrom;
     }
 
     @Override

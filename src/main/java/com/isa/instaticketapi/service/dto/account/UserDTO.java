@@ -85,6 +85,9 @@ public class UserDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
+        this.city = user.getCity();
+        this.address = user.getAddress();
+        this.number = user.getNumber();
         this.activated = user.getActivated();
         this.imageUrl = user.getImageUrl();
         this.createdBy = user.getCreatedBy();

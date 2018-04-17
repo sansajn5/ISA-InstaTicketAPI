@@ -1,5 +1,7 @@
 package com.isa.instaticketapi.domain;
 
+import com.isa.instaticketapi.domain.identity.FriendsIdentity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -13,9 +15,8 @@ import java.io.Serializable;
 @Table(name = "Friends")
 public class Friends implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private FriendsIdentity friendsIdentity;
 
     @NotNull
     @ManyToOne
@@ -31,12 +32,18 @@ public class Friends implements Serializable {
 
     }
 
-    public Long getId() {
-        return id;
+    public Friends(FriendsIdentity friendsIdentity, User user, User friend) {
+        this.friendsIdentity = friendsIdentity;
+        this.user = user;
+        this.friend = friend;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public FriendsIdentity getFriendsIdentity() {
+        return friendsIdentity;
+    }
+
+    public void setFriendsIdentity(FriendsIdentity friendsIdentity) {
+        this.friendsIdentity = friendsIdentity;
     }
 
     public User getUser() {
@@ -58,7 +65,7 @@ public class Friends implements Serializable {
     @Override
     public String toString() {
         return "Friends{" +
-                "id=" + id +
+                "id=" + friendsIdentity +
                 ", user=" + user +
                 ", friend=" + friend +
                 '}';

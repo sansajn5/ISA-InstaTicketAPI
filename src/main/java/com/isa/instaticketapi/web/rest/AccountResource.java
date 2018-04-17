@@ -22,13 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.UserRepository;
@@ -285,6 +279,27 @@ public class AccountResource {
 			accountService.deleteAccount(changePasswordDTO.getPassword());
 		} else
 			throw new IllegalArgumentException("Passwords are not matching");
+	}
+
+
+	/**
+	 * PUT /edit-account: Method for updating account basic information
+	 *
+	 * @param UserDTO  object providing information about new user
+	 */
+	@ApiOperation(value = "Changing basic account information", response = HttpStatus.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "ok"),
+			@ApiResponse(code = 400, message = "User updated failed,field validation")
+	})
+	@PutMapping("/edit-account")
+	@ResponseStatus(HttpStatus.OK)
+	@Transactional
+	public void updateAccount(@RequestBody UserDTO userDTO) {
+		Optional<User> user = accountService.updateUser(userDTO);
+		System.out.println(user.get().getAddress());
+		if(!user.isPresent())
+			throw new IllegalArgumentException("User updated failed,field validation");
 	}
 
 }
