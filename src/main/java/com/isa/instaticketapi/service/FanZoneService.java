@@ -1,8 +1,8 @@
 package com.isa.instaticketapi.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -133,7 +133,16 @@ public class FanZoneService {
 	
 	public List<Offer> getOffers() {
 		
-		return offerRepository.findAll();
+		
+		List<Offer> offers = new ArrayList<Offer>();
+		
+		for(Offer offer : offerRepository.findAll()){
+			if(offer.getSold() == false) {
+				offers.add(offer);
+			}
+		} 
+		
+		return offers;
 	}
 	
 	
@@ -151,7 +160,7 @@ public class FanZoneService {
 		offer.setBestPrice(offerDTO.getStartPrice());
 		offer.setEndDate(offerDTO.getEndDate());
 		
-		
+		offer.setSold(false);
 		offer.setAccepted(false);
 		
 		offerRepository.save(offer);
@@ -247,6 +256,25 @@ public class FanZoneService {
 		
 		return bids;
 	}
+	
+	
+	public Bid acceptBid(Long id) {
+		
+		Bid bid = bidRepository.findOneById(id);
+		
+		Offer offer = offerRepository.findOneById(bid.getOffer().getId());
+		
+		offer.setSold(true);
+		offerRepository.save(offer);
+		
+		
+		// sending mail to users
+		
+		return bid;
+	}
+	
+	
+	
 	
 	
 }
