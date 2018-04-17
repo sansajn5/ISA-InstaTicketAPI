@@ -94,26 +94,33 @@ public class ReservationService {
         return ticketRepository.save(ticket);
     }
 
-    public Optional<ReservationState> getMyActiveReservations() {
+ /*   public Optional<ReservationState> getMyActiveReservations() {
         Optional<User> logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername);
         if(!logged.isPresent())
             throw new IllegalArgumentException("No current logged user");
         Optional<ReservationState> reservationStates = reservationStateRepository.findAllByUserIncludedInReservation(logged.get());
         List<Reservation> returnList = new ArrayList<>();
         return reservationStates.filter(el -> !el.isUsed() && !el.isDropOut());
-    }
+    }*/
 
 
     /**
      * For statistic
      */
-    public Optional<ReservationState> getMyUsedReservation(){
+    public ArrayList<ReservationState> getMyUsedReservation(){
         Optional<User> logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername);
         if(!logged.isPresent())
             throw new IllegalArgumentException("No current logged user");
-        Optional<ReservationState> reservationStates = reservationStateRepository.findAllByUserIncludedInReservation(logged.get());
-        List<Reservation> returnList = new ArrayList<>();
-        return reservationStates.filter(el -> el.isUsed() && el.isDropOut());
+        ArrayList<ReservationState> reservationStates = reservationStateRepository.findAllByUserIncludedInReservation(logged.get());
+        ArrayList<ReservationState> returnList = new ArrayList<ReservationState>();
+        
+        for(int i =0;i<reservationStates.size();i++){
+        	if((reservationStates.get(i).isDropOut())==false){
+        		returnList.add(reservationStates.get(i));
+        	}
+        }
+        
+        return returnList;
     }
 
 

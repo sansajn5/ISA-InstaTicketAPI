@@ -28,6 +28,10 @@ public class UserDTO {
     @Size(min = 6, max = 12)
     private String password;
 
+    @NotBlank
+    @Size(min = 6, max = 12)
+    private String repassword;
+
     @Size(min = 3, max = 12)
     private String firstName;
 
@@ -81,6 +85,9 @@ public class UserDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
+        this.city = user.getCity();
+        this.address = user.getAddress();
+        this.number = user.getNumber();
         this.activated = user.getActivated();
         this.imageUrl = user.getImageUrl();
         this.createdBy = user.getCreatedBy();
@@ -218,6 +225,14 @@ public class UserDTO {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getRepassword() {
+        return repassword;
+    }
+
+    public void setRepassword(String repassword) {
+        this.repassword = repassword;
     }
 
     @Override

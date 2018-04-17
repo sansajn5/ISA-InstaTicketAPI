@@ -138,26 +138,18 @@ public class AccountService {
      * @param userDTO user to update
      * @return updated user
      */
-    public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        return Optional.of(userRepository
-                .findOne(userDTO.getId()))
+    public Optional<User> updateUser(UserDTO userDTO) {
+        return userRepository
+                .findOneByEmailIgnoreCase(userDTO.getEmail())
                 .map(user -> {
-                    user.setUsername(userDTO.getUsername());
                     user.setFirstName(userDTO.getFirstName());
                     user.setLastName(userDTO.getLastName());
-                    user.setEmail(userDTO.getEmail());
+                    user.setCity(userDTO.getCity());
+                    user.setAddress(userDTO.getAddress());
+                    user.setNumber(userDTO.getNumber());
                     user.setImageUrl(userDTO.getImageUrl());
-                    user.setActivated(userDTO.isActivated());
-                    user.setPassword(userDTO.getPassword());
-                    Set<Authority> managedAuthorities = user.getAuthorities();
-                    managedAuthorities.clear();
-                    userDTO.getAuthorities().stream()
-                            .map(authorityRepository::findOne)
-                            .forEach(managedAuthorities::add);
-                    log.debug("Changed Information for User: {}", user);
                     return user;
-                })
-                .map(UserDTO::new);
+                });
     }
 
     /**

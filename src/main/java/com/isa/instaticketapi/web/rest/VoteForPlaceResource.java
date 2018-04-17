@@ -2,6 +2,7 @@ package com.isa.instaticketapi.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.service.VoteForPlaceService;
 import com.isa.instaticketapi.service.dto.places.VoteForPlaceDTO;
+import com.isa.instaticketapi.web.rest.vm.CheckVoteResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -40,7 +42,7 @@ public class VoteForPlaceResource {
 
 	}
 
-	@ApiOperation(value = "Check if he voted for place", response = HttpStatus.class)
+	@ApiOperation(value = "Check if he voted for place", response = CheckVoteResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -49,8 +51,9 @@ public class VoteForPlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@GetMapping("/check-vote/{id}")
-	public boolean checkIfHeVoted(@PathVariable("id") Long id) {
-		return voteForPlaceService.checkIfHeVoted(id);
+	public ResponseEntity<CheckVoteResponse> checkIfHeVoted(@PathVariable("id") Long id) {
+		boolean checkVote = voteForPlaceService.checkIfHeVoted(id);
+		return new ResponseEntity<>(new CheckVoteResponse(checkVote), HttpStatus.OK);
 	}
 
 }
