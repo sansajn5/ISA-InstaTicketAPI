@@ -26,7 +26,10 @@ import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
+import com.isa.instaticketapi.service.dto.AttendenceDTO;
+import com.isa.instaticketapi.service.dto.ResponseAttendence;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
+import com.isa.instaticketapi.web.rest.vm.AttendenceResponse;
 import com.isa.instaticketapi.web.rest.vm.VoteForPlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.EventResponse.EventsResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
@@ -284,7 +287,7 @@ public class PlaceResource {
 	 * @param id
 	 *            id of seat for quick reservation
 	 */
-	/*@ApiOperation(value = "Get attendence for Place", response = HttpStatus.class)
+	@ApiOperation(value = "Get attendence for Place", response = AttendenceResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -294,13 +297,15 @@ public class PlaceResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
 	@PutMapping("/attendence/{id}")
-	public ResponseEntity<AttendenceResponse> getAttendence(@PathVariable("id") Long id) {
+	public ResponseEntity<AttendenceResponse> getAttendence(@PathVariable("id") Long id,
+			@RequestBody AttendenceDTO attendenceDTO) {
 		if (placeRepository.findOneById(id) == null) {
 			throw new IllegalArgumentException("Invalid id !");
 		}
-		ArrayList<Seat> seats = placeService.getQuickSeats(id);
-		return new ResponseEntity<>(new attendence(seats), HttpStatus.OK);
+		ArrayList<ResponseAttendence> list = placeService.getAttendence(id, attendenceDTO);
 
-	}*/
+		return new ResponseEntity<>(new AttendenceResponse(list), HttpStatus.OK);
+
+	}
 
 }
