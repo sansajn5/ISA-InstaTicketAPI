@@ -336,7 +336,7 @@ public class PlaceService {
 					for (int j = 0; j < reservations.size(); j++) {
 						if ((reservations.get(j).getProjection().getReperotry()).equals(repertories.get(i))
 								&& (reservations.get(j).getProjection().getHall().getPlace()).equals(place)) {
-							Ticket ticket = ticketRepository.findAllByReservation(reservations.get(j));
+							Ticket ticket = ticketRepository.findOneByReservation(reservations.get(j));
 							String typeSeat = ticket.getTickeyType();
 							if (typeSeat == Constants.BALCONY_TICKET) {
 								count += reservations.get(j).getProjection().getBalconyPrice();
