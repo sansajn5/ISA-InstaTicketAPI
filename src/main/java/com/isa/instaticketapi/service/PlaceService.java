@@ -68,10 +68,10 @@ public class PlaceService {
 
 	@Autowired
 	private SeatRepository seatRepository;
-	
+
 	@Autowired
 	private ReservationRepository reservationrepository;
-	
+
 	@Autowired
 	private ReservationStateRepository reservationStaterepository;
 
@@ -222,7 +222,8 @@ public class PlaceService {
 
 	/**
 	 * 
-	 * @param id id of place
+	 * @param id
+	 *            id of place
 	 * @return list of seat object
 	 */
 	public ArrayList<Seat> getQuickSeats(Long id) {
@@ -233,8 +234,8 @@ public class PlaceService {
 		for (int i = 0; i < halls.size(); i++) {
 			ArrayList<Seat> allSeat = seatRepository.findAllByHall(halls.get(i));
 			for (int j = 0; j < allSeat.size(); j++) {
-				if ((allSeat.get(j).getSeatType()).equals("Brza rezervacija") && !allSeat.get(j).isReserved()
-						&& allSeat.get(j).isSeat()) {
+				if ((allSeat.get(j).getSeatType()).equals(Constants.QUICK_SEAT) && !allSeat.get(j).isReserved()
+						&& !allSeat.get(j).isSeat()) {
 					seats.add(allSeat.get(j));
 				}
 			}
@@ -251,16 +252,17 @@ public class PlaceService {
 	public void reservation(Long id) {
 		Seat seat = seatRepository.findOneById(id);
 		seat.setReserved(true);
-		
+
 		Reservation reservation = new Reservation();
 		reservation.setProjection(seat.getProjection());
 		reservationrepository.save(reservation);
-		
-		ReservationState reservationState= new ReservationState();
+
+		ReservationState reservationState = new ReservationState();
 		reservationState.setReservation(reservation);
-		//User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-	//	reservationState.setUserIncludedInReservation(logged);
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		reservationState.setUserIncludedInReservation(logged);
 		reservationStaterepository.save(reservationState);
-		
+
 	}
+
 }

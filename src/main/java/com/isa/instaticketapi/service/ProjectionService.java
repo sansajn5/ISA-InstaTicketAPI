@@ -1,7 +1,6 @@
 package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.Seat;
-import com.isa.instaticketapi.domain.VoteForPlace;
+import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForEvent;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.HallRepository;
@@ -25,6 +24,7 @@ import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForEventRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
 import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 
@@ -66,12 +66,12 @@ public class ProjectionService {
 
 	public void createProjection(ProjectionDTO projectionDTO, Long id) {
 		Projection projection = new Projection();
-
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		Place place = placeRepository.findOneById(id);
 		String hallName = projectionDTO.getHallName();
 		String eventName = projectionDTO.getEventName();
 
-		projection.setCreatedBy("milica");
+		projection.setCreatedBy(logged.getUsername());
 		projection.setStartTime(projectionDTO.getStartTime());
 		projection.setEndTime(projectionDTO.getEndTime());
 		String date = projectionDTO.getDate();
@@ -122,7 +122,8 @@ public class ProjectionService {
 		if (repertories.isEmpty()) {
 			Repertory reprtory1 = new Repertory();
 			reprtory1.setPlace(place);
-			reprtory1.setCreatedBy("milica");
+			reprtory1.setCreatedBy(
+					SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get().getUsername());
 			reprtory1.setDate(datePares);
 
 			repertoryRepository.save(reprtory1);
@@ -130,9 +131,43 @@ public class ProjectionService {
 		}
 
 		// VALIDACIJA ZA POCETNO I KRAJNJE VREME
-		// User logged
-		// =SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		// projection.setCreatedBy(logged.getUsername());
+
+		String startTime = projectionDTO.getStartTime();
+		String[] timeS = startTime.split(":");
+		String startT = timeS[0] + timeS[1];
+		int start = Integer.parseInt(startT);
+
+		String endTime = projectionDTO.getEndTime();
+		String[] timeE = endTime.split(":");
+		String endT = timeE[0] + timeE[1];
+		int end = Integer.parseInt(endT);
+
+		ArrayList<Projection> projections = projectionRepository.findAllByHall(h);
+
+		for (int i = 0; i < projections.size(); i++) {
+			if ((projections.get(i).getDate()).equals(datePares)) {
+
+				String startProjection = projections.get(i).getStartTime();
+				String[] sss = startProjection.split(":");
+				String startP = sss[0] + sss[1];
+				int startProjectionTime = Integer.parseInt(startP);
+
+				String endProjection = projections.get(i).getEndTime();
+				String[] ss = endProjection.split(":");
+				String endP = ss[0] + ss[1];
+				int endProjectionTime = Integer.parseInt(endP);
+
+				if (start >= startProjectionTime && start <= endProjectionTime) {
+
+					throw new IllegalArgumentException("Hall is busy !!!");
+
+				} else if (end >= startProjectionTime && end <= endProjectionTime) {
+
+					throw new IllegalArgumentException("Hall is busy !!!");
+
+				}
+			}
+		}
 
 		projection.setRegularPrice(projectionDTO.getRegularPrice());
 		projection.setVipPrice(projectionDTO.getVipPrice());
@@ -142,7 +177,7 @@ public class ProjectionService {
 		projectionRepository.save(projection);
 
 		for (int i = 1; i <= h.getRow(); i++) {
-			for (int j = 1; j < h.getCol(); j++) {
+			for (int j = 1; j <= h.getCol(); j++) {
 				Seat seatForProjection = new Seat();
 				seatForProjection.setCordX(i);
 				seatForProjection.setCordY(j);
@@ -187,11 +222,10 @@ public class ProjectionService {
 	public int getVoteForEvent(Long id) {
 
 		Projection projection = projectionRepository.findOneById(id);
-		Event event= projection.getEvent();
+		Event event = projection.getEvent();
 		int voteSum = 0;
 		int vote = 0;
-		ArrayList<VoteForEvent> votes = voteForEventRepository
-				.findAllByEvent(event);
+		ArrayList<VoteForEvent> votes = voteForEventRepository.findAllByEvent(event);
 		for (int i = 0; i < votes.size(); i++) {
 			voteSum += votes.get(i).getVote();
 		}
@@ -200,5 +234,53 @@ public class ProjectionService {
 		}
 		vote = voteSum / votes.size();
 		return vote;
+	}
+
+	public void editProjection(ProjectionDTO projectionDTO, Long id, Long projectionId) {
+		Projection projection = projectionRepository.findOneById(projectionId);
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+
+		if (!calculateRange(projectionDTO))
+			throw new IllegalArgumentException("Hall is used in that time");
+
+		projection.setStartTime(projectionDTO.getStartTime());
+		projection.setEndTime(projectionDTO.getEndTime());
+		String date = projectionDTO.getDate();
+		String[] dat = date.split("-");
+		String datePares = dat[2] + '-' + dat[1] + '-' + dat[0];
+		projection.setDate(datePares);
+
+		ArrayList<Repertory> repertories = repertoryRepository.findALLByDate(datePares);
+
+		if (repertories.isEmpty()) {
+			Place place = placeRepository.findOneById(id);
+			Repertory reprtory1 = new Repertory();
+			reprtory1.setPlace(place);
+			reprtory1.setCreatedBy(logged.getUsername());
+			reprtory1.setDate(datePares);
+			repertoryRepository.save(reprtory1);
+			projection.setReperotry(reprtory1);
+		}
+
+		projection.setRegularPrice(projectionDTO.getRegularPrice());
+		projection.setVipPrice(projectionDTO.getVipPrice());
+		projection.setBalconyPrice(projectionDTO.getBalconyPrice());
+		projection.setQuickTicketPrice(projectionDTO.getRegularPrice() * (projectionDTO.getSalePercentage() / 100));
+
+		projectionRepository.save(projection);
+
+		for (SeatDTO seat : projectionDTO.getSeatDTO()) {
+			log.info("setting new seats");
+			Seat tempSeat = seatRepository.findOneByCordXAndCordYAndProjection(seat.getCordX(), seat.getCordY(),
+					projection);
+			tempSeat.setSeatType(seat.getType());
+			tempSeat.setSeat(seat.isSeat());
+			seatRepository.save(tempSeat);
+		}
+	}
+
+	public boolean calculateRange(ProjectionDTO projectionDTO) {
+		// LOGIC FOR CHECKING TIME
+		return true;
 	}
 }

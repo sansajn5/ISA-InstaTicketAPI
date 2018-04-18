@@ -201,7 +201,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("{id}/event-in-place")
+	@GetMapping("/{id}/event-in-place")
 	public ResponseEntity<EventsResponse> getEventsInPlace(@PathVariable("id") Long id) {
 		ArrayList<Event> events = placeService.getEventsInPlace(id);
 		return new ResponseEntity<>(new EventsResponse(events), HttpStatus.OK);
@@ -235,7 +235,8 @@ public class PlaceResource {
 
 	/**
 	 * 
-	 * @param id id of place 
+	 * @param id
+	 *            id of place
 	 * @return place vote
 	 */
 	@ApiOperation(value = "Get all vote for Place", response = VoteForPlaceResponse.class)
@@ -285,7 +286,7 @@ public class PlaceResource {
 	 * @param id
 	 *            id of seat for quick reservation
 	 */
-	@ApiOperation(value = "Reservation for  quick seats for Place", response = HttpStatus.class)
+	/*@ApiOperation(value = "Get attendence for Place", response = HttpStatus.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -294,10 +295,14 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PutMapping("/quick-seats/{id}")
-	public void reservation(@PathVariable("id") Long id) {
-		placeService.reservation(id);
+	@PutMapping("/attendence/{id}")
+	public ResponseEntity<AttendenceResponse> getAttendence(@PathVariable("id") Long id) {
+		if (placeRepository.findOneById(id) == null) {
+			throw new IllegalArgumentException("Invalid id !");
+		}
+		ArrayList<Seat> seats = placeService.getQuickSeats(id);
+		return new ResponseEntity<>(new attendence(seats), HttpStatus.OK);
 
-	}
+	}*/
 
 }
