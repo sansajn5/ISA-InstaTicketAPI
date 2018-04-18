@@ -6,6 +6,10 @@ import com.isa.instaticketapi.domain.Item;
 
 public class ItemsResponse {
 	
+	public ItemsResponse() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	private List<Item> items;
 	
 

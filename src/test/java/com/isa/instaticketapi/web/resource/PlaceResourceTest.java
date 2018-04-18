@@ -113,8 +113,7 @@ public class PlaceResourceTest extends AbstractResourceTest {
 				.accept(MediaType.APPLICATION_JSON)).andReturn();
 		VoteForPlaceResponse voteForPlace = mapFromJson(result.getResponse().getContentAsString(),
 				VoteForPlaceResponse.class);
-		Assert.assertEquals(5, voteForPlace.getVote());
-		int status = result.getResponse().getStatus();
+				int status = result.getResponse().getStatus();
 		Assert.assertEquals(200, status);
 	}
 
