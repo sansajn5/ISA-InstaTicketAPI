@@ -424,7 +424,7 @@ public class DataLoader implements ApplicationRunner {
 		place.setAddress("Bul. Mihajla pupina 3");
 		place.setDescripton(
 				"Arena Cineplex je kompletno renovirana 2010. godine u skladu sa najnovijim svetskim standardima. Rekonstrukcijom i adaptacijom starog bioskopskog prostora dobijen je prvi multipleks u Vojvodini, sa sest vrhunski opremljenih sala, ukupnog kapaciteta od skoro 1.000 mesta, kao i dva ugostiteljska objekta -"
-						+ " Cinema i The End cafe.Pored redovnog filmskog repertoara, u Areni Cineplex se organizuju svecane premijere domacih filmova, kao i festivali FEST, Cinema City, Cinemania i Kids Fest. Važan segment nase ponude cine i mogucnost kupovine koncesija (kokice, nacosi i razna bezalkoholna pica) koje publika moze da konzumira tokom trajanja projekcije."
+						+ " Cinema i The End cafe.Pored redovnog filmskog repertoara, u Areni Cineplex se organizuju svecane premijere domacih filmova, kao i festivali FEST, Cinema City, Cinemania i Kids Fest. Vazan segment nase ponude cine i mogucnost kupovine koncesija (kokice, nacosi i razna bezalkoholna pica) koje publika moze da konzumira tokom trajanja projekcije."
 						+ "");
 		place1.setName("Cinestar Pancevo");
 		place1.setType("Bioskop");
@@ -533,7 +533,7 @@ public class DataLoader implements ApplicationRunner {
 
 		event8.setName("A Quiet Place");
 		event8.setActors("Emily Blunt, John Krasinski");
-		event8.setCreatedBy(
+		event8.setDescription(
 				"U modernom hororu i trileru TIHO MESTO, cetvoroclana porodica mora da vodi zivot u apsolutnoj tisini, nakon sto njihov opstanak ugroze misteriozna bica koja love onog ko ispusti i najmanji zvuk. Ako te cuju, ulovice te!");
 		event8.setDirector("John Krasinski");
 		event8.setType("Horor, Triler");
@@ -544,7 +544,7 @@ public class DataLoader implements ApplicationRunner {
 
 		event9.setName("A Quiet Place");
 		event9.setActors("Emily Blunt, John Krasinski");
-		event9.setCreatedBy(
+		event9.setDescription(
 				"U modernom hororu i trileru TIHO MESTO, cetvoroclana porodica mora da vodi zivot u apsolutnoj tisini, nakon sto njihov opstanak ugroze misteriozna bica koja love onog ko ispusti i najmanji zvuk. Ako te cuju, ulovice te!");
 		event9.setDirector("John Krasinski");
 		event9.setType("Horor, Triler");

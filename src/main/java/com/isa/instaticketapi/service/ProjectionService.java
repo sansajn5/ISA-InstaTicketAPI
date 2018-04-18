@@ -1,15 +1,21 @@
 package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
-
-import com.isa.instaticketapi.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.isa.instaticketapi.security.SecurityUtils;
+
 import com.isa.instaticketapi.config.Constants;
+import com.isa.instaticketapi.domain.Event;
+import com.isa.instaticketapi.domain.Hall;
+import com.isa.instaticketapi.domain.Place;
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Repertory;
+import com.isa.instaticketapi.domain.Seat;
+import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.domain.VoteForEvent;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
@@ -18,6 +24,7 @@ import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForEventRepository;
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
 import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 
@@ -115,7 +122,8 @@ public class ProjectionService {
 		if (repertories.isEmpty()) {
 			Repertory reprtory1 = new Repertory();
 			reprtory1.setPlace(place);
-			reprtory1.setCreatedBy(SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get().getUsername());
+			reprtory1.setCreatedBy(
+					SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get().getUsername());
 			reprtory1.setDate(datePares);
 
 			repertoryRepository.save(reprtory1);
@@ -123,9 +131,43 @@ public class ProjectionService {
 		}
 
 		// VALIDACIJA ZA POCETNO I KRAJNJE VREME
-		// User logged
-		// =SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		// projection.setCreatedBy(logged.getUsername());
+
+		String startTime = projectionDTO.getStartTime();
+		String[] timeS = startTime.split(":");
+		String startT = timeS[0] + timeS[1];
+		int start = Integer.parseInt(startT);
+
+		String endTime = projectionDTO.getEndTime();
+		String[] timeE = endTime.split(":");
+		String endT = timeE[0] + timeE[1];
+		int end = Integer.parseInt(endT);
+
+		ArrayList<Projection> projections = projectionRepository.findAllByHall(h);
+
+		for (int i = 0; i < projections.size(); i++) {
+			if ((projections.get(i).getDate()).equals(datePares)) {
+
+				String startProjection = projections.get(i).getStartTime();
+				String[] sss = startProjection.split(":");
+				String startP = sss[0] + sss[1];
+				int startProjectionTime = Integer.parseInt(startP);
+
+				String endProjection = projections.get(i).getEndTime();
+				String[] ss = endProjection.split(":");
+				String endP = ss[0] + ss[1];
+				int endProjectionTime = Integer.parseInt(endP);
+
+				if (start >= startProjectionTime && start <= endProjectionTime) {
+
+					throw new IllegalArgumentException("Hall is busy !!!");
+
+				} else if (end >= startProjectionTime && end <= endProjectionTime) {
+
+					throw new IllegalArgumentException("Hall is busy !!!");
+
+				}
+			}
+		}
 
 		projection.setRegularPrice(projectionDTO.getRegularPrice());
 		projection.setVipPrice(projectionDTO.getVipPrice());
@@ -180,11 +222,10 @@ public class ProjectionService {
 	public int getVoteForEvent(Long id) {
 
 		Projection projection = projectionRepository.findOneById(id);
-		Event event= projection.getEvent();
+		Event event = projection.getEvent();
 		int voteSum = 0;
 		int vote = 0;
-		ArrayList<VoteForEvent> votes = voteForEventRepository
-				.findAllByEvent(event);
+		ArrayList<VoteForEvent> votes = voteForEventRepository.findAllByEvent(event);
 		for (int i = 0; i < votes.size(); i++) {
 			voteSum += votes.get(i).getVote();
 		}
@@ -195,11 +236,11 @@ public class ProjectionService {
 		return vote;
 	}
 
-	public void editProjection(ProjectionDTO projectionDTO, Long id,Long projectionId) {
+	public void editProjection(ProjectionDTO projectionDTO, Long id, Long projectionId) {
 		Projection projection = projectionRepository.findOneById(projectionId);
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 
-		if(!calculateRange(projectionDTO))
+		if (!calculateRange(projectionDTO))
 			throw new IllegalArgumentException("Hall is used in that time");
 
 		projection.setStartTime(projectionDTO.getStartTime());
@@ -239,7 +280,7 @@ public class ProjectionService {
 	}
 
 	public boolean calculateRange(ProjectionDTO projectionDTO) {
-		//LOGIC FOR CHECKING TIME
+		// LOGIC FOR CHECKING TIME
 		return true;
 	}
 }
