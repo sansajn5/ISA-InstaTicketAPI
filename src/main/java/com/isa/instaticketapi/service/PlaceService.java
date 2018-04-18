@@ -19,6 +19,7 @@ import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.Reservation;
 import com.isa.instaticketapi.domain.ReservationState;
 import com.isa.instaticketapi.domain.Seat;
+import com.isa.instaticketapi.domain.Ticket;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForPlace;
 import com.isa.instaticketapi.repository.EventRepository;
@@ -29,11 +30,12 @@ import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.ReservationRepository;
 import com.isa.instaticketapi.repository.ReservationStateRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
+import com.isa.instaticketapi.repository.TicketRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForPlaceRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
-import com.isa.instaticketapi.service.dto.AttendenceDTO;
-import com.isa.instaticketapi.service.dto.ResponseAttendence;
+import com.isa.instaticketapi.service.dto.StatisticDTO;
+import com.isa.instaticketapi.service.dto.ResponseStatistic;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 
 /**
@@ -76,6 +78,9 @@ public class PlaceService {
 
 	@Autowired
 	private ReservationStateRepository reservationStaterepository;
+
+	@Autowired
+	private TicketRepository ticketRepository;
 
 	/**
 	 * 
@@ -267,8 +272,8 @@ public class PlaceService {
 
 	}
 
-	public ArrayList<ResponseAttendence> getAttendence(Long id, AttendenceDTO attendenceDTO) {
-		ArrayList<ResponseAttendence> list = new ArrayList<ResponseAttendence>();
+	public ArrayList<ResponseStatistic> getAttendence(Long id, StatisticDTO attendenceDTO) {
+		ArrayList<ResponseStatistic> list = new ArrayList<ResponseStatistic>();
 
 		String fromNoParse = attendenceDTO.getDateFrom();
 		String to = attendenceDTO.getDateTo();
@@ -283,32 +288,72 @@ public class PlaceService {
 
 			for (int i = 0; i < repertories.size(); i++) {
 				if ((repertories.get(i).getDate()).equals(from)) {
-					ResponseAttendence responseAttendece = new ResponseAttendence();
+					ResponseStatistic responseAttendece = new ResponseStatistic();
 					int count = 0;
-
-					/*
-					 * for (int j = 0; j < projections.size(); j++) {
-					 * ArrayList<Reservation> reservations = new
-					 * ArrayList<Reservation>(); reservations =
-					 * reservationrepository.findAllByProjection(projections.get
-					 * (i)); count += reservations.size();
-					 * 
-					 * }
-					 */
 
 					ArrayList<Reservation> reservations = (ArrayList<Reservation>) reservationrepository.findAll();
 					for (int j = 0; j < reservations.size(); j++) {
 						if ((reservations.get(j).getProjection().getReperotry()).equals(repertories.get(i))
 								&& (reservations.get(j).getProjection().getHall().getPlace()).equals(place)) {
-							log.debug("AAAAAAAAA {}{}", (reservations.get(j).getProjection().getDate()).equals(from),(reservations.get(j).getProjection().getHall().getPlace()).equals(place));
-							count+=1;
+							count += 1;
 						}
 					}
 
 					responseAttendece.setDate(repertories.get(i).getDate());
 					responseAttendece.setAttendence(count);
 					list.add(responseAttendece);
-					
+
+				}
+			}
+			return list;
+		} else {
+			return list;
+		}
+
+	}
+
+	public ArrayList<ResponseStatistic> getInCome(Long id, StatisticDTO attendenceDTO) {
+		ArrayList<ResponseStatistic> list = new ArrayList<ResponseStatistic>();
+
+		String fromNoParse = attendenceDTO.getDateFrom();
+		String to = attendenceDTO.getDateTo();
+
+		String[] datFrom = fromNoParse.split("-");
+		String from = datFrom[2] + '-' + datFrom[1] + '-' + datFrom[0];
+
+		Place place = placeRepository.findOneById(id);
+		ArrayList<Repertory> repertories = repertoryRepository.findAllByPlace(place);
+
+		if (to.equals("undefined-undefined-undefined")) {
+
+			for (int i = 0; i < repertories.size(); i++) {
+				if ((repertories.get(i).getDate()).equals(from)) {
+					ResponseStatistic responseAttendece = new ResponseStatistic();
+					int count = 0;
+
+					ArrayList<Reservation> reservations = (ArrayList<Reservation>) reservationrepository.findAll();
+
+					for (int j = 0; j < reservations.size(); j++) {
+						if ((reservations.get(j).getProjection().getReperotry()).equals(repertories.get(i))
+								&& (reservations.get(j).getProjection().getHall().getPlace()).equals(place)) {
+							Ticket ticket = ticketRepository.findAllByReservation(reservations.get(j));
+							String typeSeat = ticket.getTickeyType();
+							if (typeSeat == Constants.BALCONY_TICKET) {
+								count += reservations.get(j).getProjection().getBalconyPrice();
+							} else if (typeSeat == Constants.QUICK_TICKET) {
+								count += reservations.get(j).getProjection().getQuickTicketPrice();
+							} else if (typeSeat == Constants.REGULAR_TICKET) {
+								count += reservations.get(j).getProjection().getRegularPrice();
+							} else {
+								count += reservations.get(j).getProjection().getVipPrice();
+							}
+						}
+					}
+
+					responseAttendece.setDate(repertories.get(i).getDate());
+					responseAttendece.setAttendence(count);
+					list.add(responseAttendece);
+
 				}
 			}
 			return list;

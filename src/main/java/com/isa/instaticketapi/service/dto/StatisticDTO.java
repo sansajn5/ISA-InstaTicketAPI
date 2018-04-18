@@ -1,18 +1,18 @@
 package com.isa.instaticketapi.service.dto;
 
-public class AttendenceDTO {
+public class StatisticDTO {
 	
 	private String dateFrom;
 	private String dateTo;
 
-	public AttendenceDTO() {
+	public StatisticDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 
 
-	public AttendenceDTO(String dateFrom, String dateTo) {
+	public StatisticDTO(String dateFrom, String dateTo) {
 		super();
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;

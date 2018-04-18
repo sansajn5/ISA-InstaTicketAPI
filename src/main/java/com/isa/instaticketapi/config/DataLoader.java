@@ -3,7 +3,6 @@ package com.isa.instaticketapi.config;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.isa.instaticketapi.domain.identity.FriendsIdentity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +22,11 @@ import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.Reservation;
 import com.isa.instaticketapi.domain.ReservationState;
 import com.isa.instaticketapi.domain.Seat;
+import com.isa.instaticketapi.domain.Ticket;
 import com.isa.instaticketapi.domain.User;
-import com.isa.instaticketapi.domain.VoteForPlace;
 import com.isa.instaticketapi.domain.VoteForEvent;
+import com.isa.instaticketapi.domain.VoteForPlace;
+import com.isa.instaticketapi.domain.identity.FriendsIdentity;
 import com.isa.instaticketapi.repository.AuthorityRepository;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.FriendsRepository;
@@ -37,9 +38,10 @@ import com.isa.instaticketapi.repository.RepertotyRepository;
 import com.isa.instaticketapi.repository.ReservationRepository;
 import com.isa.instaticketapi.repository.ReservationStateRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
+import com.isa.instaticketapi.repository.TicketRepository;
 import com.isa.instaticketapi.repository.UserRepository;
-import com.isa.instaticketapi.repository.VoteForPlaceRepository;
 import com.isa.instaticketapi.repository.VoteForEventRepository;
+import com.isa.instaticketapi.repository.VoteForPlaceRepository;
 import com.isa.instaticketapi.security.AuthoritiesConstants;
 
 /**
@@ -94,6 +96,9 @@ public class DataLoader implements ApplicationRunner {
 
 	@Autowired
 	private ReservationStateRepository reservationStateRepository;
+	
+	@Autowired
+	private TicketRepository ticketRepository;
 
 	private final Logger log = LoggerFactory.getLogger(DataLoader.class);
 
@@ -646,6 +651,9 @@ public class DataLoader implements ApplicationRunner {
 		projection.setDate(repertory.getDate());
 		projection.setSale(20);
 		projection.setRegularPrice(470);
+		projection.setBalconyPrice(300);
+		projection.setQuickTicketPrice(350);
+		projection.setVipPrice(500);
 
 		Projection projection2 = new Projection();
 		projection2.setCreatedBy("milica");
@@ -657,6 +665,9 @@ public class DataLoader implements ApplicationRunner {
 		projection2.setDate(repertory.getDate());
 		projection2.setSale(20);
 		projection2.setRegularPrice(350);
+		projection2.setBalconyPrice(300);
+		projection2.setQuickTicketPrice(230);
+		projection2.setVipPrice(500);
 
 		Projection projection3 = new Projection();
 		projection3.setCreatedBy("milica");
@@ -666,6 +677,10 @@ public class DataLoader implements ApplicationRunner {
 		projection3.setHall(hall2);
 		projection3.setEvent(event1);
 		projection3.setDate(repertory1.getDate());
+		projection3.setRegularPrice(350);
+		projection3.setBalconyPrice(300);
+		projection3.setQuickTicketPrice(200);
+		projection3.setVipPrice(500);
 
 		Projection projection4 = new Projection();
 		projection4.setCreatedBy("milica");
@@ -677,6 +692,9 @@ public class DataLoader implements ApplicationRunner {
 		projection4.setDate(repertory1.getDate());
 		projection4.setSale(20);
 		projection4.setRegularPrice(500);
+		projection4.setBalconyPrice(300);
+		projection4.setQuickTicketPrice(350);
+		projection4.setVipPrice(600);
 
 		Projection projection5 = new Projection();
 		projection5.setCreatedBy("milica");
@@ -753,26 +771,26 @@ public class DataLoader implements ApplicationRunner {
 		seat2.setHall(hall1);
 		seat2.setCordX(1);
 		seat2.setCordY(1);
-		seat2.setProjection(projection);
+		seat2.setProjection(projection3);
 		seat2.setReserved(true);
 		seat2.setSeat(false);
-		seat2.setSeatType("QUICK");
+		seat2.setSeatType("VIP");
 
 		Seat seat3 = new Seat();
 		seat3.setHall(hall3);
 		seat3.setCordX(5);
 		seat3.setCordY(1);
 		seat3.setProjection(projection4);
-		seat3.setReserved(false);
+		seat3.setReserved(true);
 		seat3.setSeat(false);
-		seat3.setSeatType("QUICK");
+		seat3.setSeatType("CLASSIC");
 
 		Seat seat4 = new Seat();
 		seat4.setHall(hall4);
 		seat4.setCordX(4);
 		seat4.setCordY(4);
 		seat4.setProjection(projection5);
-		seat4.setReserved(false);
+		seat4.setReserved(true);
 		seat4.setSeat(false);
 		seat4.setSeatType("QUICK");
 
@@ -802,6 +820,21 @@ public class DataLoader implements ApplicationRunner {
 		reservationState3.setReservation(reservation3);
 		reservationState3.setUsed(true);
 		reservationState3.setUserIncludedInReservation(comi);
+		
+		Ticket ticket1 = new Ticket();
+		ticket1.setReservation(reservation1);
+		ticket1.setSeat(seat1);
+		ticket1.setTickeyType(Constants.QUICK_TICKET);
+		
+		Ticket ticket2 = new Ticket();
+		ticket2.setReservation(reservation3);
+		ticket2.setSeat(seat3);
+		ticket2.setTickeyType(Constants.REGULAR_TICKET);
+		
+		Ticket ticket3 = new Ticket();
+		ticket3.setReservation(reservation2);
+		ticket3.setSeat(seat2);
+		ticket3.setTickeyType(Constants.VIP_TICKET);
 		try {
 
 			placeRepository.save(place);
@@ -859,6 +892,10 @@ public class DataLoader implements ApplicationRunner {
 			reservationStateRepository.save(reservationState1);
 			reservationStateRepository.save(reservationState2);
 			reservationStateRepository.save(reservationState3);
+			
+			ticketRepository.save(ticket1);
+			ticketRepository.save(ticket2);
+			ticketRepository.save(ticket3);
 
 			log.info("Starting seed for projection");
 

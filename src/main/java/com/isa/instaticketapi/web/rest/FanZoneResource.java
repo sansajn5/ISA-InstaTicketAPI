@@ -351,7 +351,7 @@ public class FanZoneResource {
 	}
 	
 	
-	@ApiOperation(value = "Reserving item", response = AdminRole.class)
+	/*@ApiOperation(value = "Reserving item", response = AdminRole.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -367,7 +367,7 @@ public class FanZoneResource {
 		
 		
 		return new ResponseEntity<>(new ReservationResponse(item,user),HttpStatus.OK);
-	}
+	}*/
 	
 	
 	@ApiOperation(value = "Confirming item reservation ", response = AdminRole.class)

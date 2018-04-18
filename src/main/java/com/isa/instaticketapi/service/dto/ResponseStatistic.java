@@ -1,16 +1,16 @@
 package com.isa.instaticketapi.service.dto;
 
-public class ResponseAttendence {
+public class ResponseStatistic {
 
 	private String date;
 	private int attendence;
 
-	public ResponseAttendence() {
+	public ResponseStatistic() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ResponseAttendence(String date, int attendence) {
+	public ResponseStatistic(String date, int attendence) {
 		super();
 		this.date = date;
 		this.attendence = attendence;
