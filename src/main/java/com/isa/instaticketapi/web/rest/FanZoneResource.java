@@ -20,14 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.instaticketapi.domain.Bid;
 import com.isa.instaticketapi.domain.Item;
+import com.isa.instaticketapi.domain.ItemReservation;
 import com.isa.instaticketapi.domain.Offer;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.service.FanZoneService;
+import com.isa.instaticketapi.service.ItemReservationService;
 import com.isa.instaticketapi.service.dto.BidDTO;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
+import com.isa.instaticketapi.service.dto.ItemReservationDTO;
 import com.isa.instaticketapi.service.dto.OfferDTO;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.BidResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.BidsResponse;
@@ -51,11 +54,17 @@ public class FanZoneResource {
 
 	@Autowired
 	private FanZoneService fanZoneService;
+	
+	@Autowired
+	private ItemReservationService itemReservationService;
 
 	@Autowired
 	private ItemRepository itemRepository;
 	
 	
+	public FanZoneResource() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	
@@ -336,6 +345,8 @@ public class FanZoneResource {
 				
 		Bid bid = fanZoneService.acceptBid(id);
 		
+		
+		
 		return new ResponseEntity<>(new BidResponse(bid),HttpStatus.OK);
 	}
 	
@@ -351,11 +362,29 @@ public class FanZoneResource {
 	@GetMapping("/reserve-item/{id}")
 	public ResponseEntity<ReservationResponse> reserveItem(@PathVariable("id") Long id) throws SQLException {
 		
-		Item item = fanZoneService.itemReservation(id);
+		Item item = itemReservationService.itemReservation(id);
 		User user = fanZoneService.getLogged();
 		
 		
 		return new ResponseEntity<>(new ReservationResponse(item,user),HttpStatus.OK);
+	}
+	
+	
+	@ApiOperation(value = "Confirming item reservation ", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@GetMapping("/reserve-item/{id}")
+	public ResponseEntity<ItemResponse> confirmReservation(@RequestBody ItemReservationDTO itemReservationDTO) throws SQLException {
+		
+		ItemReservation itReservation = itemReservationService.confirmReservation(itemReservationDTO);
+		
+		
+		return new ResponseEntity<>(new ItemResponse(itReservation.getItem()),HttpStatus.OK);
 	}
 	
 	

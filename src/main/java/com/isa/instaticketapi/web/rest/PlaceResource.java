@@ -53,6 +53,8 @@ public class PlaceResource {
 	@Autowired
 	private PlaceService placeService;
 
+	
+	
 	/**
 	 * GET: /getCinemas: return list of all cinemas.
 	 * 

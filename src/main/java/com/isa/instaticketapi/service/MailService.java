@@ -1,7 +1,9 @@
 package com.isa.instaticketapi.service;
 
-import com.isa.instaticketapi.config.ApplicationProperties;
-import com.isa.instaticketapi.domain.User;
+import java.util.Locale;
+
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +16,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import javax.mail.internet.MimeMessage;
-import java.util.Locale;
+import com.isa.instaticketapi.config.ApplicationProperties;
+import com.isa.instaticketapi.domain.Offer;
+import com.isa.instaticketapi.domain.User;
 
 
 /**
@@ -29,6 +32,8 @@ public class MailService {
     private final Logger log = LoggerFactory.getLogger(MailService.class);
 
     private static final String USER = "user";
+    
+    private static final String OFFER = "offer";
 
     private static final String BASE_URL = "baseUrl";
 
@@ -87,8 +92,21 @@ public class MailService {
     @Async
     public void sendEmailFromTemplate(User user, String templateName, String titleKey) {
         Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context();
+        context.setVariable(USER, user);
+        context.setVariable(BASE_URL, applicationProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(user.getEmail(), subject, content, false, true);
+    }
+    
+    
+    @Async
+    public void sendEmailFromTemplateItem(Offer offer, User user, String templateName, String titleKey) {
+        Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable(USER, user);
+        context.setVariable(OFFER, offer);
         context.setVariable(BASE_URL, applicationProperties.getMail().getBaseUrl());
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
@@ -106,6 +124,18 @@ public class MailService {
         sendEmailFromTemplate(user, "activationEmail", "email.activation.title");
     }
 
+    
+    
+    @Async
+    public void sendItemAcceptedEmail(Offer offer, User user) {
+    	
+    	log.debug("Sending activation email to '{}'", user.getEmail());
+    	
+    	// sendEmailFromTemplate(user, "activationEmail", "email.activation.title");
+    }
+    
+    
+    
     /**
      * Sending creation email to user
      *

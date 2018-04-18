@@ -48,6 +48,9 @@ public class FanZoneService {
 	@Autowired
 	private BidRepository bidRepository;
 	
+	@Autowired
+	private MailService mailService;
+	
 	
 	
 	public List<Item> getItems() {
@@ -221,19 +224,19 @@ public class FanZoneService {
 		
 		Offer offer = offerRepository.findOne(id);
 		
-		User user = userRepository.findOneByUsername("sansajn").get();
+		//User user = userRepository.findOneByUsername("sansajn").get();
 		
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		
 			
 		Bid bid = new Bid(logged, offer, bidDTO.getSum());
-		bid.setCreatedBy(user.getUsername());
+		bid.setCreatedBy(logged.getUsername());
 		
 		int size = bidRepository.findAllByOfferId(id).size();
 		String ordNum = Integer.toString(size+1);
 		bid.setOrdNum(ordNum);
 		
-		bid.setUserName(user.getUsername());
+		bid.setUserName(logged.getUsername());
 		
 		bidRepository.save(bid);
 		
@@ -267,19 +270,30 @@ public class FanZoneService {
 		offer.setSold(true);
 		offerRepository.save(offer);
 		
+		String username = bid.getUserName();
+		User user = userRepository.findOneByUsername(username).get();
+		String email = user.getEmail();
 		
-		// sending mail to users
+		//mailService.sendItemAcceptedEmail(offer, user);
+		
+		List<Bid> bidsUnsucces = bidRepository.findAllByOfferId(id);
+		bidsUnsucces.remove(bid);
+		
+		for(Bid b : bidsUnsucces) {
+			
+			String usern = b.getUserName();
+			User us = userRepository.findOneByUsername(usern).get();
+			String mail = user.getEmail();
+			
+			// send unsucces
+		}
+		
+		
 		
 		return bid;
 	}
 	
 	
-	public Item itemReservation(Long id) {
-		
-		Item item = itemRepository.findOneById(id);
-		
-		return item;
-	}
 	
 	
 	public User getLogged() {

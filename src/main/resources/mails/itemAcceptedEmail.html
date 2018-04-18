@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="#{email.itemAccepting.title}">InstaTicket offer</title>
+      <!--   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+    	--> 
+    </head>
+    <body>
+       <!-- <p th:text="#{email.itemAccepting.greeting(${user.username})}">
+            Dear
+        </p>    -->
+        <p th:text="#{email.itemAccepting.text1}">
+            Vasa ponuda je prihvacena!
+        </p>
+      <!--
+        <p>
+            <span th:text="#{email.itemAccepting.text2}">Regards, </span>
+            <br/>
+            <em th:text="#{email.signature}">InstaTicket.</em>
+        </p> -->
+    </body>
+</html>
