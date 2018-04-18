@@ -1,5 +1,8 @@
 package com.isa.instaticketapi.web.rest;
 
+import com.isa.instaticketapi.domain.Seat;
+import com.isa.instaticketapi.repository.SeatRepository;
+import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/projection")
 public class ProjectionResource {
@@ -44,6 +50,9 @@ public class ProjectionResource {
 	
 	@Autowired
 	private EventRepository eventRepository;
+
+	@Autowired
+	private SeatRepository seatRepository;
 
 	@ApiOperation(value = "Creating new projection", response = HttpStatus.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
@@ -103,7 +112,17 @@ public class ProjectionResource {
 			throw new IllegalArgumentException("Invalid id!");
 		}
 		Projection projection = projectionService.getProjection(id);
-		return new ResponseEntity<>(new ProjectionResponse(projection), HttpStatus.OK);
+		List<Seat> seats = seatRepository.findAllByProjection(projection);
+		List<SeatDTO> tempList = new ArrayList<>();
+		for(Seat s: seats) {
+			SeatDTO temp = new SeatDTO();
+			temp.setCordX(s.getCordX());
+			temp.setCordY(s.getCordY());
+			temp.setSeat(s.isSeat());
+			temp.setType(s.getSeatType());
+			tempList.add(temp);
+		}
+		return new ResponseEntity<>(new ProjectionResponse(projection,tempList), HttpStatus.OK);
 	}
 	/**
 	 * 
@@ -126,5 +145,20 @@ public class ProjectionResource {
 		}
 		int vote = projectionService.getVoteForEvent(id);
 		return new ResponseEntity<>(new VoteForEventResponse(vote), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Editing projection", response = HttpStatus.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/{id}/projection/{projectionId}")
+	public void editProjection(@RequestBody ProjectionDTO projectionDTO,@PathVariable("id") Long id,@PathVariable("projectionId") Long projectionId) {
+		log.debug("REST request to create Projection : {}", projectionDTO);
+		projectionService.editProjection(projectionDTO,id,projectionId);
 	}
 }
