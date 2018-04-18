@@ -75,6 +75,9 @@ public class ItemReservationService {
 		
 		itemReservationRepository.save(ir);
 		
+		item.setSold(true);
+		itemRepository.save(item);
+		
 		return ir;
 	}
 	
