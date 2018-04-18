@@ -258,8 +258,8 @@ public class PlaceService {
 		
 		ReservationState reservationState= new ReservationState();
 		reservationState.setReservation(reservation);
-		//User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-	//	reservationState.setUserIncludedInReservation(logged);
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		reservationState.setUserIncludedInReservation(logged);
 		reservationStaterepository.save(reservationState);
 		
 	}

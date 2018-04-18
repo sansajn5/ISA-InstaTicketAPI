@@ -199,7 +199,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@GetMapping("{id}/event-in-place")
+	@GetMapping("/{id}/event-in-place")
 	public ResponseEntity<EventsResponse> getEventsInPlace(@PathVariable("id") Long id) {
 		ArrayList<Event> events = placeService.getEventsInPlace(id);
 		return new ResponseEntity<>(new EventsResponse(events), HttpStatus.OK);
@@ -292,7 +292,7 @@ public class PlaceResource {
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 
-	@PutMapping("/quick-seats/{id}")
+	@GetMapping("/quick-seats/{id}")
 	public void reservation(@PathVariable("id") Long id) {
 		placeService.reservation(id);
 
