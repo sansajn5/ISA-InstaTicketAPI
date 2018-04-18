@@ -3,6 +3,9 @@ package com.isa.instaticketapi.domain;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -10,6 +13,12 @@ import javax.persistence.Table;
 @Table(name = "ItemReservation")
 public class ItemReservation extends AbstractAuditingEntity {
 
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	
 	@Column
 	private String user;
 	
@@ -32,6 +41,22 @@ public class ItemReservation extends AbstractAuditingEntity {
 		this.user = user;
 		this.item = item;
 		this.place = place;
+	}
+
+
+	
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 

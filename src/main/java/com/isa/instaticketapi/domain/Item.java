@@ -35,8 +35,12 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 	@Column
 	private String price;
 	
+	@Column
+	private Boolean sold;
+	
 	public Item() {
 		// TODO Auto-generated constructor stub
+		this.sold = false;
 	}
 	
 	
@@ -46,6 +50,7 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 		this.description = description;
 		this.image = image;
 		this.price = price;
+		this.sold = false;
 	}
 
 	public Long getId() {
@@ -91,6 +96,16 @@ public class Item extends AbstractAuditingEntity implements Serializable{
 	}
 
 
+	public Boolean getSold() {
+		return sold;
+	}
+
+
+	public void setSold(Boolean sold) {
+		this.sold = sold;
+	}
+
+	
 	
 	
 	
