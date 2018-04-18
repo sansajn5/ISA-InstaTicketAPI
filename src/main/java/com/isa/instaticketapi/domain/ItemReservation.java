@@ -13,12 +13,11 @@ import javax.persistence.Table;
 @Table(name = "ItemReservation")
 public class ItemReservation extends AbstractAuditingEntity {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	
+
 	@Column
 	private String user;
 	
