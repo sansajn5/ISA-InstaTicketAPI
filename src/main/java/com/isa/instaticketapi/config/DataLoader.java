@@ -266,17 +266,15 @@ public class DataLoader implements ApplicationRunner {
 		place.setName("Srpsko narodno pozoriste");
 		place.setType("Pozoriste");
 		place.setCreatedBy("Milica");
-		place.setAddress("Позоришни трг 1");
-		place.setDescripton(
-				"Српско народно позориште је основано 16/28. јула 1861. године у Новом Саду, у тадашњој Царевини Аустрији (од 1867. Аустроугарска монархија). У Војводини је до тада већ постојала дуга позоришна традиција, од ђачких дилетантских представа, па све до приватних професионалних позоришних трупа. Позориште је оснивано у време буђења националне свести и борбе за националну слободу. У то доба у Новом Саду већина житеља је српске народности, велики број је високообразован, три четвртине имања и трговина били су у рукама Срба, тако да није случајно што је у Новом Саду основано Српско народно позориште. ");
-
+//		place.setAddress("Позоришни трг 1");
+//		place.setDescripton("Српско народно позориште је основано 16/28. јула 1861. године у Новом Саду, у тадашњој Царевини Аустрији (од 1867. Аустроугарска монархија). У Војводини је до тада већ постојала дуга позоришна традиција, од ђачких дилетантских представа, па све до приватних професионалних позоришних трупа. Позориште је оснивано у време буђења националне свести и борбе за националну слободу. У то доба у Новом Саду већина житеља је српске народности, велики број је високообразован, три четвртине имања и трговина били су у рукама Срба, тако да није случајно што је у Новом Саду основано Српско народно позориште. ");
 		place1.setName("Pozoriste mladih");
 		place1.setType("Pozoriste");
 		place1.setCreatedBy("Milica");
 		place1.setAddress("Ignjata Pavlasa 4");
-		place1.setDescripton(
-				"Pozorište mladih osnovano je 1932. godine kao Lutkarsko pozorište, pri Sokolskom društvu u Novom Sadu. Pozorište je nastalo iz Sokolske sekcije lutkara, koja je formirana 1930. godine, uz veliku podršku starešina Sokola, dr Vladimira Belajčića i dr Ignjata Pavlasa.");
-
+//		place1.setDescripton(
+//				"Pozorište mladih osnovano je 1932. godine kao Lutkarsko pozorište, pri Sokolskom društvu u Novom Sadu. Pozorište je nastalo iz Sokolske sekcije lutkara, koja je formirana 1930. godine, uz veliku podršku starešina Sokola, dr Vladimira Belajčića i dr Ignjata Pavlasa.");
+//
 		try {
 
 			placeRepository.save(place);
@@ -425,25 +423,24 @@ public class DataLoader implements ApplicationRunner {
 		place.setType("Bioskop");
 		place.setCreatedBy("Milica");
 		place.setAddress("Bul. Mihajla pupina 3");
-		place.setDescripton(
-				"Arena Cineplex je kompletno renovirana 2010. godine u skladu sa najnovijim svetskim standardima. Rekonstrukcijom i adaptacijom starog bioskopskog prostora dobijen je prvi multipleks u Vojvodini, sa šest vrhunski opremljenih sala, ukupnog kapaciteta od skoro 1.000 mesta, kao i dva ugostiteljska objekta -"
-						+ " Cinema i The End cafe.Pored redovnog filmskog repertoara, u Areni Cineplex se organizuju svečane premijere domaćih filmova, kao i festivali FEST, Cinema City, Cinemania i Kids Fest. Važan segment naše ponude čine i mogućnost kupovine koncesija (kokice, naćosi i razna bezalkoholna pića) koje publika može da konzumira tokom trajanja projekcije."
-						+ "");
+//		place.setDescripton("Arena Cineplex je kompletno renovirana 2010. godine u skladu sa najnovijim svetskim standardima. Rekonstrukcijom i adaptacijom starog bioskopskog prostora dobijen je prvi multipleks u Vojvodini, sa šest vrhunski opremljenih sala, ukupnog kapaciteta od skoro 1.000 mesta, kao i dva ugostiteljska objekta -"
+//						+ " Cinema i The End cafe.Pored redovnog filmskog repertoara, u Areni Cineplex se organizuju svečane premijere domaćih filmova, kao i festivali FEST, Cinema City, Cinemania i Kids Fest. Važan segment naše ponude čine i mogućnost kupovine koncesija (kokice, naćosi i razna bezalkoholna pića) koje publika može da konzumira tokom trajanja projekcije."
+//						+ "");
 		place1.setName("Cinestar Pancevo");
 		place1.setType("Bioskop");
 		place1.setCreatedBy("Milica");
-		place1.setAddress("Miloša Obrenovića 12");
-		place1.setDescripton(
-				"Brend CineStar razvio se iz bioskopa kompanije Kieft & Kieft Filmtheater GmbH, koja je, posle više od četiri decenije rada kao operater klasičnog bioskopa, još 1993. otvorila svoj prvi multipleks u Nemačkoj, pa brend od tada predstavlja veličanstveni spoj jedinstvene arhitekture, vrhunskog komfora, sofisticiranog enterijera, kao i inovativnih tehnologija zvuka i slike – sa više od 100 multipleksa - i to ne samo u Nemačkoj, nego u više evropskih zemalja (Češka, Švajcarska, Hrvatska, Bosna i Hercegovina i dr.)");
-
+//		place1.setAddress("Miloša Obrenovića 12");
+//		place1.setDescripton(
+//				"Brend CineStar razvio se iz bioskopa kompanije Kieft & Kieft Filmtheater GmbH, koja je, posle više od četiri decenije rada kao operater klasičnog bioskopa, još 1993. otvorila svoj prvi multipleks u Nemačkoj, pa brend od tada predstavlja veličanstveni spoj jedinstvene arhitekture, vrhunskog komfora, sofisticiranog enterijera, kao i inovativnih tehnologija zvuka i slike – sa više od 100 multipleksa - i to ne samo u Nemačkoj, nego u više evropskih zemalja (Češka, Švajcarska, Hrvatska, Bosna i Hercegovina i dr.)");
+//
 		
 		place2.setName("Cinestar NS");
 		place2.setType("Bioskop");
 		place2.setCreatedBy("Milica");
 		place2.setAddress("Big Soping Centar");
-		place2.setDescripton(
-				"Multipleksi CineStar potpuno su digitalizovani bioskopi opremljeni prema najsavremenijim standardima koji uključuju wall-to-wall platna najrenomiranijih svetskih proizvođača (Harkness Screens) i najbolju svetsku audio-vizuelnu tehnologiju, koja uključuje Barco Series-II digitalne projektore, Doremi i Barco ICMP Alchemy servere, RealD 3D tehnologiju, Dolby zvučne procesore, Crown audio pojačala i JBL zvučnike. ");
-
+//		place2.setDescripton(
+//				"Multipleksi CineStar potpuno su digitalizovani bioskopi opremljeni prema najsavremenijim standardima koji uključuju wall-to-wall platna najrenomiranijih svetskih proizvođača (Harkness Screens) i najbolju svetsku audio-vizuelnu tehnologiju, koja uključuje Barco Series-II digitalne projektore, Doremi i Barco ICMP Alchemy servere, RealD 3D tehnologiju, Dolby zvučne procesore, Crown audio pojačala i JBL zvučnike. ");
+//
 		Event event1 = new Event();
 		Event event2 = new Event();
 		Event event3 = new Event();
@@ -456,8 +453,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event1.setName("Tomb Raider");
 		event1.setActors("Alicia Vikander, Walton Goggins");
-		event1.setDescription(
-				"Lara Kroft je strastvena, samostalna devojka i ćerka ekscentričnog pustolova koji je nestao dok je ona još bila tinejdžerka. Sada, nakon sedam godina, Lara nema nikakav stvaran cilj ili svrhun ona odbija da preuzme uzde carstva svog oca jednako kao što odbija da prizna da je stvarno otišao.");
+//		event1.setDescription(
+//				"Lara Kroft je strastvena, samostalna devojka i ćerka ekscentričnog pustolova koji je nestao dok je ona još bila tinejdžerka. Sada, nakon sedam godina, Lara nema nikakav stvaran cilj ili svrhun ona odbija da preuzme uzde carstva svog oca jednako kao što odbija da prizna da je stvarno otišao.");
 		event1.setDirector("Roar Uthaug");
 		event1.setType("Akcioni, Avantura");
 		event1.setDuration(118);
@@ -468,8 +465,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event3.setName("Tomb Raider");
 		event3.setActors("Alicia Vikander, Walton Goggins");
-		event3.setDescription(
-				"Lara Kroft je strastvena, samostalna devojka i ćerka ekscentričnog pustolova koji je nestao dok je ona još bila tinejdžerka. Sada, nakon sedam godina, Lara nema nikakav stvaran cilj ili svrhun ona odbija da preuzme uzde carstva svog oca jednako kao što odbija da prizna da je stvarno otišao.");
+//		event3.setDescription(
+//				"Lara Kroft je strastvena, samostalna devojka i ćerka ekscentričnog pustolova koji je nestao dok je ona još bila tinejdžerka. Sada, nakon sedam godina, Lara nema nikakav stvaran cilj ili svrhun ona odbija da preuzme uzde carstva svog oca jednako kao što odbija da prizna da je stvarno otišao.");
 		event3.setDirector("Roar Uthaug");
 		event3.setType("Akcioni, Avantura");
 		event3.setDuration(118);
@@ -479,8 +476,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event4.setName("Tomb Raider");
 		event4.setActors("Alicia Vikander, Walton Goggins");
-		event4.setDescription(
-				"Lara Kroft je strastvena, samostalna devojka i ćerka ekscentričnog pustolova koji je nestao dok je ona još bila tinejdžerka. Sada, nakon sedam godina, Lara nema nikakav stvaran cilj ili svrhun ona odbija da preuzme uzde carstva svog oca jednako kao što odbija da prizna da je stvarno otišao.");
+//		event4.setDescription(
+//				"Lara Kroft je strastvena, samostalna devojka i ćerka ekscentričnog pustolova koji je nestao dok je ona još bila tinejdžerka. Sada, nakon sedam godina, Lara nema nikakav stvaran cilj ili svrhun ona odbija da preuzme uzde carstva svog oca jednako kao što odbija da prizna da je stvarno otišao.");
 		event4.setDirector("Roar Uthaug");
 		event4.setType("Akcioni, Avantura");
 		event4.setDuration(118);
@@ -491,8 +488,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event2.setName("Deadpool 2");
 		event2.setActors("Ryan Reynolds, Josh Brolin");
-		event2.setDescription(
-				"Ne bi li nekako sebi zabiberio život, a u potrazi za kondenzatorom fluksa, Vejd mora da se bori protiv nindži, jakuza i čopora seksualno agresivnih pasa, putujući po svetu i otkrivajući važnost porodice, prijatelja i ukusa.");
+//		event2.setDescription(
+//				"Ne bi li nekako sebi zabiberio život, a u potrazi za kondenzatorom fluksa, Vejd mora da se bori protiv nindži, jakuza i čopora seksualno agresivnih pasa, putujući po svetu i otkrivajući važnost porodice, prijatelja i ukusa.");
 		event2.setDirector("David Leitch");
 		event2.setType("Akcioni, Komedija, Avantura");
 		event2.setDuration(130);
@@ -502,8 +499,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event5.setName("Deadpool 2");
 		event5.setActors("Ryan Reynolds, Josh Brolin");
-		event5.setDescription(
-				"Ne bi li nekako sebi zabiberio život, a u potrazi za kondenzatorom fluksa, Vejd mora da se bori protiv nindži, jakuza i čopora seksualno agresivnih pasa, putujući po svetu i otkrivajući važnost porodice, prijatelja i ukusa.");
+//		event5.setDescription(
+//				"Ne bi li nekako sebi zabiberio život, a u potrazi za kondenzatorom fluksa, Vejd mora da se bori protiv nindži, jakuza i čopora seksualno agresivnih pasa, putujući po svetu i otkrivajući važnost porodice, prijatelja i ukusa.");
 		event5.setDirector("David Leitch");
 		event5.setType("Akcioni, Komedija, Avantura");
 		event5.setDuration(130);
@@ -513,8 +510,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event6.setName("The Bride");
 		event6.setActors("Viktoriya Agalakova, Vyacheslav Chepurchenko");
-		event6.setDescription(
-				"U davnoj prošlosti, jedan fotograf je održavao tradiciju fotografisanja umrlih članova svoje porodice. Kada mu je ženaumrla, sahranio je pored tela device kako bi oživeo duh svoje žene u telu mlade devojke.");
+//		event6.setDescription(
+//				"U davnoj prošlosti, jedan fotograf je održavao tradiciju fotografisanja umrlih članova svoje porodice. Kada mu je ženaumrla, sahranio je pored tela device kako bi oživeo duh svoje žene u telu mlade devojke.");
 		event6.setDirector(" Svyatoslav Podgaevskiy");
 		event6.setType("Horor, Triler");
 		event6.setDuration(93);
@@ -525,8 +522,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event7.setName("The Bride");
 		event7.setActors("Viktoriya Agalakova, Vyacheslav Chepurchenko");
-		event7.setDescription(
-				"U davnoj prošlosti, jedan fotograf je održavao tradiciju fotografisanja umrlih članova svoje porodice. Kada mu je ženaumrla, sahranio je pored tela device kako bi oživeo duh svoje žene u telu mlade devojke.");
+//		event7.setDescription(
+//				"U davnoj prošlosti, jedan fotograf je održavao tradiciju fotografisanja umrlih članova svoje porodice. Kada mu je ženaumrla, sahranio je pored tela device kako bi oživeo duh svoje žene u telu mlade devojke.");
 		event7.setDirector(" Svyatoslav Podgaevskiy");
 		event7.setType("Horor, Triler");
 		event7.setDuration(93);
@@ -537,8 +534,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event8.setName("A Quiet Place");
 		event8.setActors("Emily Blunt, John Krasinski");
-		event8.setCreatedBy(
-				"U modernom hororu i trileru TIHO MESTO, četvoročlana porodica mora da vodi život u apsolutnoj tišini, nakon što njihov opstanak ugroze misteriozna bića koja love onog ko ispusti i najmanji zvuk. Ako te čuju, uloviće te!");
+//		event8.setCreatedBy(
+//				"U modernom hororu i trileru TIHO MESTO, četvoročlana porodica mora da vodi život u apsolutnoj tišini, nakon što njihov opstanak ugroze misteriozna bića koja love onog ko ispusti i najmanji zvuk. Ako te čuju, uloviće te!");
 		event8.setDirector("John Krasinski");
 		event8.setType("Horor, Triler");
 		event8.setDuration(90);
@@ -548,8 +545,8 @@ public class DataLoader implements ApplicationRunner {
 
 		event9.setName("A Quiet Place");
 		event9.setActors("Emily Blunt, John Krasinski");
-		event9.setCreatedBy(
-				"U modernom hororu i trileru TIHO MESTO, četvoročlana porodica mora da vodi život u apsolutnoj tišini, nakon što njihov opstanak ugroze misteriozna bića koja love onog ko ispusti i najmanji zvuk. Ako te čuju, uloviće te!");
+//		event9.setCreatedBy(
+//				"U modernom hororu i trileru TIHO MESTO, četvoročlana porodica mora da vodi život u apsolutnoj tišini, nakon što njihov opstanak ugroze misteriozna bića koja love onog ko ispusti i najmanji zvuk. Ako te čuju, uloviće te!");
 		event9.setDirector("John Krasinski");
 		event9.setType("Horor, Triler");
 		event9.setDuration(90);

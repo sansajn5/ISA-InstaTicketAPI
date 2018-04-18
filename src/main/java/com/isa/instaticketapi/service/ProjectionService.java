@@ -2,21 +2,14 @@ package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
 
+import com.isa.instaticketapi.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.config.Constants;
-import com.isa.instaticketapi.domain.Event;
-import com.isa.instaticketapi.domain.Hall;
-import com.isa.instaticketapi.domain.Place;
-import com.isa.instaticketapi.domain.Projection;
-import com.isa.instaticketapi.domain.Repertory;
-import com.isa.instaticketapi.domain.Seat;
-import com.isa.instaticketapi.domain.VoteForPlace;
-import com.isa.instaticketapi.domain.VoteForEvent;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
@@ -66,12 +59,12 @@ public class ProjectionService {
 
 	public void createProjection(ProjectionDTO projectionDTO, Long id) {
 		Projection projection = new Projection();
-
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		Place place = placeRepository.findOneById(id);
 		String hallName = projectionDTO.getHallName();
 		String eventName = projectionDTO.getEventName();
 
-		projection.setCreatedBy("milica");
+		projection.setCreatedBy(logged.getUsername());
 		projection.setStartTime(projectionDTO.getStartTime());
 		projection.setEndTime(projectionDTO.getEndTime());
 		String date = projectionDTO.getDate();
@@ -122,7 +115,7 @@ public class ProjectionService {
 		if (repertories.isEmpty()) {
 			Repertory reprtory1 = new Repertory();
 			reprtory1.setPlace(place);
-			reprtory1.setCreatedBy("milica");
+			reprtory1.setCreatedBy(SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get().getUsername());
 			reprtory1.setDate(datePares);
 
 			repertoryRepository.save(reprtory1);
@@ -142,7 +135,7 @@ public class ProjectionService {
 		projectionRepository.save(projection);
 
 		for (int i = 1; i <= h.getRow(); i++) {
-			for (int j = 1; j < h.getCol(); j++) {
+			for (int j = 1; j <= h.getCol(); j++) {
 				Seat seatForProjection = new Seat();
 				seatForProjection.setCordX(i);
 				seatForProjection.setCordY(j);
@@ -200,5 +193,53 @@ public class ProjectionService {
 		}
 		vote = voteSum / votes.size();
 		return vote;
+	}
+
+	public void editProjection(ProjectionDTO projectionDTO, Long id,Long projectionId) {
+		Projection projection = projectionRepository.findOneById(projectionId);
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+
+		if(!calculateRange(projectionDTO))
+			throw new IllegalArgumentException("Hall is used in that time");
+
+		projection.setStartTime(projectionDTO.getStartTime());
+		projection.setEndTime(projectionDTO.getEndTime());
+		String date = projectionDTO.getDate();
+		String[] dat = date.split("-");
+		String datePares = dat[2] + '-' + dat[1] + '-' + dat[0];
+		projection.setDate(datePares);
+
+		ArrayList<Repertory> repertories = repertoryRepository.findALLByDate(datePares);
+
+		if (repertories.isEmpty()) {
+			Place place = placeRepository.findOneById(id);
+			Repertory reprtory1 = new Repertory();
+			reprtory1.setPlace(place);
+			reprtory1.setCreatedBy(logged.getUsername());
+			reprtory1.setDate(datePares);
+			repertoryRepository.save(reprtory1);
+			projection.setReperotry(reprtory1);
+		}
+
+		projection.setRegularPrice(projectionDTO.getRegularPrice());
+		projection.setVipPrice(projectionDTO.getVipPrice());
+		projection.setBalconyPrice(projectionDTO.getBalconyPrice());
+		projection.setQuickTicketPrice(projectionDTO.getRegularPrice() * (projectionDTO.getSalePercentage() / 100));
+
+		projectionRepository.save(projection);
+
+		for (SeatDTO seat : projectionDTO.getSeatDTO()) {
+			log.info("setting new seats");
+			Seat tempSeat = seatRepository.findOneByCordXAndCordYAndProjection(seat.getCordX(), seat.getCordY(),
+					projection);
+			tempSeat.setSeatType(seat.getType());
+			tempSeat.setSeat(seat.isSeat());
+			seatRepository.save(tempSeat);
+		}
+	}
+
+	public boolean calculateRange(ProjectionDTO projectionDTO) {
+		//LOGIC FOR CHECKING TIME
+		return true;
 	}
 }
