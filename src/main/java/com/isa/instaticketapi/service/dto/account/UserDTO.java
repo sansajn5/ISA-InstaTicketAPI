@@ -30,7 +30,7 @@ public class UserDTO {
 
     @NotBlank
     @Size(min = 6, max = 12)
-    private String repassword;
+    private String rePassword;
 
     @Size(min = 3, max = 12)
     private String firstName;
@@ -227,12 +227,12 @@ public class UserDTO {
         this.number = number;
     }
 
-    public String getRepassword() {
-        return repassword;
+    public String getRePassword() {
+        return rePassword;
     }
 
-    public void setRepassword(String repassword) {
-        this.repassword = repassword;
+    public void setRePassword(String repassword) {
+        this.rePassword = repassword;
     }
 
     @Override

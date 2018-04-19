@@ -66,7 +66,7 @@ public class AccountResourceTest extends AbstractResourceTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername("tester");
         userDTO.setPassword("testiranje");
-        userDTO.setRepassword("testiranje");
+        userDTO.setRePassword("testiranje");
         userDTO.setFirstName("tester");
         userDTO.setLastName("testirko");
         userDTO.setAddress("jovana ducica");
