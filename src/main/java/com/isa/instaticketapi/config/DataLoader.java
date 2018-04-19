@@ -413,7 +413,7 @@ public class DataLoader implements ApplicationRunner {
 		comi.setLastName("Kovacevic");
 		comi.setAuthorities(authoritiesUser);
 		comi.setActivated(true);
-		comi.setEmail("dejan8e@gmail.com");
+		comi.setEmail("dejana8e@gmail.com");
 		comi.setCreatedBy("sansajn");
 		comi.setCity("Novi Sad");
 		comi.setAddress("petrovaradin");

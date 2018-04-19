@@ -98,7 +98,7 @@ public class AccountResource {
 	public void signupAccount(@Valid @RequestBody UserDTO userDTO) {
 		log.debug("REST request to sign-up User : {}", userDTO);
 
-		if(!userDTO.getPassword().equals(userDTO.getRepassword()))
+		if(!userDTO.getPassword().equals(userDTO.getRePassword()))
 			throw new IllegalArgumentException("Password doesn't match");
 
 		userRepository.findOneByUsername(userDTO.getUsername()).ifPresent(user -> {
