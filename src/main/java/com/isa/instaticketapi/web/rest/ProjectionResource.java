@@ -1,5 +1,6 @@
 package com.isa.instaticketapi.web.rest;
 
+import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.service.dto.projection.SeatDTO;
@@ -120,6 +121,9 @@ public class ProjectionResource {
 			temp.setCordY(s.getCordY());
 			temp.setSeat(s.isSeat());
 			temp.setType(s.getSeatType());
+			if(s.isReserved()){
+				temp.setType(Constants.RESERVED);
+			}
 			tempList.add(temp);
 		}
 		return new ResponseEntity<>(new ProjectionResponse(projection,tempList), HttpStatus.OK);

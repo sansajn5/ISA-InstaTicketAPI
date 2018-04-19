@@ -16,6 +16,7 @@ public final class Constants {
     public static final String BALCONY_SEAT = "Balcony Seat";
     public static final String QUICK_SEAT = "QUICK";
     public static final String NOT_SEAT = "NOT SEAT";
+    public static final String RESERVED = "RESERVED";
 
     public static final String VIP_TICKET = "VIP";
     public static final String REGULAR_TICKET = "Regular";
