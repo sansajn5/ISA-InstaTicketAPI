@@ -576,8 +576,8 @@ public class DataLoader implements ApplicationRunner {
 
 		hall2.setName("Sala 2.");
 		hall2.setCreatedBy("Milica");
-		hall2.setCol(10);
-		hall2.setRow(8);
+		hall2.setCol(2);
+		hall2.setRow(2);
 		hall2.setPlace(place);
 
 		hall3.setName("Sala 3.");
@@ -623,7 +623,7 @@ public class DataLoader implements ApplicationRunner {
 
 		Repertory repertory1 = new Repertory();
 		repertory1.setCreatedBy("milica");
-		repertory1.setDate("24-4-2018");
+		repertory1.setDate("20-4-2018");
 		repertory1.setPlace(place);
 
 		Repertory repertory2 = new Repertory();
@@ -657,17 +657,17 @@ public class DataLoader implements ApplicationRunner {
 
 		Projection projection2 = new Projection();
 		projection2.setCreatedBy("milica");
-		projection2.setReperotry(repertory);
+		projection2.setReperotry(repertory1);
 		projection2.setStartTime("12:00");
 		projection2.setEndTime("14:00");
 		projection2.setHall(hall2);
 		projection2.setEvent(event1);
-		projection2.setDate(repertory.getDate());
+		projection2.setDate(repertory1.getDate());
 		projection2.setSale(20);
 		projection2.setRegularPrice(350);
-		projection2.setBalconyPrice(300);
-		projection2.setQuickTicketPrice(230);
-		projection2.setVipPrice(500);
+		projection2.setBalconyPrice(250);
+		projection2.setQuickTicketPrice(200);
+		projection2.setVipPrice(600);
 
 		Projection projection3 = new Projection();
 		projection3.setCreatedBy("milica");
@@ -839,6 +839,42 @@ public class DataLoader implements ApplicationRunner {
 		seat9.setSeat(false);
 		seat9.setSeatType("CLASSIC");
 		
+		Seat seat21 = new Seat();
+		seat21.setHall(hall2);
+		seat21.setCordX(1);
+		seat21.setCordY(1);
+		seat21.setProjection(projection2);
+		seat21.setReserved(true);
+		seat21.setSeat(false);
+		seat21.setSeatType("CLASSIC");
+		
+		Seat seat22 = new Seat();
+		seat22.setHall(hall2);
+		seat22.setCordX(1);
+		seat22.setCordY(2);
+		seat22.setProjection(projection2);
+		seat22.setReserved(true);
+		seat22.setSeat(false);
+		seat22.setSeatType("CLASSIC");
+		
+		Seat seat23 = new Seat();
+		seat23.setHall(hall2);
+		seat23.setCordX(2);
+		seat23.setCordY(1);
+		seat23.setProjection(projection2);
+		seat23.setReserved(false);
+		seat23.setSeat(false);
+		seat23.setSeatType("CLASSIC");
+		
+		Seat seat24 = new Seat();
+		seat24.setHall(hall2);
+		seat24.setCordX(2);
+		seat24.setCordY(2);
+		seat24.setProjection(projection2);
+		seat24.setReserved(true);
+		seat24.setSeat(false);
+		seat24.setSeatType("QUICK");
+		
 
 		Reservation reservation1 = new Reservation();
 		reservation1.setProjection(projection);
@@ -846,8 +882,14 @@ public class DataLoader implements ApplicationRunner {
 		Reservation reservation2 = new Reservation();
 		reservation2.setProjection(projection);
 
-		/*Reservation reservation3 = new Reservation();
-		reservation3.setProjection(projection4);*/
+		Reservation reservation21 = new Reservation();
+		reservation21.setProjection(projection2);
+		
+		Reservation reservation22 = new Reservation();
+		reservation22.setProjection(projection2);
+		
+		Reservation reservation23 = new Reservation();
+		reservation23.setProjection(projection2);
 
 		ReservationState reservationState1 = new ReservationState();
 		reservationState1.setDropOut(false);
@@ -861,11 +903,23 @@ public class DataLoader implements ApplicationRunner {
 		reservationState2.setUsed(true);
 		reservationState2.setUserIncludedInReservation(comi);
 
-		/*ReservationState reservationState3 = new ReservationState();
-		reservationState3.setDropOut(false);
-		reservationState3.setReservation(reservation3);
-		reservationState3.setUsed(true);
-		reservationState3.setUserIncludedInReservation(comi);*/
+		ReservationState reservationState21 = new ReservationState();
+		reservationState21.setDropOut(false);
+		reservationState21.setReservation(reservation21);
+		reservationState21.setUsed(true);
+		reservationState21.setUserIncludedInReservation(comi);
+		
+		ReservationState reservationState22 = new ReservationState();
+		reservationState22.setDropOut(false);
+		reservationState22.setReservation(reservation22);
+		reservationState22.setUsed(true);
+		reservationState22.setUserIncludedInReservation(comi);
+		
+		ReservationState reservationState23 = new ReservationState();
+		reservationState23.setDropOut(false);
+		reservationState23.setReservation(reservation23);
+		reservationState23.setUsed(true);
+		reservationState23.setUserIncludedInReservation(comi);
 		
 		Ticket ticket1 = new Ticket();
 		ticket1.setReservation(reservation1);
@@ -877,10 +931,21 @@ public class DataLoader implements ApplicationRunner {
 		ticket2.setSeat(seat7);
 		ticket2.setTickeyType("Regular");
 		
-		/*Ticket ticket3 = new Ticket();
-		ticket3.setReservation(reservation2);
-		ticket3.setSeat(seat2);
-		ticket3.setTickeyType(Constants.VIP_TICKET);*/
+		Ticket ticket21 = new Ticket();
+		ticket21.setReservation(reservation21);
+		ticket21.setSeat(seat21);
+		ticket21.setTickeyType("Regular");
+		
+		Ticket ticket22 = new Ticket();
+		ticket22.setReservation(reservation22);
+		ticket22.setSeat(seat22);
+		ticket22.setTickeyType("Regular");
+		
+		Ticket ticket23 = new Ticket();
+		ticket23.setReservation(reservation23);
+		ticket23.setSeat(seat23);
+		ticket23.setTickeyType("Regular");
+		
 		try {
 
 			placeRepository.save(place);
@@ -935,18 +1000,27 @@ public class DataLoader implements ApplicationRunner {
 			seatRepository.save(seat7);
 			seatRepository.save(seat8);
 			seatRepository.save(seat9);
-
+			seatRepository.save(seat21);
+			seatRepository.save(seat22);
+			seatRepository.save(seat23);
+			seatRepository.save(seat24);
 			reservationRepository.save(reservation1);
 			reservationRepository.save(reservation2);
-			//reservationRepository.save(reservation3);
+			reservationRepository.save(reservation21);
+			reservationRepository.save(reservation22);
+			reservationRepository.save(reservation23);
 
 			reservationStateRepository.save(reservationState1);
 			reservationStateRepository.save(reservationState2);
-			//reservationStateRepository.save(reservationState3);
+			reservationStateRepository.save(reservationState21);
+			reservationStateRepository.save(reservationState22);
+			reservationStateRepository.save(reservationState23);
 			
 			ticketRepository.save(ticket1);
 			ticketRepository.save(ticket2);
-		//	ticketRepository.save(ticket3);
+			ticketRepository.save(ticket21);
+			ticketRepository.save(ticket22);
+			ticketRepository.save(ticket23);
 
 			log.info("Starting seed for projection");
 

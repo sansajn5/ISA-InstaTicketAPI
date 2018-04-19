@@ -458,8 +458,10 @@ public class PlaceService {
 											count += reservations.get(j).getProjection().getQuickTicketPrice();
 										} else if (typeSeat.equals("Regular")) {
 											count += reservations.get(j).getProjection().getRegularPrice();
-										} else {
+										} else if(typeSeat.equals("VIP")){
 											count += reservations.get(j).getProjection().getVipPrice();
+										} else {
+											
 										}
 									}
 								}
