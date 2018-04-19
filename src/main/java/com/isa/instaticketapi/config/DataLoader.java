@@ -763,7 +763,7 @@ public class DataLoader implements ApplicationRunner {
 		seat1.setCordX(1);
 		seat1.setCordY(1);
 		seat1.setProjection(projection);
-		seat1.setReserved(false);
+		seat1.setReserved(true);
 		seat1.setSeat(false);
 		seat1.setSeatType("VIP");
 		
@@ -817,7 +817,7 @@ public class DataLoader implements ApplicationRunner {
 		seat7.setCordX(3);
 		seat7.setCordY(1);
 		seat7.setProjection(projection);
-		seat7.setReserved(false);
+		seat7.setReserved(true);
 		seat7.setSeat(false);
 		seat7.setSeatType("CLASSIC");
 		
