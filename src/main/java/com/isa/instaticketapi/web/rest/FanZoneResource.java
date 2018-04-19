@@ -22,13 +22,13 @@ import com.isa.instaticketapi.domain.Bid;
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.ItemReservation;
 import com.isa.instaticketapi.domain.Offer;
-import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.service.FanZoneService;
 import com.isa.instaticketapi.service.ItemReservationService;
 import com.isa.instaticketapi.service.dto.BidDTO;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
+import com.isa.instaticketapi.service.dto.EditBidDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
 import com.isa.instaticketapi.service.dto.ItemReservationDTO;
 import com.isa.instaticketapi.service.dto.OfferDTO;
@@ -38,7 +38,6 @@ import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ItemResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ItemsResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.OfferResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.OffersResponse;
-import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ReservationResponse;
 import com.isa.instaticketapi.web.rest.vm.UserResource.AdminRole;
 
 import io.swagger.annotations.ApiOperation;
@@ -351,23 +350,6 @@ public class FanZoneResource {
 	}
 	
 	
-	/*@ApiOperation(value = "Reserving item", response = AdminRole.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
-			@ApiResponse(code = 400, message = "Some attribute is already in use"),
-			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-			@ApiResponse(code = 500, message = "Error on server side"),
-			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
-	@GetMapping("/reserve-item/{id}")
-	public ResponseEntity<ReservationResponse> reserveItem(@PathVariable("id") Long id) throws SQLException {
-		
-		Item item = itemReservationService.itemReservation(id);
-		User user = fanZoneService.getLogged();
-		
-		
-		return new ResponseEntity<>(new ReservationResponse(item,user),HttpStatus.OK);
-	}*/
 	
 	
 	@ApiOperation(value = "Confirming item reservation ", response = AdminRole.class)
@@ -388,5 +370,21 @@ public class FanZoneResource {
 	}
 	
 	
+	@ApiOperation(value = "Confirming item reservation ", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@PutMapping("/edit-bid")
+	public ResponseEntity<BidResponse> editBid(@RequestBody EditBidDTO editBidDTO) throws SQLException {
+		
+		Bid bid = fanZoneService.editBid(editBidDTO);
+		
+		
+		return new ResponseEntity<>(new BidResponse(bid),HttpStatus.OK);
+	}
 	
 }

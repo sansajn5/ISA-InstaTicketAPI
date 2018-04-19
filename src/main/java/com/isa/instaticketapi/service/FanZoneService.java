@@ -24,6 +24,7 @@ import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.BidDTO;
 import com.isa.instaticketapi.service.dto.ChangeItemDTO;
 import com.isa.instaticketapi.service.dto.ChangeOfferDTO;
+import com.isa.instaticketapi.service.dto.EditBidDTO;
 import com.isa.instaticketapi.service.dto.ItemDTO;
 import com.isa.instaticketapi.service.dto.OfferDTO;
 
@@ -302,6 +303,18 @@ public class FanZoneService {
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		
 		return logged;
+	}
+	
+	
+	public Bid editBid(EditBidDTO editBidDTO) {
+		
+		Bid bid = bidRepository.findOneById(editBidDTO.getId());
+		
+		bid.setSum(editBidDTO.getSum());
+		bidRepository.save(bid);
+		
+		return bid;
+		
 	}
 	
 	
