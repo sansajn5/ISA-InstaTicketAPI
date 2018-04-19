@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.arjuna.ats.internal.jdbc.drivers.modifiers.extensions;
 import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Hall;
@@ -276,10 +277,21 @@ public class PlaceService {
 		ArrayList<ResponseStatistic> list = new ArrayList<ResponseStatistic>();
 
 		String fromNoParse = attendenceDTO.getDateFrom();
-		String to = attendenceDTO.getDateTo();
-
+		String toNoParse = attendenceDTO.getDateTo();
+		// parsiranje u oblik dd-mm-yyy
 		String[] datFrom = fromNoParse.split("-");
 		String from = datFrom[2] + '-' + datFrom[1] + '-' + datFrom[0];
+
+		int fromDay = Integer.parseInt(datFrom[2]);
+		int fromMonth = Integer.parseInt(datFrom[1]);
+		int fromYear = Integer.parseInt(datFrom[0]);
+
+		String[] datTo = toNoParse.split("-");
+		String to = datTo[2] + '-' + datTo[1] + '-' + datTo[0];
+
+		int toDay = Integer.parseInt(datTo[2]);
+		int toMonth = Integer.parseInt(datTo[1]);
+		int toYear = Integer.parseInt(datTo[0]);
 
 		Place place = placeRepository.findOneById(id);
 		ArrayList<Repertory> repertories = repertoryRepository.findAllByPlace(place);
@@ -307,6 +319,36 @@ public class PlaceService {
 			}
 			return list;
 		} else {
+		/*	if (fromMonth == toMonth && fromYear == toYear) {
+				for (int i = fromDay; i <= toDay; i++) {
+
+					String date = Integer.toString(fromDay) + "-" + Integer.toString(fromMonth) + "-"
+							+ Integer.toString(fromYear);
+					
+					for (int j = 0; j < repertories.size(); j++) {
+						if ((repertories.get(j).getDate()).equals(date)) {
+							
+						}
+							ResponseStatistic responseAttendece = new ResponseStatistic();
+							int count = 0;
+
+							ArrayList<Reservation> reservations = (ArrayList<Reservation>) reservationrepository.findAll();
+							for (int x = 0; x < reservations.size(); x++) {
+								if ((reservations.get(x).getProjection().getReperotry()).equals(repertories.get(j))
+										&& (reservations.get(x).getProjection().getHall().getPlace()).equals(place)) {
+									count += 1;
+								}
+							}
+
+							responseAttendece.setDate(repertories.get(i).getDate());
+							responseAttendece.setAttendence(count);
+							list.add(responseAttendece);
+
+						}
+					
+				}
+			}*/
+
 			return list;
 		}
 
@@ -338,11 +380,14 @@ public class PlaceService {
 								&& (reservations.get(j).getProjection().getHall().getPlace()).equals(place)) {
 							Ticket ticket = ticketRepository.findOneByReservation(reservations.get(j));
 							String typeSeat = ticket.getTickeyType();
-							if (typeSeat == Constants.BALCONY_TICKET) {
+
+							log.debug("AAAAAAAAAAAAA {}", typeSeat);
+
+							if (typeSeat.equals("Balcony Ticket")) {
 								count += reservations.get(j).getProjection().getBalconyPrice();
-							} else if (typeSeat == Constants.QUICK_TICKET) {
+							} else if (typeSeat.equals("Quick Ticket")) {
 								count += reservations.get(j).getProjection().getQuickTicketPrice();
-							} else if (typeSeat == Constants.REGULAR_TICKET) {
+							} else if (typeSeat.equals("Regular")) {
 								count += reservations.get(j).getProjection().getRegularPrice();
 							} else {
 								count += reservations.get(j).getProjection().getVipPrice();
