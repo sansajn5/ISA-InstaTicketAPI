@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.arjuna.ats.internal.jdbc.drivers.modifiers.extensions;
 import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Hall;
@@ -286,17 +285,10 @@ public class PlaceService {
 		int fromMonth = Integer.parseInt(datFrom[1]);
 		int fromYear = Integer.parseInt(datFrom[0]);
 
-		String[] datTo = toNoParse.split("-");
-		String to = datTo[2] + '-' + datTo[1] + '-' + datTo[0];
-
-		int toDay = Integer.parseInt(datTo[2]);
-		int toMonth = Integer.parseInt(datTo[1]);
-		int toYear = Integer.parseInt(datTo[0]);
-
 		Place place = placeRepository.findOneById(id);
 		ArrayList<Repertory> repertories = repertoryRepository.findAllByPlace(place);
 
-		if (to.equals("undefined-undefined-undefined")) {
+		if (toNoParse.equals("undefined-undefined-undefined")) {
 
 			for (int i = 0; i < repertories.size(); i++) {
 				if ((repertories.get(i).getDate()).equals(from)) {
@@ -319,20 +311,26 @@ public class PlaceService {
 			}
 			return list;
 		} else {
-		/*	if (fromMonth == toMonth && fromYear == toYear) {
-				for (int i = fromDay; i <= toDay; i++) {
+			String[] datTo = toNoParse.split("-");
+			String to = datTo[2] + '-' + datTo[1] + '-' + datTo[0];
 
-					String date = Integer.toString(fromDay) + "-" + Integer.toString(fromMonth) + "-"
-							+ Integer.toString(fromYear);
-					
+			int toDay = Integer.parseInt(datTo[2]);
+			int toMonth = Integer.parseInt(datTo[1]);
+			int toYear = Integer.parseInt(datTo[0]);
+			if (fromMonth == toMonth && fromYear == toYear) {
+				for (int i = fromDay; i <= toDay; i++) {
+					log.debug("AAAAAAAAAAAAAAAAAAAAAAAA {}", i);
+					String date = "";
+					date = Integer.toString(i) + "-" + Integer.toString(fromMonth) + "-" + Integer.toString(fromYear);
+
 					for (int j = 0; j < repertories.size(); j++) {
 						if ((repertories.get(j).getDate()).equals(date)) {
-							
-						}
+
 							ResponseStatistic responseAttendece = new ResponseStatistic();
 							int count = 0;
 
-							ArrayList<Reservation> reservations = (ArrayList<Reservation>) reservationrepository.findAll();
+							ArrayList<Reservation> reservations = (ArrayList<Reservation>) reservationrepository
+									.findAll();
 							for (int x = 0; x < reservations.size(); x++) {
 								if ((reservations.get(x).getProjection().getReperotry()).equals(repertories.get(j))
 										&& (reservations.get(x).getProjection().getHall().getPlace()).equals(place)) {
@@ -340,14 +338,15 @@ public class PlaceService {
 								}
 							}
 
-							responseAttendece.setDate(repertories.get(i).getDate());
+							responseAttendece.setDate(date);
 							responseAttendece.setAttendence(count);
 							list.add(responseAttendece);
 
 						}
-					
+
+					}
 				}
-			}*/
+			}
 
 			return list;
 		}
