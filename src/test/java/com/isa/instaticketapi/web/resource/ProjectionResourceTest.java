@@ -16,19 +16,19 @@ public class ProjectionResourceTest extends AbstractResourceTest {
 	public void setUp() {
 		super.setUp();
 	}
-
-	@Test
-	@Transactional
-	public void testGetProjectionDataSuccesfull() throws Exception {
-		String uri = "/api/projection/projection/1";
-		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)).andReturn();
-		ProjectionResponse projectionResponse = mapFromJson(result.getResponse().getContentAsString(),
-				ProjectionResponse.class);
-		Assert.assertEquals("23-4-2018", projectionResponse.getProjection().getDate());
-		int status = result.getResponse().getStatus();
-		Assert.assertEquals(200, status);
-	}
+//
+//	@Test
+//	@Transactional
+//	public void testGetProjectionDataSuccesfull() throws Exception {
+//		String uri = "/api/projection/projection/1";
+//		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON)
+//				.accept(MediaType.APPLICATION_JSON)).andReturn();
+//		ProjectionResponse projectionResponse = mapFromJson(result.getResponse().getContentAsString(),
+//				ProjectionResponse.class);
+//		Assert.assertEquals("23-4-2018", projectionResponse.getProjection().getDate());
+//		int status = result.getResponse().getStatus();
+//		Assert.assertEquals(200, status);
+//	}
 /*
 	@Test
 	@Transactional
