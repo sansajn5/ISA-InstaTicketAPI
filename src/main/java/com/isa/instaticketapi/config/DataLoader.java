@@ -618,7 +618,7 @@ public class DataLoader implements ApplicationRunner {
 
 		Repertory repertory = new Repertory();
 		repertory.setCreatedBy("milica");
-		repertory.setDate("19-4-2018");
+		repertory.setDate("18-4-2018");
 		repertory.setPlace(place);
 
 		Repertory repertory1 = new Repertory();
