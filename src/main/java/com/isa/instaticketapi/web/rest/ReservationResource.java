@@ -39,4 +39,16 @@ public class ReservationResource {
 		return new ResponseEntity<>(new ReservationsResponse(reservations), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get user active reservations", response = FriendsResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Succesfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@GetMapping("/active/my-reservations")
+	public ResponseEntity<ReservationsResponse> getUserActiveReservation() {
+		ArrayList<ReservationState> reservations = reservationService.getMyActiveReservations();
+		return new ResponseEntity<>(new ReservationsResponse(reservations), HttpStatus.OK);
+	}
 }
