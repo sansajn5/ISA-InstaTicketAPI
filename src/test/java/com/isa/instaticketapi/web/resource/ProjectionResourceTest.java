@@ -1,22 +1,22 @@
 package com.isa.instaticketapi.web.resource;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.isa.instaticketapi.AbstractResourceTest;
-import com.isa.instaticketapi.web.rest.vm.Projection.ProjectionResponse;
-
-public class ProjectionResourceTest extends AbstractResourceTest {
-	@Before
-	public void setUp() {
-		super.setUp();
-	}
+//import org.junit.Assert;
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.springframework.http.MediaType;
+//import org.springframework.test.web.servlet.MvcResult;
+//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//import org.springframework.transaction.annotation.Transactional;
 //
+//import com.isa.instaticketapi.AbstractResourceTest;
+//import com.isa.instaticketapi.web.rest.vm.Projection.ProjectionResponse;
+
+//public class ProjectionResourceTest extends AbstractResourceTest {
+//	@Before
+//	public void setUp() {
+//		super.setUp();
+//	}
+////
 //	@Test
 //	@Transactional
 //	public void testGetProjectionDataSuccesfull() throws Exception {
