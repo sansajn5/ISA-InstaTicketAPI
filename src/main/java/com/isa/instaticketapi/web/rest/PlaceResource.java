@@ -26,8 +26,8 @@ import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
-import com.isa.instaticketapi.service.dto.StatisticDTO;
 import com.isa.instaticketapi.service.dto.ResponseStatistic;
+import com.isa.instaticketapi.service.dto.StatisticDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 import com.isa.instaticketapi.web.rest.vm.StatisticResponse;
 import com.isa.instaticketapi.web.rest.vm.VoteForPlaceResponse;
@@ -300,8 +300,11 @@ public class PlaceResource {
 			throw new IllegalArgumentException("Invalid id !");
 		}
 		ArrayList<ResponseStatistic> list = placeService.getAttendence(id, attendenceDTO);
-
-		return new ResponseEntity<>(new StatisticResponse(list), HttpStatus.OK);
+		int sum = 0;
+		for(int i=0; i< list.size();i++){
+			sum+=list.get(i).getAttendence();
+		}
+		return new ResponseEntity<>(new StatisticResponse(list,sum), HttpStatus.OK);
 
 	}
 	
@@ -321,8 +324,12 @@ public class PlaceResource {
 			throw new IllegalArgumentException("Invalid id !");
 		}
 		ArrayList<ResponseStatistic> list = placeService.getInCome(id, attendenceDTO);
-
-		return new ResponseEntity<>(new StatisticResponse(list), HttpStatus.OK);
+		int sum = 0;
+		for(int i=0; i< list.size();i++){
+			sum+=list.get(i).getAttendence();
+		}
+		
+		return new ResponseEntity<>(new StatisticResponse(list,sum), HttpStatus.OK);
 
 	}
 
