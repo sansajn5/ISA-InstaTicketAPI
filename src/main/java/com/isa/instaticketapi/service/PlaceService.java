@@ -429,7 +429,8 @@ public class PlaceService {
 							for (int x = 0; x < reservations.size(); x++) {
 								if ((reservations.get(x).getProjection().getReperotry()).equals(repertories.get(j))
 										&& (reservations.get(x).getProjection().getHall().getPlace()).equals(place)) {
-									Ticket ticket = ticketRepository.findOneByReservation(reservations.get(j));
+									Ticket ticket = ticketRepository.findOneByReservation(reservations.get(x));
+
 									String typeSeat = ticket.getTickeyType();
 
 									log.debug("AAAAAAAAAAAAA {}", typeSeat);
@@ -457,7 +458,7 @@ public class PlaceService {
 			}
 
 			return list;
-		
+
 		}
 
 	}

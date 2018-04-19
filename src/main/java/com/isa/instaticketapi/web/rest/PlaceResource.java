@@ -53,8 +53,6 @@ public class PlaceResource {
 	@Autowired
 	private PlaceService placeService;
 
-	
-	
 	/**
 	 * GET: /getCinemas: return list of all cinemas.
 	 * 
@@ -284,6 +282,20 @@ public class PlaceResource {
 		return new ResponseEntity<>(new QuickSeatrsResponse(seats), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Reservation", response = QuickSeatrsResponse.class)
+
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@GetMapping("/quick-seats/{id}")
+	public void reservation(@PathVariable("id") Long id) {
+		placeService.reservation(id);
+	}
+
 	@ApiOperation(value = "Get attendence for Place", response = StatisticResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -301,13 +313,13 @@ public class PlaceResource {
 		}
 		ArrayList<ResponseStatistic> list = placeService.getAttendence(id, attendenceDTO);
 		int sum = 0;
-		for(int i=0; i< list.size();i++){
-			sum+=list.get(i).getAttendence();
+		for (int i = 0; i < list.size(); i++) {
+			sum += list.get(i).getAttendence();
 		}
-		return new ResponseEntity<>(new StatisticResponse(list,sum), HttpStatus.OK);
+		return new ResponseEntity<>(new StatisticResponse(list, sum), HttpStatus.OK);
 
 	}
-	
+
 	@ApiOperation(value = "Get in come for Place", response = StatisticResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -325,11 +337,11 @@ public class PlaceResource {
 		}
 		ArrayList<ResponseStatistic> list = placeService.getInCome(id, attendenceDTO);
 		int sum = 0;
-		for(int i=0; i< list.size();i++){
-			sum+=list.get(i).getAttendence();
+		for (int i = 0; i < list.size(); i++) {
+			sum += list.get(i).getAttendence();
 		}
-		
-		return new ResponseEntity<>(new StatisticResponse(list,sum), HttpStatus.OK);
+
+		return new ResponseEntity<>(new StatisticResponse(list, sum), HttpStatus.OK);
 
 	}
 
