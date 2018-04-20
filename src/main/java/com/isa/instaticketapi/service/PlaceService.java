@@ -449,13 +449,13 @@ public class PlaceService {
 										log.debug("AAAAAAAAAAAAA {}", typeSeat);
 
 										if (typeSeat.equals("Balcony Ticket")) {
-											count += reservations.get(j).getProjection().getBalconyPrice();
+											count += reservations.get(x).getProjection().getBalconyPrice();
 										} else if (typeSeat.equals("Quick Ticket")) {
-											count += reservations.get(j).getProjection().getQuickTicketPrice();
+											count += reservations.get(x).getProjection().getQuickTicketPrice();
 										} else if (typeSeat.equals("Regular")) {
-											count += reservations.get(j).getProjection().getRegularPrice();
+											count += reservations.get(x).getProjection().getRegularPrice();
 										} else if (typeSeat.equals("VIP")) {
-											count += reservations.get(j).getProjection().getVipPrice();
+											count += reservations.get(x).getProjection().getVipPrice();
 										} else {
 
 										}
