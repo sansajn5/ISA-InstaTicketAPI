@@ -225,18 +225,69 @@ public class AdminResource {
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
 	@Transactional
 	@PostMapping("/place-admin-role/{id}")
-	public void setPlaceAdminRole(@RequestBody AdminRoleDTO adminRoleDTO, @PathVariable("id") Long id) throws SQLException {
+	public ResponseEntity<UserResponse> setPlaceAdminRole(@RequestBody AdminRoleDTO adminRoleDTO, @PathVariable("id") Long id) throws SQLException {
 		
 		log.debug("REST request to set place admin role to user : {}", adminRoleDTO);
 		
 		
-		adminService.setPlaceAdminRole(adminRoleDTO, id);
+		User user = adminService.setPlaceAdminRole(adminRoleDTO, id);
 		
 			
-		// dodati response
+		return new ResponseEntity<>(new UserResponse(user),HttpStatus.OK);
 		
 	}
 	
+	
+	
+	@ApiOperation(value = "Deleting place admin role to user", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@Transactional
+	@PostMapping("/delete-place-admin-role/{id}")
+	public ResponseEntity<UserResponse> deletePlaceAdminRole(@RequestBody AdminRoleDTO adminRoleDTO, @PathVariable("id") Long id) throws SQLException {
+	
+		
+		
+		User user = adminService.deletePlaceAdminRole(adminRoleDTO, id);
+		
+			
+		return new ResponseEntity<>(new UserResponse(user),HttpStatus.OK);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@ApiOperation(value = "Getting place admins of place", response = AdminRole.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
+			@ApiResponse(code = 400, message = "Some attribute is already in use"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@Transactional
+	@GetMapping("/employed-place-admins/{id}")
+	public ResponseEntity<UsersResponse> getEmployedPlaceAdmins(@PathVariable("id") Long id) throws SQLException {
+		
+		
+		List<User> users = adminService.getEmployed(id);
+		
+		
+			
+		return new ResponseEntity<>(new UsersResponse(users),HttpStatus.OK);
+		
+	}
 	
 	
 	

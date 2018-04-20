@@ -20,6 +20,13 @@ public class UsersResponse {
 		this.users = users;
 		this.authorities = authorities;
 	}
+	
+	
+	public UsersResponse(List<User> users) {
+		super();
+		this.users = users;
+
+	}
 
 	public List<User> getUsers() {
 		return users;
