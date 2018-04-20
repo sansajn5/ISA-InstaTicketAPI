@@ -339,6 +339,7 @@ public class PlaceResource {
 		int sum = 0;
 		for (int i = 0; i < list.size(); i++) {
 			sum += list.get(i).getAttendence();
+			log.debug("stanjeeeeeeee  {}",sum);
 		}
 
 		return new ResponseEntity<>(new StatisticResponse(list, sum), HttpStatus.OK);

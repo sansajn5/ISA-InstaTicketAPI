@@ -42,4 +42,14 @@ public class SeatDTO {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "SeatDTO{" +
+                "cordX=" + cordX +
+                ", cordY=" + cordY +
+                ", isSeat=" + isSeat +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

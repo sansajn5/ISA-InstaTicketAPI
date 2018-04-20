@@ -3,12 +3,14 @@ package com.isa.instaticketapi.web.rest;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.security.SecurityUtils;
+import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
+import com.isa.instaticketapi.service.dto.reservation.ReservationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.isa.instaticketapi.domain.ReservationState;
 import com.isa.instaticketapi.service.ReservationService;
@@ -51,4 +53,11 @@ public class ReservationResource {
 		ArrayList<ReservationState> reservations = reservationService.getMyActiveReservations();
 		return new ResponseEntity<>(new ReservationsResponse(reservations), HttpStatus.OK);
 	}
+
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/{id}/projection/{projectionId}/reserve")
+	public void createReservation(@RequestBody ReservationDTO reservationDTO, @PathVariable("id") Long id, @PathVariable("projectionId") Long projectionId) {
+		reservationService.createReservation(reservationDTO.getInvatations(),reservationDTO.getSeats(),projectionId);
+	}
+
 }

@@ -97,7 +97,7 @@ public class DataLoader implements ApplicationRunner {
 
 	@Autowired
 	private ReservationStateRepository reservationStateRepository;
-	
+
 	@Autowired
 	private TicketRepository ticketRepository;
 
@@ -228,17 +228,63 @@ public class DataLoader implements ApplicationRunner {
 		milica.setLastName("Kovacevic");
 		milica.setAuthorities(authoritiesAdmin);
 		milica.setActivated(true);
-		milica.setEmail("milica@super.com");
+		milica.setEmail("milica12345@super.com");
 		milica.setCreatedBy("sansajn");
 		milica.setCity("Novi Sad");
 		milica.setAddress("petrovaradin");
 		milica.setNumber("2131231333");
+
+		User jelena = new User();
+
+		jelena.setUsername("jelena");
+		jelena.setPassword(passwordEncoder.encode("jelena123"));
+		jelena.setFirstName("Jelena");
+		jelena.setLastName("Jankovic");
+		jelena.setAuthorities(authoritiesUser);
+		jelena.setActivated(true);
+		jelena.setEmail("jelena12345@gmail.com");
+		jelena.setCreatedBy("sansajn");
+		jelena.setCity("Novi Sad");
+		jelena.setAddress("telep");
+		jelena.setNumber("2131231333");
+
+		User marko = new User();
+
+		marko.setUsername("marko");
+		marko.setPassword(passwordEncoder.encode("marko123"));
+		marko.setFirstName("Marko");
+		marko.setLastName("Markovic");
+		marko.setAuthorities(authoritiesUser);
+		marko.setActivated(true);
+		marko.setEmail("marko12345@gmail.com");
+		marko.setCreatedBy("sansajn");
+		marko.setCity("Novi Sad");
+		marko.setAddress("Novo Naselje");
+		marko.setNumber("2131231333");
+
+		User petar = new User();
+
+		petar.setUsername("petar");
+		petar.setPassword(passwordEncoder.encode("petar123"));
+		petar.setFirstName("Petar");
+		petar.setLastName("Petrovic");
+		petar.setAuthorities(authoritiesUser);
+		petar.setActivated(true);
+		petar.setEmail("petar12345@gmail.com");
+		petar.setCreatedBy("sansajn");
+		petar.setCity("Novi Sad");
+		petar.setAddress("Novo Naselje");
+		petar.setNumber("2131231333");
 
 		try {
 			userRepository.save(superAdmin);
 			userRepository.save(sansajn);
 			userRepository.save(milica);
 			userRepository.save(dejan);
+
+			userRepository.save(jelena);
+			userRepository.save(marko);
+			userRepository.save(petar);
 		} catch (Exception e) {
 			log.debug("items (users) are already in database");
 		}
@@ -307,7 +353,7 @@ public class DataLoader implements ApplicationRunner {
 		log.info("Seeds for event are completed");
 	}
 
-	public void seedFanZone()  {
+	public void seedFanZone() {
 
 		Item it1 = new Item();
 		it1.setName("Rekvizit 1");
@@ -414,7 +460,7 @@ public class DataLoader implements ApplicationRunner {
 		comi.setLastName("Kovacevic");
 		comi.setAuthorities(authoritiesUser);
 		comi.setActivated(true);
-		comi.setEmail("dejana8e@gmail.com");
+		comi.setEmail("kovacevicmilica544@gmail.com");
 		comi.setCreatedBy("sansajn");
 		comi.setCity("Novi Sad");
 		comi.setAddress("petrovaradin");
@@ -767,7 +813,7 @@ public class DataLoader implements ApplicationRunner {
 		seat1.setReserved(true);
 		seat1.setSeat(false);
 		seat1.setSeatType("VIP");
-		
+
 		Seat seat2 = new Seat();
 		seat2.setHall(hall1);
 		seat2.setCordX(1);
@@ -776,7 +822,7 @@ public class DataLoader implements ApplicationRunner {
 		seat2.setReserved(false);
 		seat2.setSeat(false);
 		seat2.setSeatType("VIP");
-		
+
 		Seat seat3 = new Seat();
 		seat3.setHall(hall1);
 		seat3.setCordX(1);
@@ -785,7 +831,7 @@ public class DataLoader implements ApplicationRunner {
 		seat3.setReserved(false);
 		seat3.setSeat(false);
 		seat3.setSeatType("VIP");
-		
+
 		Seat seat4 = new Seat();
 		seat4.setHall(hall1);
 		seat4.setCordX(2);
@@ -794,7 +840,7 @@ public class DataLoader implements ApplicationRunner {
 		seat4.setReserved(false);
 		seat4.setSeat(false);
 		seat4.setSeatType("QUICK");
-		
+
 		Seat seat5 = new Seat();
 		seat5.setHall(hall1);
 		seat5.setCordX(2);
@@ -803,7 +849,7 @@ public class DataLoader implements ApplicationRunner {
 		seat5.setReserved(false);
 		seat5.setSeat(false);
 		seat5.setSeatType("QUICK");
-		
+
 		Seat seat6 = new Seat();
 		seat6.setHall(hall1);
 		seat6.setCordX(2);
@@ -812,7 +858,7 @@ public class DataLoader implements ApplicationRunner {
 		seat6.setReserved(false);
 		seat6.setSeat(false);
 		seat6.setSeatType("QUICK");
-		
+
 		Seat seat7 = new Seat();
 		seat7.setHall(hall1);
 		seat7.setCordX(3);
@@ -821,7 +867,7 @@ public class DataLoader implements ApplicationRunner {
 		seat7.setReserved(true);
 		seat7.setSeat(false);
 		seat7.setSeatType("CLASSIC");
-		
+
 		Seat seat8 = new Seat();
 		seat8.setHall(hall1);
 		seat8.setCordX(3);
@@ -830,7 +876,7 @@ public class DataLoader implements ApplicationRunner {
 		seat8.setReserved(false);
 		seat8.setSeat(false);
 		seat8.setSeatType("CLASSIC");
-		
+
 		Seat seat9 = new Seat();
 		seat9.setHall(hall1);
 		seat9.setCordX(3);
@@ -839,7 +885,7 @@ public class DataLoader implements ApplicationRunner {
 		seat9.setReserved(false);
 		seat9.setSeat(false);
 		seat9.setSeatType("CLASSIC");
-		
+
 		Seat seat21 = new Seat();
 		seat21.setHall(hall2);
 		seat21.setCordX(1);
@@ -848,7 +894,7 @@ public class DataLoader implements ApplicationRunner {
 		seat21.setReserved(true);
 		seat21.setSeat(false);
 		seat21.setSeatType("CLASSIC");
-		
+
 		Seat seat22 = new Seat();
 		seat22.setHall(hall2);
 		seat22.setCordX(1);
@@ -857,7 +903,7 @@ public class DataLoader implements ApplicationRunner {
 		seat22.setReserved(true);
 		seat22.setSeat(false);
 		seat22.setSeatType("CLASSIC");
-		
+
 		Seat seat23 = new Seat();
 		seat23.setHall(hall2);
 		seat23.setCordX(2);
@@ -866,7 +912,7 @@ public class DataLoader implements ApplicationRunner {
 		seat23.setReserved(false);
 		seat23.setSeat(false);
 		seat23.setSeatType("CLASSIC");
-		
+
 		Seat seat24 = new Seat();
 		seat24.setHall(hall2);
 		seat24.setCordX(2);
@@ -875,7 +921,6 @@ public class DataLoader implements ApplicationRunner {
 		seat24.setReserved(true);
 		seat24.setSeat(false);
 		seat24.setSeatType("QUICK");
-		
 
 		Reservation reservation1 = new Reservation();
 		reservation1.setProjection(projection);
@@ -885,10 +930,10 @@ public class DataLoader implements ApplicationRunner {
 
 		Reservation reservation21 = new Reservation();
 		reservation21.setProjection(projection2);
-		
+
 		Reservation reservation22 = new Reservation();
 		reservation22.setProjection(projection2);
-		
+
 		Reservation reservation23 = new Reservation();
 		reservation23.setProjection(projection2);
 
@@ -909,44 +954,44 @@ public class DataLoader implements ApplicationRunner {
 		reservationState21.setReservation(reservation21);
 		reservationState21.setUsed(true);
 		reservationState21.setUserIncludedInReservation(comi);
-		
+
 		ReservationState reservationState22 = new ReservationState();
 		reservationState22.setDropOut(false);
 		reservationState22.setReservation(reservation22);
 		reservationState22.setUsed(true);
 		reservationState22.setUserIncludedInReservation(comi);
-		
+
 		ReservationState reservationState23 = new ReservationState();
 		reservationState23.setDropOut(false);
 		reservationState23.setReservation(reservation23);
 		reservationState23.setUsed(true);
 		reservationState23.setUserIncludedInReservation(comi);
-		
+
 		Ticket ticket1 = new Ticket();
 		ticket1.setReservation(reservation1);
 		ticket1.setSeat(seat1);
 		ticket1.setTickeyType("VIP");
-		
+
 		Ticket ticket2 = new Ticket();
 		ticket2.setReservation(reservation2);
 		ticket2.setSeat(seat7);
 		ticket2.setTickeyType("Regular");
-		
+
 		Ticket ticket21 = new Ticket();
 		ticket21.setReservation(reservation21);
 		ticket21.setSeat(seat21);
 		ticket21.setTickeyType("Regular");
-		
+
 		Ticket ticket22 = new Ticket();
 		ticket22.setReservation(reservation22);
 		ticket22.setSeat(seat22);
 		ticket22.setTickeyType("Regular");
-		
+
 		Ticket ticket23 = new Ticket();
 		ticket23.setReservation(reservation23);
 		ticket23.setSeat(seat23);
 		ticket23.setTickeyType("Regular");
-		
+
 		try {
 
 			placeRepository.save(place);
@@ -1005,6 +1050,7 @@ public class DataLoader implements ApplicationRunner {
 			seatRepository.save(seat22);
 			seatRepository.save(seat23);
 			seatRepository.save(seat24);
+
 			reservationRepository.save(reservation1);
 			reservationRepository.save(reservation2);
 			reservationRepository.save(reservation21);
@@ -1016,7 +1062,7 @@ public class DataLoader implements ApplicationRunner {
 			reservationStateRepository.save(reservationState21);
 			reservationStateRepository.save(reservationState22);
 			reservationStateRepository.save(reservationState23);
-			
+
 			ticketRepository.save(ticket1);
 			ticketRepository.save(ticket2);
 			ticketRepository.save(ticket21);

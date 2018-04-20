@@ -22,7 +22,7 @@ public class Seat implements Serializable {
 
     private String seatType;
 
-    @OneToOne
+    @OneToOne()
     private Projection projection;
 
     private boolean isReserved;

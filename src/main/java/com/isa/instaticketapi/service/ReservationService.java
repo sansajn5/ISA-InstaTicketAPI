@@ -4,6 +4,7 @@ import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.*;
 import com.isa.instaticketapi.repository.*;
 import com.isa.instaticketapi.security.SecurityUtils;
+import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,12 +44,14 @@ public class ReservationService {
 	@Autowired
 	TicketRepository ticketRepository;
 
-	public void createReservation(List<String> invitations, List<Integer[]> seats, Long projectionId) {
+	public void createReservation(List<String> invitations, List<SeatDTO> seats, Long projectionId) {
 		Optional<User> logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername);
 		invitations.forEach(email -> {
 			User invitedUser = userRepository.findOneByEmailIgnoreCase(email).get();
 			ReservationInvitation reservationInvitation = new ReservationInvitation();
 			reservationInvitation.setToUser(invitedUser);
+			reservationInvitation.setAccepted(false);
+			reservationInvitation.setDeleted(false);
 			reservationInvitation.setFromUser(logged.get());
 			reservationInvitationRepository.save(reservationInvitation);
 		});
@@ -60,13 +63,8 @@ public class ReservationService {
 
 		reservation.setProjection(projection);
 
-		for (Integer[] seat : seats) {
-			Seat seatInHall = seatRepository.findOneByCordXAndCordYAndProjection(seat[0], seat[1], projection);
-			if (!seatInHall.isSeat())
-				throw new IllegalArgumentException("Seat doesn't exist at provided position");
-
-			if (seatInHall.isReserved())
-				throw new IllegalArgumentException("Seat is already reserved");
+		for (SeatDTO seat : seats) {
+			Seat seatInHall = seatRepository.findOneByCordXAndCordYAndProjection(seat.getCordX(), seat.getCordY(), projection);
 
 			Ticket ticket = createTicket(seatInHall, reservation);
 			tickets.add(ticket);

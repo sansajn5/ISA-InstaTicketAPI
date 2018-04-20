@@ -26,7 +26,7 @@ public class RepertoryResourceTest extends AbstractResourceTest {
 				.accept(MediaType.APPLICATION_JSON)).andReturn();
 		ProjectionsResponse projecitonResponse = mapFromJson(result.getResponse().getContentAsString(),
 				ProjectionsResponse.class);
-		Assert.assertEquals(2, projecitonResponse.getProjections().size());
+		Assert.assertEquals(1, projecitonResponse.getProjections().size());
 		int status = result.getResponse().getStatus();
 		Assert.assertEquals(200, status);
 	}
@@ -42,6 +42,16 @@ public class RepertoryResourceTest extends AbstractResourceTest {
 		Assert.assertEquals(0, projecitonResponse.getProjections().size());
 		int status = result.getResponse().getStatus();
 		Assert.assertEquals(200, status);
+	}
+	
+	@Test
+	@Transactional
+	public void testDeleteRepertoryUnsuccesfull() throws Exception {
+		String uri = "/api/repertory/repertory/8888";
+		MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andReturn();
+		int status = result.getResponse().getStatus();
+		Assert.assertEquals(405, status);
 	}
 
 }
