@@ -155,6 +155,7 @@ public class UserResource {
         List<ReservationInv> list = new ArrayList<>();
         reservationService.getMyInvitationForReservation()
                 .map( resInv -> new ReservationInv(
+                        resInv.getId(),
                         resInv.getFromUser().getUsername(),
                         resInv.getReservation().getProjection().getEvent().getName(),
                         resInv.getReservation().getProjection().getStartTime()
