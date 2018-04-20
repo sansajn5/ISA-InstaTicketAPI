@@ -131,7 +131,7 @@ public class MailService {
     	
     	log.debug("Sending activation email to '{}'", user.getEmail());
     	
-    	// sendEmailFromTemplate(user, "activationEmail", "email.activation.title");
+    	sendEmailFromTemplateItem(offer,user, "creationEmail", "email.creation.title");
     }
     
     

@@ -1,5 +1,6 @@
 package com.isa.instaticketapi.config;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -306,7 +307,7 @@ public class DataLoader implements ApplicationRunner {
 		log.info("Seeds for event are completed");
 	}
 
-	public void seedFanZone() {
+	public void seedFanZone()  {
 
 		Item it1 = new Item();
 		it1.setName("Rekvizit 1");

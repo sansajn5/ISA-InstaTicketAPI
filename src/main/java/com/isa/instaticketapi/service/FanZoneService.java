@@ -275,7 +275,7 @@ public class FanZoneService {
 		User user = userRepository.findOneByUsername(username).get();
 		String email = user.getEmail();
 		
-		//mailService.sendItemAcceptedEmail(offer, user);
+		mailService.sendItemAcceptedEmail(offer, user);
 		
 		List<Bid> bidsUnsucces = bidRepository.findAllByOfferId(id);
 		bidsUnsucces.remove(bid);

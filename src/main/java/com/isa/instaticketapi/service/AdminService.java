@@ -7,14 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.instaticketapi.domain.Authority;
-
 import com.isa.instaticketapi.domain.EmploymentPlace;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.AuthorityRepository;
-
 import com.isa.instaticketapi.repository.EmploymentPlaceRepository;
-
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.AuthoritiesConstants;
@@ -37,8 +34,21 @@ public class AdminService {
 	
 
 	
+	public List<User> getUsers() {
+		
+		List<User> users = userRepository.findAll();
+		
+		
+		
+		
+		return users;
+		
+	}
 	
-	public void setSystemAdminRole(Long id) {
+	
+	
+	
+	public User setSystemAdminRole(Long id) {
 		
 		User user = userRepository.findOneById(id).get();
 		
@@ -46,9 +56,74 @@ public class AdminService {
 	
 		if(!user.getAuthorities().contains(authoritySuperAdmin)) {		
 			user.getAuthorities().add(authoritySuperAdmin);
+			
+			userRepository.save(user);
 		}
 		
+		
+		return user;
+		
 	}
+	
+	
+	
+	public User deleteSystemAdminRole(Long id) {
+		
+		User user = userRepository.findOneById(id).get();
+		
+		Authority authoritySuperAdmin = authorityRepository.findOne(AuthoritiesConstants.SUPER_ADMIN);
+	
+		if(user.getAuthorities().contains(authoritySuperAdmin)) {		
+			user.getAuthorities().remove(authoritySuperAdmin);
+			
+			userRepository.save(user);
+		}
+		
+		return user;
+		
+	}
+	
+	
+	
+	public User setFanZoneAdminRole(Long id) throws SQLException {
+		
+		
+		
+		User user = userRepository.findOneById(id).get();
+		
+		Authority authorityFanZone = authorityRepository.findOne(AuthoritiesConstants.FANZONE_ADMIN);
+	
+		if(!user.getAuthorities().contains(authorityFanZone)) {		
+			user.getAuthorities().add(authorityFanZone);
+			
+			userRepository.save(user);
+		}
+		
+		
+		return user;
+	}
+	
+	
+	
+	public User deleteFanZoneAdminRole(Long id) throws SQLException {
+		
+		
+		
+		User user = userRepository.findOneById(id).get();
+		
+		Authority authorityFanZone = authorityRepository.findOne(AuthoritiesConstants.FANZONE_ADMIN);
+	
+		if(user.getAuthorities().contains(authorityFanZone)) {		
+			user.getAuthorities().remove(authorityFanZone);
+			
+			userRepository.save(user);
+		}
+		
+		
+		return user;
+	}
+	
+	
 	
 	
 	
@@ -89,21 +164,7 @@ public class AdminService {
 	
 	
 	
-	public void setFanZoneAdminRole(Long id) throws SQLException {
-		
-		
-		
-		User user = userRepository.findOneById(id).get();
-		
-		Authority authorityFanZone = authorityRepository.findOne(AuthoritiesConstants.FANZONE_ADMIN);
 	
-		if(!user.getAuthorities().contains(authorityFanZone)) {		
-			user.getAuthorities().add(authorityFanZone);
-		}
-		
-		
-		
-	}
 	
 	
 	
