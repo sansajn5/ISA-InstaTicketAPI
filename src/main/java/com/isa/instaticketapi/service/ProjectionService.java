@@ -172,8 +172,8 @@ public class ProjectionService {
 		projection.setRegularPrice(projectionDTO.getRegularPrice());
 		projection.setVipPrice(projectionDTO.getVipPrice());
 		projection.setBalconyPrice(projectionDTO.getBalconyPrice());
-		projection.setQuickTicketPrice(projectionDTO.getRegularPrice() * (projectionDTO.getSalePercentage() / 100));
-
+		projection.setQuickTicketPrice(projectionDTO.getRegularPrice() - ((projectionDTO.getRegularPrice() * projectionDTO.getSalePercentage()) / 100));
+	    projection.setSale(projectionDTO.getBalconyPrice());
 		projectionRepository.save(projection);
 
 		for (int i = 1; i <= h.getRow(); i++) {
