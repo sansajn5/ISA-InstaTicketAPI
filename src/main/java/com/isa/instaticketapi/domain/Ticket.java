@@ -11,7 +11,7 @@ public class Ticket implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Reservation reservation;
 
     @Column(name = "ticket_type")

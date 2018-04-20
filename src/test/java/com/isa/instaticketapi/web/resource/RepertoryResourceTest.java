@@ -26,7 +26,7 @@ public class RepertoryResourceTest extends AbstractResourceTest {
 				.accept(MediaType.APPLICATION_JSON)).andReturn();
 		ProjectionsResponse projecitonResponse = mapFromJson(result.getResponse().getContentAsString(),
 				ProjectionsResponse.class);
-		Assert.assertEquals(2, projecitonResponse.getProjections().size());
+		Assert.assertEquals(1, projecitonResponse.getProjections().size());
 		int status = result.getResponse().getStatus();
 		Assert.assertEquals(200, status);
 	}
