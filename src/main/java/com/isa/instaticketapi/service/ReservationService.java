@@ -5,6 +5,7 @@ import com.isa.instaticketapi.domain.*;
 import com.isa.instaticketapi.repository.*;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.projection.SeatDTO;
+import com.isa.instaticketapi.web.rest.vm.UserResource.ReservationInv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -153,6 +154,8 @@ public class ReservationService {
 
 	public Optional<ReservationInvitation> getMyInvitationForReservation() {
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
+		List<ReservationInvitation> res = reservationInvitationRepository.findAll();
+
 		return reservationInvitationRepository.findAllByToUser(logged)
 				.filter(el -> {
 					System.out.println(el);

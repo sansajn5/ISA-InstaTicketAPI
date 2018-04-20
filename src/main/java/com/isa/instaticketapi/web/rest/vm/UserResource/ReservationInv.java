@@ -2,6 +2,7 @@ package com.isa.instaticketapi.web.rest.vm.UserResource;
 
 public class ReservationInv {
 
+    private Long id;
     private String fromUser;
     private String projection;
     private String time;
@@ -10,10 +11,19 @@ public class ReservationInv {
 
     }
 
-    public ReservationInv(String fromUser, String projection, String time) {
+    public ReservationInv(Long id, String fromUser, String projection, String time) {
+        this.id = id;
         this.fromUser = fromUser;
         this.projection = projection;
         this.time = time;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFromUser() {

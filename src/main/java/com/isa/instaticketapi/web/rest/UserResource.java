@@ -12,6 +12,7 @@ import com.isa.instaticketapi.service.ReservationService;
 import com.isa.instaticketapi.service.UserService;
 import com.isa.instaticketapi.service.dto.account.UserDTO;
 import com.isa.instaticketapi.service.dto.user.FriendRequestDTO;
+import com.isa.instaticketapi.service.dto.user.ReservationInvitationDTO;
 import com.isa.instaticketapi.web.rest.vm.UserResource.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -160,6 +161,15 @@ public class UserResource {
                         )
                 ).ifPresent(list::add);
         return new ResponseEntity<>(new ReservationInvList(list),HttpStatus.OK);
+    }
+
+    @PutMapping("/set-reservation-invitation")
+    @ResponseStatus(HttpStatus.OK)
+    public void responseOnReservation(@RequestBody ReservationInvitationDTO responseDTO) {
+        if(responseDTO.isResponse())
+            reservationService.acceptInvitation(responseDTO.getId());
+        else
+            reservationService.declineInvitation(responseDTO.getId());
     }
 
     @MessageMapping("/delete-friend-request")
