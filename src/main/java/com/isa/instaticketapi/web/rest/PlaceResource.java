@@ -26,8 +26,8 @@ import com.isa.instaticketapi.domain.Repertory;
 import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.service.PlaceService;
-import com.isa.instaticketapi.service.dto.StatisticDTO;
 import com.isa.instaticketapi.service.dto.ResponseStatistic;
+import com.isa.instaticketapi.service.dto.StatisticDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 import com.isa.instaticketapi.web.rest.vm.StatisticResponse;
 import com.isa.instaticketapi.web.rest.vm.VoteForPlaceResponse;
@@ -53,8 +53,6 @@ public class PlaceResource {
 	@Autowired
 	private PlaceService placeService;
 
-	
-	
 	/**
 	 * GET: /getCinemas: return list of all cinemas.
 	 * 
@@ -284,6 +282,20 @@ public class PlaceResource {
 		return new ResponseEntity<>(new QuickSeatrsResponse(seats), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Reservation", response = QuickSeatrsResponse.class)
+
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+			@ApiResponse(code = 500, message = "Error on server side"),
+			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+
+	@GetMapping("/quick-seats/{id}")
+	public void reservation(@PathVariable("id") Long id) {
+		placeService.reservation(id);
+	}
+
 	@ApiOperation(value = "Get attendence for Place", response = StatisticResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -300,11 +312,14 @@ public class PlaceResource {
 			throw new IllegalArgumentException("Invalid id !");
 		}
 		ArrayList<ResponseStatistic> list = placeService.getAttendence(id, attendenceDTO);
-
-		return new ResponseEntity<>(new StatisticResponse(list), HttpStatus.OK);
+		int sum = 0;
+		for (int i = 0; i < list.size(); i++) {
+			sum += list.get(i).getAttendence();
+		}
+		return new ResponseEntity<>(new StatisticResponse(list, sum), HttpStatus.OK);
 
 	}
-	
+
 	@ApiOperation(value = "Get in come for Place", response = StatisticResponse.class)
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully"),
@@ -321,8 +336,12 @@ public class PlaceResource {
 			throw new IllegalArgumentException("Invalid id !");
 		}
 		ArrayList<ResponseStatistic> list = placeService.getInCome(id, attendenceDTO);
+		int sum = 0;
+		for (int i = 0; i < list.size(); i++) {
+			sum += list.get(i).getAttendence();
+		}
 
-		return new ResponseEntity<>(new StatisticResponse(list), HttpStatus.OK);
+		return new ResponseEntity<>(new StatisticResponse(list, sum), HttpStatus.OK);
 
 	}
 

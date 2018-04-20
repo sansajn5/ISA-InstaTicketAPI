@@ -414,7 +414,7 @@ public class DataLoader implements ApplicationRunner {
 		comi.setLastName("Kovacevic");
 		comi.setAuthorities(authoritiesUser);
 		comi.setActivated(true);
-		comi.setEmail("dejan8e@gmail.com");
+		comi.setEmail("dejana8e@gmail.com");
 		comi.setCreatedBy("sansajn");
 		comi.setCity("Novi Sad");
 		comi.setAddress("petrovaradin");
@@ -571,14 +571,14 @@ public class DataLoader implements ApplicationRunner {
 
 		hall1.setName("Sala 1.");
 		hall1.setCreatedBy("Milica");
-		hall1.setCol(10);
-		hall1.setRow(10);
+		hall1.setCol(3);
+		hall1.setRow(3);
 		hall1.setPlace(place);
 
 		hall2.setName("Sala 2.");
 		hall2.setCreatedBy("Milica");
-		hall2.setCol(12);
-		hall2.setRow(8);
+		hall2.setCol(2);
+		hall2.setRow(2);
 		hall2.setPlace(place);
 
 		hall3.setName("Sala 3.");
@@ -619,12 +619,12 @@ public class DataLoader implements ApplicationRunner {
 
 		Repertory repertory = new Repertory();
 		repertory.setCreatedBy("milica");
-		repertory.setDate("23-4-2018");
+		repertory.setDate("18-4-2018");
 		repertory.setPlace(place);
 
 		Repertory repertory1 = new Repertory();
 		repertory1.setCreatedBy("milica");
-		repertory1.setDate("24-4-2018");
+		repertory1.setDate("20-4-2018");
 		repertory1.setPlace(place);
 
 		Repertory repertory2 = new Repertory();
@@ -639,7 +639,7 @@ public class DataLoader implements ApplicationRunner {
 
 		Repertory repertory4 = new Repertory();
 		repertory4.setCreatedBy("milica");
-		repertory4.setDate("25-4-2018");
+		repertory4.setDate("20-4-2018");
 		repertory4.setPlace(place2);
 
 		Projection projection = new Projection();
@@ -658,17 +658,17 @@ public class DataLoader implements ApplicationRunner {
 
 		Projection projection2 = new Projection();
 		projection2.setCreatedBy("milica");
-		projection2.setReperotry(repertory);
+		projection2.setReperotry(repertory1);
 		projection2.setStartTime("12:00");
 		projection2.setEndTime("14:00");
 		projection2.setHall(hall2);
 		projection2.setEvent(event1);
-		projection2.setDate(repertory.getDate());
+		projection2.setDate(repertory1.getDate());
 		projection2.setSale(20);
 		projection2.setRegularPrice(350);
-		projection2.setBalconyPrice(300);
-		projection2.setQuickTicketPrice(230);
-		projection2.setVipPrice(500);
+		projection2.setBalconyPrice(250);
+		projection2.setQuickTicketPrice(200);
+		projection2.setVipPrice(600);
 
 		Projection projection3 = new Projection();
 		projection3.setCreatedBy("milica");
@@ -764,45 +764,133 @@ public class DataLoader implements ApplicationRunner {
 		seat1.setCordX(1);
 		seat1.setCordY(1);
 		seat1.setProjection(projection);
-		seat1.setReserved(false);
-		seat1.setSeat(true);
-		seat1.setSeatType("QUICK");
-
+		seat1.setReserved(true);
+		seat1.setSeat(false);
+		seat1.setSeatType("VIP");
+		
 		Seat seat2 = new Seat();
 		seat2.setHall(hall1);
 		seat2.setCordX(1);
-		seat2.setCordY(1);
-		seat2.setProjection(projection3);
-		seat2.setReserved(true);
+		seat2.setCordY(2);
+		seat2.setProjection(projection);
+		seat2.setReserved(false);
 		seat2.setSeat(false);
 		seat2.setSeatType("VIP");
-
+		
 		Seat seat3 = new Seat();
-		seat3.setHall(hall3);
-		seat3.setCordX(5);
-		seat3.setCordY(1);
-		seat3.setProjection(projection4);
-		seat3.setReserved(true);
+		seat3.setHall(hall1);
+		seat3.setCordX(1);
+		seat3.setCordY(3);
+		seat3.setProjection(projection);
+		seat3.setReserved(false);
 		seat3.setSeat(false);
-		seat3.setSeatType("CLASSIC");
-
+		seat3.setSeatType("VIP");
+		
 		Seat seat4 = new Seat();
-		seat4.setHall(hall4);
-		seat4.setCordX(4);
-		seat4.setCordY(4);
-		seat4.setProjection(projection5);
-		seat4.setReserved(true);
+		seat4.setHall(hall1);
+		seat4.setCordX(2);
+		seat4.setCordY(1);
+		seat4.setProjection(projection);
+		seat4.setReserved(false);
 		seat4.setSeat(false);
 		seat4.setSeatType("QUICK");
+		
+		Seat seat5 = new Seat();
+		seat5.setHall(hall1);
+		seat5.setCordX(2);
+		seat5.setCordY(2);
+		seat5.setProjection(projection);
+		seat5.setReserved(false);
+		seat5.setSeat(false);
+		seat5.setSeatType("QUICK");
+		
+		Seat seat6 = new Seat();
+		seat6.setHall(hall1);
+		seat6.setCordX(2);
+		seat6.setCordY(3);
+		seat6.setProjection(projection);
+		seat6.setReserved(false);
+		seat6.setSeat(false);
+		seat6.setSeatType("QUICK");
+		
+		Seat seat7 = new Seat();
+		seat7.setHall(hall1);
+		seat7.setCordX(3);
+		seat7.setCordY(1);
+		seat7.setProjection(projection);
+		seat7.setReserved(true);
+		seat7.setSeat(false);
+		seat7.setSeatType("CLASSIC");
+		
+		Seat seat8 = new Seat();
+		seat8.setHall(hall1);
+		seat8.setCordX(3);
+		seat8.setCordY(2);
+		seat8.setProjection(projection);
+		seat8.setReserved(false);
+		seat8.setSeat(false);
+		seat8.setSeatType("CLASSIC");
+		
+		Seat seat9 = new Seat();
+		seat9.setHall(hall1);
+		seat9.setCordX(3);
+		seat9.setCordY(3);
+		seat9.setProjection(projection);
+		seat9.setReserved(false);
+		seat9.setSeat(false);
+		seat9.setSeatType("CLASSIC");
+		
+		Seat seat21 = new Seat();
+		seat21.setHall(hall2);
+		seat21.setCordX(1);
+		seat21.setCordY(1);
+		seat21.setProjection(projection2);
+		seat21.setReserved(true);
+		seat21.setSeat(false);
+		seat21.setSeatType("CLASSIC");
+		
+		Seat seat22 = new Seat();
+		seat22.setHall(hall2);
+		seat22.setCordX(1);
+		seat22.setCordY(2);
+		seat22.setProjection(projection2);
+		seat22.setReserved(true);
+		seat22.setSeat(false);
+		seat22.setSeatType("CLASSIC");
+		
+		Seat seat23 = new Seat();
+		seat23.setHall(hall2);
+		seat23.setCordX(2);
+		seat23.setCordY(1);
+		seat23.setProjection(projection2);
+		seat23.setReserved(false);
+		seat23.setSeat(false);
+		seat23.setSeatType("CLASSIC");
+		
+		Seat seat24 = new Seat();
+		seat24.setHall(hall2);
+		seat24.setCordX(2);
+		seat24.setCordY(2);
+		seat24.setProjection(projection2);
+		seat24.setReserved(true);
+		seat24.setSeat(false);
+		seat24.setSeatType("QUICK");
+		
 
 		Reservation reservation1 = new Reservation();
 		reservation1.setProjection(projection);
 
 		Reservation reservation2 = new Reservation();
-		reservation2.setProjection(projection3);
+		reservation2.setProjection(projection);
 
-		Reservation reservation3 = new Reservation();
-		reservation3.setProjection(projection4);
+		Reservation reservation21 = new Reservation();
+		reservation21.setProjection(projection2);
+		
+		Reservation reservation22 = new Reservation();
+		reservation22.setProjection(projection2);
+		
+		Reservation reservation23 = new Reservation();
+		reservation23.setProjection(projection2);
 
 		ReservationState reservationState1 = new ReservationState();
 		reservationState1.setDropOut(false);
@@ -816,26 +904,49 @@ public class DataLoader implements ApplicationRunner {
 		reservationState2.setUsed(true);
 		reservationState2.setUserIncludedInReservation(comi);
 
-		ReservationState reservationState3 = new ReservationState();
-		reservationState3.setDropOut(false);
-		reservationState3.setReservation(reservation3);
-		reservationState3.setUsed(true);
-		reservationState3.setUserIncludedInReservation(comi);
+		ReservationState reservationState21 = new ReservationState();
+		reservationState21.setDropOut(false);
+		reservationState21.setReservation(reservation21);
+		reservationState21.setUsed(true);
+		reservationState21.setUserIncludedInReservation(comi);
+		
+		ReservationState reservationState22 = new ReservationState();
+		reservationState22.setDropOut(false);
+		reservationState22.setReservation(reservation22);
+		reservationState22.setUsed(true);
+		reservationState22.setUserIncludedInReservation(comi);
+		
+		ReservationState reservationState23 = new ReservationState();
+		reservationState23.setDropOut(false);
+		reservationState23.setReservation(reservation23);
+		reservationState23.setUsed(true);
+		reservationState23.setUserIncludedInReservation(comi);
 		
 		Ticket ticket1 = new Ticket();
 		ticket1.setReservation(reservation1);
 		ticket1.setSeat(seat1);
-		ticket1.setTickeyType(Constants.QUICK_TICKET);
+		ticket1.setTickeyType("VIP");
 		
 		Ticket ticket2 = new Ticket();
-		ticket2.setReservation(reservation3);
-		ticket2.setSeat(seat3);
-		ticket2.setTickeyType(Constants.REGULAR_TICKET);
+		ticket2.setReservation(reservation2);
+		ticket2.setSeat(seat7);
+		ticket2.setTickeyType("Regular");
 		
-		Ticket ticket3 = new Ticket();
-		ticket3.setReservation(reservation2);
-		ticket3.setSeat(seat2);
-		ticket3.setTickeyType(Constants.VIP_TICKET);
+		Ticket ticket21 = new Ticket();
+		ticket21.setReservation(reservation21);
+		ticket21.setSeat(seat21);
+		ticket21.setTickeyType("Regular");
+		
+		Ticket ticket22 = new Ticket();
+		ticket22.setReservation(reservation22);
+		ticket22.setSeat(seat22);
+		ticket22.setTickeyType("Regular");
+		
+		Ticket ticket23 = new Ticket();
+		ticket23.setReservation(reservation23);
+		ticket23.setSeat(seat23);
+		ticket23.setTickeyType("Regular");
+		
 		try {
 
 			placeRepository.save(place);
@@ -885,18 +996,32 @@ public class DataLoader implements ApplicationRunner {
 			seatRepository.save(seat2);
 			seatRepository.save(seat3);
 			seatRepository.save(seat4);
-
+			seatRepository.save(seat5);
+			seatRepository.save(seat6);
+			seatRepository.save(seat7);
+			seatRepository.save(seat8);
+			seatRepository.save(seat9);
+			seatRepository.save(seat21);
+			seatRepository.save(seat22);
+			seatRepository.save(seat23);
+			seatRepository.save(seat24);
 			reservationRepository.save(reservation1);
 			reservationRepository.save(reservation2);
-			reservationRepository.save(reservation3);
+			reservationRepository.save(reservation21);
+			reservationRepository.save(reservation22);
+			reservationRepository.save(reservation23);
 
 			reservationStateRepository.save(reservationState1);
 			reservationStateRepository.save(reservationState2);
-			reservationStateRepository.save(reservationState3);
+			reservationStateRepository.save(reservationState21);
+			reservationStateRepository.save(reservationState22);
+			reservationStateRepository.save(reservationState23);
 			
 			ticketRepository.save(ticket1);
 			ticketRepository.save(ticket2);
-			ticketRepository.save(ticket3);
+			ticketRepository.save(ticket21);
+			ticketRepository.save(ticket22);
+			ticketRepository.save(ticket23);
 
 			log.info("Starting seed for projection");
 

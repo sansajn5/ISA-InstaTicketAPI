@@ -1,5 +1,6 @@
 package com.isa.instaticketapi.repository;
 
+import com.isa.instaticketapi.domain.Reservation;
 import com.isa.instaticketapi.domain.ReservationState;
 import com.isa.instaticketapi.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,5 @@ public interface ReservationStateRepository extends JpaRepository<ReservationSta
 
     ReservationState findOneByUserIncludedInReservation(User user);
     ArrayList<ReservationState> findAllByUserIncludedInReservation(User user);
+    ReservationState findOneByReservation (Reservation reservation);
 }
