@@ -77,7 +77,7 @@ public class AdminService {
 	
 		if(user.getAuthorities().contains(authoritySuperAdmin)) {		
 			user.getAuthorities().remove(authoritySuperAdmin);
-			
+			user.setChangedRole(true);
 			userRepository.save(user);
 		}
 		
@@ -97,7 +97,7 @@ public class AdminService {
 	
 		if(!user.getAuthorities().contains(authorityFanZone)) {		
 			user.getAuthorities().add(authorityFanZone);
-			
+			user.setChangedRole(true);
 			userRepository.save(user);
 		}
 		
@@ -179,6 +179,9 @@ public class AdminService {
 		if(!placeAdmins.contains(user)) {
 			
 			EmploymentPlace ep = new EmploymentPlace(place,user);
+			user.setChangedRole(true);
+			userRepository.save(user);
+			
 			User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 			ep.setCreatedBy(logged.getUsername());			
 			employmentPlaceRepository.save(ep);

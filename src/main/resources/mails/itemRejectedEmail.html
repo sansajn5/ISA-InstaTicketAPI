@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title th:text="#{email.itemAccepting.title}">InstaTicket offer</title>
+        <title th:text="#{email.itemRejecting.title}">InstaTicket offer</title>
       <!--   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
     	--> 
     </head>
     <body>
-       <p th:text="#{email.itemAccepting.greeting(${user.username})}">
+       <p th:text="#{email.itemRejecting.greeting(${user.username})}">
            
         </p>   
-        <p th:text="#{email.itemAccepting.text1(${offer.name})}">
+        <p th:text="#{email.itemRejecting.text1(${offer.name})}">
         
         </p>
       
         <p>
-            <span th:text="#{email.itemAccepting.text2}">Regards, </span>
+            <span th:text="#{email.itemRejectingg.text2}">Regards, </span>
             <br/>
             <em th:text="#{email.signature}">InstaTicket.</em>
         </p> 

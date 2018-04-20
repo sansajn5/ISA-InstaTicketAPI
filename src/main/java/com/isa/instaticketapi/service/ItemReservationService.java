@@ -73,6 +73,9 @@ public class ItemReservationService {
 		ir.setPlace(itemReservationDTO.getPlace());
 		ir.setUser(itemReservationDTO.getUser());
 		
+		logged.setPoints(logged.getPoints()+1);
+		userRepository.save(logged);
+		
 		itemReservationRepository.save(ir);
 		
 		item.setSold(true);

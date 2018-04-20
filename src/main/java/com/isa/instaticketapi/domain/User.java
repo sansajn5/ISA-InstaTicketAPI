@@ -90,6 +90,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @Column
+    private int points = 0;
+    
+    @Column
+    private boolean changedRole = false;
+    
     @ManyToMany
     @JoinTable(
             name = "User_authority",
@@ -222,8 +228,29 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setNumber(String number) {
         this.number = number;
     }
+      
 
-    public User() {
+    public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+	
+	
+
+	public boolean isChangedRole() {
+		return changedRole;
+	}
+
+	public void setChangedRole(boolean changedRole) {
+		this.changedRole = changedRole;
+	}
+	
+	
+
+	public User() {
 
     }
 

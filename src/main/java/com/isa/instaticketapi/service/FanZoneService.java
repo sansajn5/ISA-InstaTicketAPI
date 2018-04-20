@@ -65,12 +65,9 @@ public class FanZoneService {
 		
 		Item item = new Item();
 		
-		/*
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
-		System.out.println("ULOGOVAN " + logged.getUsername()); */
-		
-		
-		item.setCreatedBy("User");
+			
+		item.setCreatedBy(logged.getUsername());
 		
 		item.setName(itemDTO.getName());
 		item.setDescription(itemDTO.getDescription());
@@ -154,8 +151,9 @@ public class FanZoneService {
 		
 		Offer offer = new Offer();
 		
+		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 				
-		offer.setCreatedBy("User");
+		offer.setCreatedBy(logged.getUsername());
 		
 		offer.setName(offerDTO.getName());
 		offer.setDescription(offerDTO.getDescription());
@@ -225,7 +223,6 @@ public class FanZoneService {
 		
 		Offer offer = offerRepository.findOne(id);
 		
-		//User user = userRepository.findOneByUsername("sansajn").get();
 		
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		
@@ -241,8 +238,7 @@ public class FanZoneService {
 		
 		bidRepository.save(bid);
 		
-		
-		
+			
 		
 		if(Integer.parseInt(bidDTO.getSum()) > Integer.parseInt(offer.getBestPrice())){
 			
@@ -277,6 +273,9 @@ public class FanZoneService {
 		
 		mailService.sendItemAcceptedEmail(offer, user);
 		
+		user.setPoints(user.getPoints()+1);
+		userRepository.save(user);
+		
 		List<Bid> bidsUnsucces = bidRepository.findAllByOfferId(id);
 		bidsUnsucces.remove(bid);
 		
@@ -286,7 +285,7 @@ public class FanZoneService {
 			User us = userRepository.findOneByUsername(usern).get();
 			String mail = user.getEmail();
 			
-			// send unsucces
+			mailService.sendItemRejectedEmail(offer, us);
 		}
 		
 		

@@ -56,6 +56,8 @@ public class UserDTO {
 
     @Size(max = 256)
     private String imageUrl;
+    
+    private int points;
 
     private boolean activated = false;
 
@@ -94,6 +96,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.points = user.getPoints();
         this.authorities = user.getAuthorities().stream()
                 .map(Authority::getName)
                 .collect(Collectors.toSet());
@@ -234,8 +237,20 @@ public class UserDTO {
     public void setRePassword(String repassword) {
         this.rePassword = repassword;
     }
+    
+    
 
-    @Override
+    public int getPoints() {
+		return points;
+	}
+
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+
+	@Override
     public String toString() {
         return "UserDTO{" +
                 "id=" + id +

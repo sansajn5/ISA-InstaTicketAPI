@@ -108,6 +108,7 @@ public class MailService {
         context.setVariable(USER, user);
         context.setVariable(OFFER, offer);
         context.setVariable(BASE_URL, applicationProperties.getMail().getBaseUrl());
+      
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
@@ -129,9 +130,18 @@ public class MailService {
     @Async
     public void sendItemAcceptedEmail(Offer offer, User user) {
     	
-    	log.debug("Sending activation email to '{}'", user.getEmail());
+    	log.debug("Sending acepting item email to '{}'", user.getEmail());
     	
-    	sendEmailFromTemplateItem(offer,user, "creationEmail", "email.creation.title");
+    	sendEmailFromTemplateItem(offer,user, "itemAcceptedEmail", "email.itemAccepting.title");
+    }
+    
+    
+    @Async
+    public void sendItemRejectedEmail(Offer offer, User user) {
+    	
+    	log.debug("Sending rejecting item email to '{}'", user.getEmail());
+    	
+    	sendEmailFromTemplateItem(offer,user, "itemRejectedEmail", "email.itemRejecting.title");
     }
     
     
