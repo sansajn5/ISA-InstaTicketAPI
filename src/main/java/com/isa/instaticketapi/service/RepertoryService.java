@@ -28,7 +28,7 @@ import com.isa.instaticketapi.service.dto.Repertory.RepertoryDTO;
 @Service
 @Transactional
 public class RepertoryService {
-	
+
 	@Autowired
 	private RepertotyRepository repertoryRepository;
 
@@ -40,7 +40,10 @@ public class RepertoryService {
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
-	
+
+	@Autowired
+	private ProjectionService projectionService;
+
 	/**
 	 * 
 	 * @param repertoryDTO
@@ -84,7 +87,10 @@ public class RepertoryService {
 		}
 
 		ArrayList<Projection> projections = projectionRepository.findAllByReperotry(repertorty);
-		projectionRepository.delete(projections);
+
+		for (int i = 0; i < projections.size(); i++) {
+			projectionService.deleteProjection(projections.get(i).getId());
+		}
 
 		repertoryRepository.delete(repertorty);
 

@@ -1,6 +1,7 @@
 package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,11 @@ import com.isa.instaticketapi.domain.Hall;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.Repertory;
+import com.isa.instaticketapi.domain.Reservation;
+import com.isa.instaticketapi.domain.ReservationInvitation;
+import com.isa.instaticketapi.domain.ReservationState;
 import com.isa.instaticketapi.domain.Seat;
+import com.isa.instaticketapi.domain.Ticket;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.domain.VoteForEvent;
 import com.isa.instaticketapi.repository.EventRepository;
@@ -21,7 +26,11 @@ import com.isa.instaticketapi.repository.HallRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.RepertotyRepository;
+import com.isa.instaticketapi.repository.ReservationInvitationRepository;
+import com.isa.instaticketapi.repository.ReservationRepository;
+import com.isa.instaticketapi.repository.ReservationStateRepository;
 import com.isa.instaticketapi.repository.SeatRepository;
+import com.isa.instaticketapi.repository.TicketRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForEventRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
@@ -63,6 +72,18 @@ public class ProjectionService {
 
 	@Autowired
 	private VoteForEventRepository voteForEventRepository;
+
+	@Autowired
+	private ReservationRepository reservationRepository;
+
+	@Autowired
+	private ReservationStateRepository reservationStateRepository;
+
+	@Autowired
+	private ReservationInvitationRepository reservationInvitationRepository;
+
+	@Autowired
+	private TicketRepository ticketRepository;
 
 	public void createProjection(ProjectionDTO projectionDTO, Long id) {
 		Projection projection = new Projection();
@@ -172,8 +193,9 @@ public class ProjectionService {
 		projection.setRegularPrice(projectionDTO.getRegularPrice());
 		projection.setVipPrice(projectionDTO.getVipPrice());
 		projection.setBalconyPrice(projectionDTO.getBalconyPrice());
-		projection.setQuickTicketPrice(projectionDTO.getRegularPrice() - ((projectionDTO.getRegularPrice() * projectionDTO.getSalePercentage()) / 100));
-	    projection.setSale(projectionDTO.getBalconyPrice());
+		projection.setQuickTicketPrice(projectionDTO.getRegularPrice()
+				- ((projectionDTO.getRegularPrice() * projectionDTO.getSalePercentage()) / 100));
+		projection.setSale(projectionDTO.getBalconyPrice());
 		projectionRepository.save(projection);
 
 		for (int i = 1; i <= h.getRow(); i++) {
@@ -206,7 +228,29 @@ public class ProjectionService {
 	 *            id of projection
 	 */
 	public void deleteProjection(Long id) {
-		projectionRepository.delete(projectionRepository.findOneById(id));
+		Projection projection = projectionRepository.findOneById(id);
+		ArrayList<Seat> seats = seatRepository.findAllByProjection(projection);
+		log.debug("xx");
+		ArrayList<Reservation> reservations = reservationRepository.findAllByProjection(projection);
+		log.debug("xx");
+		for (int i = 0; i < reservations.size(); i++) {
+			log.debug("xx");
+			ArrayList<ReservationState> states = reservationStateRepository.findAllByReservation(reservations.get(i));
+			reservationStateRepository.delete(states);
+			log.debug("xx");
+			ArrayList<ReservationInvitation> invitations = reservationInvitationRepository
+					.findAllByReservation(reservations.get(i));
+			reservationInvitationRepository.delete(invitations);
+			log.debug("xx");
+			ArrayList<Ticket> tickets = ticketRepository.findAllByReservation(reservations.get(i));
+			ticketRepository.delete(tickets);
+		}
+		reservationRepository.delete(reservations);
+		log.debug("xx");
+		seatRepository.delete(seats);
+		log.debug("xx");
+		projectionRepository.delete(projection);
+
 	}
 
 	/**

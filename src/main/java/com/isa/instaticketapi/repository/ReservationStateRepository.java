@@ -13,8 +13,12 @@ import java.util.Optional;
 @Repository
 public interface ReservationStateRepository extends JpaRepository<ReservationState, Long> {
 
-    ReservationState findOneByUserIncludedInReservation(User user);
-    ArrayList<ReservationState> findAllByUserIncludedInReservation(User user);
-    ReservationState findOneByReservation (Reservation reservation);
-    List<ReservationState> findAllByReservation(Reservation reservation);
+	ReservationState findOneByUserIncludedInReservation(User user);
+
+	ArrayList<ReservationState> findAllByUserIncludedInReservation(User user);
+
+	ReservationState findOneByReservation(Reservation reservation);
+
+	ArrayList<ReservationState> findAllByReservation(Reservation reservation);
+
 }

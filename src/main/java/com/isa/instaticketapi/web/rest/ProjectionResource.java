@@ -1,9 +1,10 @@
 package com.isa.instaticketapi.web.rest;
 
-import com.isa.instaticketapi.config.Constants;
-import com.isa.instaticketapi.domain.Seat;
-import com.isa.instaticketapi.repository.SeatRepository;
-import com.isa.instaticketapi.service.dto.projection.SeatDTO;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.instaticketapi.config.Constants;
 import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Seat;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.SeatRepository;
 import com.isa.instaticketapi.service.ProjectionService;
 import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
+import com.isa.instaticketapi.service.dto.projection.SeatDTO;
 import com.isa.instaticketapi.web.rest.vm.VoteForEventResponse;
 import com.isa.instaticketapi.web.rest.vm.Projection.ProjectionResponse;
 import com.isa.instaticketapi.web.rest.vm.RepertoryResponse.RepertoryResponse;
@@ -31,9 +36,6 @@ import com.isa.instaticketapi.web.rest.vm.RepertoryResponse.RepertoryResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/projection")
@@ -84,6 +86,7 @@ public class ProjectionResource {
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error on server side"),
 			@ApiResponse(code = 503, message = "Server is unavilable or under maintance") })
+	@Transactional
 	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/projection/{id}")
 	public void deleteProjection(@PathVariable("id") Long id) {
