@@ -24,11 +24,9 @@ public class ReservationInvitation implements Serializable {
     @JoinColumn(name = "toUserId")
     private User toUser;
 
-    @NotNull
     @Column(name = "isAccepted")
     private Boolean isAccepted;
 
-    @NotNull
     @Column(name = "isDeleted")
     private Boolean isDeleted;
 
@@ -85,5 +83,17 @@ public class ReservationInvitation implements Serializable {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationInvitation{" +
+                "id=" + id +
+                ", fromUser=" + fromUser +
+                ", toUser=" + toUser +
+                ", isAccepted=" + isAccepted +
+                ", isDeleted=" + isDeleted +
+                ", reservation=" + reservation +
+                '}';
     }
 }

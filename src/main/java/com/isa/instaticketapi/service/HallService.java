@@ -2,7 +2,6 @@ package com.isa.instaticketapi.service;
 
 import java.util.ArrayList;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,9 @@ public class HallService {
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
+
+	@Autowired
+	private ProjectionService projectionService;
 
 	/**
 	 * 
@@ -85,7 +87,10 @@ public class HallService {
 			return null;
 		}
 		ArrayList<Projection> projections = projectionRepository.findAllByHall(hall);
-		projectionRepository.delete(projections);
+
+		for (int i = 0; i < projections.size(); i++) {
+			projectionService.deleteProjection(projections.get(i).getId());
+		}
 
 		hallRepository.delete(hall);
 		log.debug("Deleted hall.");

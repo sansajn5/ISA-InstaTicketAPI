@@ -1,18 +1,19 @@
 package com.isa.instaticketapi.web.rest;
 
 import com.isa.instaticketapi.domain.FriendRequest;
+import com.isa.instaticketapi.domain.ReservationInvitation;
 import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.AccountService;
 //import com.isa.instaticketapi.web.rest.errors.EmailAlreadyUsedException;
 //import com.isa.instaticketapi.web.rest.errors.LoginAlreadyUsedException;
+import com.isa.instaticketapi.service.ReservationService;
 import com.isa.instaticketapi.service.UserService;
 import com.isa.instaticketapi.service.dto.account.UserDTO;
 import com.isa.instaticketapi.service.dto.user.FriendRequestDTO;
-import com.isa.instaticketapi.web.rest.vm.UserResource.Friend;
-import com.isa.instaticketapi.web.rest.vm.UserResource.FriendRequestsResponse;
-import com.isa.instaticketapi.web.rest.vm.UserResource.FriendsResponse;
+import com.isa.instaticketapi.service.dto.user.ReservationInvitationDTO;
+import com.isa.instaticketapi.web.rest.vm.UserResource.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -49,6 +50,9 @@ public class UserResource {
 
     @Autowired
     private SimpMessageSendingOperations messageSendingOperations;
+
+    @Autowired
+    private ReservationService reservationService;
 
 
     /**
@@ -144,6 +148,29 @@ public class UserResource {
             tempList.add(friend);
         });
         return new ResponseEntity<>(new FriendRequestsResponse(tempList),HttpStatus.OK);
+    }
+
+    @GetMapping("/get-reservation-invitations")
+    public ResponseEntity<ReservationInvList> getReservationInvitation() {
+        List<ReservationInv> list = new ArrayList<>();
+        reservationService.getMyInvitationForReservation()
+                .map( resInv -> new ReservationInv(
+                        resInv.getId(),
+                        resInv.getFromUser().getUsername(),
+                        resInv.getReservation().getProjection().getEvent().getName(),
+                        resInv.getReservation().getProjection().getStartTime()
+                        )
+                ).ifPresent(list::add);
+        return new ResponseEntity<>(new ReservationInvList(list),HttpStatus.OK);
+    }
+
+    @PutMapping("/set-reservation-invitation")
+    @ResponseStatus(HttpStatus.OK)
+    public void responseOnReservation(@RequestBody ReservationInvitationDTO responseDTO) {
+        if(responseDTO.isResponse())
+            reservationService.acceptInvitation(responseDTO.getId());
+        else
+            reservationService.declineInvitation(responseDTO.getId());
     }
 
     @MessageMapping("/delete-friend-request")
