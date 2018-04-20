@@ -228,7 +228,7 @@ public class DataLoader implements ApplicationRunner {
 		milica.setLastName("Kovacevic");
 		milica.setAuthorities(authoritiesAdmin);
 		milica.setActivated(true);
-		milica.setEmail("milica@super.com");
+		milica.setEmail("milica12345@super.com");
 		milica.setCreatedBy("sansajn");
 		milica.setCity("Novi Sad");
 		milica.setAddress("petrovaradin");
@@ -242,7 +242,7 @@ public class DataLoader implements ApplicationRunner {
 		jelena.setLastName("Jankovic");
 		jelena.setAuthorities(authoritiesUser);
 		jelena.setActivated(true);
-		jelena.setEmail("jelena@gmail.com");
+		jelena.setEmail("jelena12345@gmail.com");
 		jelena.setCreatedBy("sansajn");
 		jelena.setCity("Novi Sad");
 		jelena.setAddress("telep");
@@ -256,7 +256,7 @@ public class DataLoader implements ApplicationRunner {
 		marko.setLastName("Markovic");
 		marko.setAuthorities(authoritiesUser);
 		marko.setActivated(true);
-		marko.setEmail("marko@gmail.com");
+		marko.setEmail("marko12345@gmail.com");
 		marko.setCreatedBy("sansajn");
 		marko.setCity("Novi Sad");
 		marko.setAddress("Novo Naselje");
@@ -270,7 +270,7 @@ public class DataLoader implements ApplicationRunner {
 		petar.setLastName("Petrovic");
 		petar.setAuthorities(authoritiesUser);
 		petar.setActivated(true);
-		petar.setEmail("petar@gmail.com");
+		petar.setEmail("petar12345@gmail.com");
 		petar.setCreatedBy("sansajn");
 		petar.setCity("Novi Sad");
 		petar.setAddress("Novo Naselje");

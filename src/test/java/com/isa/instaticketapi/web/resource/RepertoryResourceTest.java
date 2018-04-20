@@ -43,5 +43,15 @@ public class RepertoryResourceTest extends AbstractResourceTest {
 		int status = result.getResponse().getStatus();
 		Assert.assertEquals(200, status);
 	}
+	
+	@Test
+	@Transactional
+	public void testDeleteRepertoryUnsuccesfull() throws Exception {
+		String uri = "/api/repertory/repertory/8888";
+		MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andReturn();
+		int status = result.getResponse().getStatus();
+		Assert.assertEquals(405, status);
+	}
 
 }

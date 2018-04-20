@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.instaticketapi.AbstractResourceTest;
+import com.isa.instaticketapi.web.rest.vm.StatisticResponse;
 import com.isa.instaticketapi.web.rest.vm.VoteForPlaceResponse;
 import com.isa.instaticketapi.web.rest.vm.EventResponse.EventsResponse;
 import com.isa.instaticketapi.web.rest.vm.PlaceResource.CinemaResponse;
@@ -91,7 +92,6 @@ public class PlaceResourceTest extends AbstractResourceTest {
 		Assert.assertEquals(200, status);
 	}
 
-	///
 	@Test
 	@Transactional
 	public void testGetAllEventInPlaceUnsuccesfull() throws Exception {
@@ -101,7 +101,6 @@ public class PlaceResourceTest extends AbstractResourceTest {
 		Assert.assertEquals(405, result.getResponse().getStatus());
 	}
 
-
 	@Test
 	@Transactional
 	public void testGetVoteForPlaceSuccesfull() throws Exception {
@@ -110,24 +109,10 @@ public class PlaceResourceTest extends AbstractResourceTest {
 				.accept(MediaType.APPLICATION_JSON)).andReturn();
 		VoteForPlaceResponse voteForPlace = mapFromJson(result.getResponse().getContentAsString(),
 				VoteForPlaceResponse.class);
-				int status = result.getResponse().getStatus();
+		Assert.assertEquals(0, voteForPlace.getVote());
+		int status = result.getResponse().getStatus();
 		Assert.assertEquals(200, status);
 	}
-
-//CHECK IT 
-//	@Test
-//	@Transactional
-//	public void testGetVoteForPlaceSuccesfull() throws Exception {
-//		String uri = "/api/place/3/vote";
-//		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON)
-//				.accept(MediaType.APPLICATION_JSON)).andReturn();
-//		VoteForPlaceResponse voteForPlace = mapFromJson(result.getResponse().getContentAsString(),
-//				VoteForPlaceResponse.class);
-//		Assert.assertEquals(5, voteForPlace.getVote());
-//		int status = result.getResponse().getStatus();
-//		Assert.assertEquals(200, status);
-//	}
-
 
 	@Test
 	@Transactional
@@ -155,16 +140,5 @@ public class PlaceResourceTest extends AbstractResourceTest {
 		int status = result.getResponse().getStatus();
 		Assert.assertEquals(200, status);
 	}
-
-	/*
-	 * @Test
-	 * 
-	 * @Transactional public void testQuickSeatReservationSuccesfull() throws
-	 * Exception { String uri = "/api/place/quick-seats/3"; MvcResult result =
-	 * mvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.
-	 * APPLICATION_JSON) .accept(MediaType.APPLICATION_JSON)).andReturn(); int
-	 * status = result.getResponse().getStatus(); Assert.assertEquals(200,
-	 * status); }
-	 */
 
 }
