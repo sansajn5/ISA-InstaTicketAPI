@@ -24,11 +24,9 @@ public class ReservationInvitation implements Serializable {
     @JoinColumn(name = "toUserId")
     private User toUser;
 
-    @NotNull
     @Column(name = "isAccepted")
     private Boolean isAccepted;
 
-    @NotNull
     @Column(name = "isDeleted")
     private Boolean isDeleted;
 

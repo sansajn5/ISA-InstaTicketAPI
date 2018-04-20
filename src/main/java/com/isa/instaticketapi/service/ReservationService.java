@@ -46,15 +46,7 @@ public class ReservationService {
 
 	public Reservation createReservation(List<String> invitations, List<SeatDTO> seats, Long projectionId) {
 		Optional<User> logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername);
-		invitations.forEach(email -> {
-			User invitedUser = userRepository.findOneByEmailIgnoreCase(email).get();
-			ReservationInvitation reservationInvitation = new ReservationInvitation();
-			reservationInvitation.setToUser(invitedUser);
-			reservationInvitation.setAccepted(false);
-			reservationInvitation.setDeleted(false);
-			reservationInvitation.setFromUser(logged.get());
-			reservationInvitationRepository.save(reservationInvitation);
-		});
+
 		Reservation reservation = new Reservation();
 		List<Ticket> tickets = new ArrayList<>();
 		Projection projection = projectionRepository.findOneById(projectionId);
@@ -66,9 +58,20 @@ public class ReservationService {
 		boolean flag = false;
 		reservationRepository.save(reservation);
 
+		invitations.forEach(email -> {
+			User invitedUser = userRepository.findOneByEmailIgnoreCase(email).get();
+			ReservationInvitation reservationInvitation = new ReservationInvitation();
+			reservationInvitation.setToUser(invitedUser);
+			reservationInvitation.setAccepted(false);
+			reservationInvitation.setDeleted(false);
+			reservationInvitation.setFromUser(logged.get());
+			reservationInvitation.setReservation(reservation);
+			reservationInvitationRepository.save(reservationInvitation);
+		});
+
 		for (SeatDTO seat : seats) {
 			Seat seatInHall = seatRepository.findOneByCordXAndCordYAndProjection(seat.getCordX(), seat.getCordY(), projection);
-			if(!seatInHall.isReserved()) {
+			if(!seatInHall.isReserved() && seat.getType().equals(Constants.RESERVED)) {
 				Ticket ticket = createTicket(seatInHall, reservation);
 				ReservationState reservationState =  createReservationState(reservation);
 
@@ -151,7 +154,10 @@ public class ReservationService {
 	public Optional<ReservationInvitation> getMyInvitationForReservation() {
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		return reservationInvitationRepository.findAllByToUser(logged)
-				.filter(el -> !el.getDeleted() && !el.getAccepted());
+				.filter(el -> {
+					System.out.println(el);
+					return !el.getDeleted() && !el.getAccepted();
+				});
 	}
 
 	public void acceptInvitation(Long id) {
