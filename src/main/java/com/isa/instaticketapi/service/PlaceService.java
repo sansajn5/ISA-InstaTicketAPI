@@ -326,12 +326,10 @@ public class PlaceService {
 					log.debug("AAAAAAAAAAAAAAAAAAAAAAAA {}", i);
 					String date = "";
 					date = Integer.toString(i) + "-" + Integer.toString(fromMonth) + "-" + Integer.toString(fromYear);
-
+					ResponseStatistic responseAttendece = new ResponseStatistic();
+					int count = 0;
 					for (int j = 0; j < repertories.size(); j++) {
 						if ((repertories.get(j).getDate()).equals(date)) {
-
-							ResponseStatistic responseAttendece = new ResponseStatistic();
-							int count = 0;
 
 							ArrayList<Reservation> reservations = (ArrayList<Reservation>) reservationrepository
 									.findAll();
@@ -346,14 +344,14 @@ public class PlaceService {
 								}
 							}
 
-							responseAttendece.setDate(date);
-							responseAttendece.setAttendence(count);
-							list.add(responseAttendece);
-
 						}
 
 					}
+					responseAttendece.setDate(date);
+					responseAttendece.setAttendence(count);
+					list.add(responseAttendece);
 				}
+
 			}
 
 			return list;
@@ -431,19 +429,17 @@ public class PlaceService {
 					log.debug("AAAAAAAAAAAAAAAAAAAAAAAA {}", i);
 					String date = "";
 					date = Integer.toString(i) + "-" + Integer.toString(fromMonth) + "-" + Integer.toString(fromYear);
-
+					ResponseStatistic responseAttendece = new ResponseStatistic();
+					int count = 0;
 					for (int j = 0; j < repertories.size(); j++) {
 						if ((repertories.get(j).getDate()).equals(date)) {
-
-							ResponseStatistic responseAttendece = new ResponseStatistic();
-							int count = 0;
 
 							ArrayList<Reservation> reservations = (ArrayList<Reservation>) reservationrepository
 									.findAll();
 							for (int x = 0; x < reservations.size(); x++) {
 								if ((reservations.get(x).getProjection().getReperotry()).equals(repertories.get(j))
 										&& (reservations.get(x).getProjection().getHall().getPlace()).equals(place)) {
-									
+
 									ReservationState reservationState = reservationStaterepository
 											.findOneByReservation(reservations.get(x));
 									if (reservationState.isUsed() == true) {
@@ -458,23 +454,25 @@ public class PlaceService {
 											count += reservations.get(j).getProjection().getQuickTicketPrice();
 										} else if (typeSeat.equals("Regular")) {
 											count += reservations.get(j).getProjection().getRegularPrice();
-										} else if(typeSeat.equals("VIP")){
+										} else if (typeSeat.equals("VIP")) {
 											count += reservations.get(j).getProjection().getVipPrice();
 										} else {
-											
+
 										}
+
 									}
+
 								}
 							}
-
-							responseAttendece.setDate(date);
-							responseAttendece.setAttendence(count);
-							list.add(responseAttendece);
 
 						}
 
 					}
+					responseAttendece.setDate(date);
+					responseAttendece.setAttendence(count);
+					list.add(responseAttendece);
 				}
+
 			}
 
 			return list;

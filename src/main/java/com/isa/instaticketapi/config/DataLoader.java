@@ -1,5 +1,6 @@
 package com.isa.instaticketapi.config;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -306,7 +307,7 @@ public class DataLoader implements ApplicationRunner {
 		log.info("Seeds for event are completed");
 	}
 
-	public void seedFanZone() {
+	public void seedFanZone()  {
 
 		Item it1 = new Item();
 		it1.setName("Rekvizit 1");
@@ -618,7 +619,7 @@ public class DataLoader implements ApplicationRunner {
 
 		Repertory repertory = new Repertory();
 		repertory.setCreatedBy("milica");
-		repertory.setDate("19-4-2018");
+		repertory.setDate("18-4-2018");
 		repertory.setPlace(place);
 
 		Repertory repertory1 = new Repertory();
