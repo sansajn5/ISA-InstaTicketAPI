@@ -22,6 +22,7 @@ import com.isa.instaticketapi.domain.Bid;
 import com.isa.instaticketapi.domain.Item;
 import com.isa.instaticketapi.domain.ItemReservation;
 import com.isa.instaticketapi.domain.Offer;
+import com.isa.instaticketapi.domain.User;
 import com.isa.instaticketapi.repository.ItemRepository;
 import com.isa.instaticketapi.service.FanZoneService;
 import com.isa.instaticketapi.service.ItemReservationService;
@@ -38,6 +39,7 @@ import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ItemResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ItemsResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.OfferResponse;
 import com.isa.instaticketapi.web.rest.vm.FanZoneResource.OffersResponse;
+import com.isa.instaticketapi.web.rest.vm.FanZoneResource.ReservationResponse;
 import com.isa.instaticketapi.web.rest.vm.UserResource.AdminRole;
 
 import io.swagger.annotations.ApiOperation;
@@ -270,6 +272,17 @@ public class FanZoneResource {
 	}
 	
 	
+	@GetMapping("/reserve-item/{id}")
+ 	public ResponseEntity<ReservationResponse> reserveItem(@PathVariable("id") Long id) throws SQLException {
+ 		
+		
+		Item item = itemReservationService.itemReservation(id);
+ 		User user = fanZoneService.getLogged();
+ 		
+ 		
+ 		return new ResponseEntity<>(new ReservationResponse(item,user),HttpStatus.OK);
+ 	}
+	
 	
 	@ApiOperation(value = "Accepting existing offer", response = AdminRole.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
@@ -370,7 +383,7 @@ public class FanZoneResource {
 	}
 	
 	
-	@ApiOperation(value = "Confirming item reservation ", response = AdminRole.class)
+	@ApiOperation(value = "Editing bid ", response = AdminRole.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created projection"),
 			@ApiResponse(code = 400, message = "Some attribute is already in use"),
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),

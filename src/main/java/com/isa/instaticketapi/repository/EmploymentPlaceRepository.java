@@ -20,7 +20,7 @@ public interface EmploymentPlaceRepository extends JpaRepository<EmploymentPlace
 	
 	EmploymentPlace findOneById(Long id);
 	
-	List<User> findAllByPlace(Place place);
+	List<EmploymentPlace> findAllByPlace(Place place);
 	
 	List<Place> findAllByAdmin(User user);
 	
