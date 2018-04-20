@@ -15,4 +15,5 @@ public interface ReservationStateRepository extends JpaRepository<ReservationSta
     ReservationState findOneByUserIncludedInReservation(User user);
     ArrayList<ReservationState> findAllByUserIncludedInReservation(User user);
     ReservationState findOneByReservation (Reservation reservation);
+    ArrayList<ReservationState> findAllByReservation (Reservation reservation);
 }

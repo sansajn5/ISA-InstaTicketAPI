@@ -16,7 +16,7 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     Seat findOneById(Long id);
     ArrayList<Seat> findAllByHall(Hall hall);
     Seat findOneByHallAndAndCordXAndCordY(Hall hall,int x, int y);
-    List<Seat> findAllByProjection(Projection projection);
+    ArrayList<Seat> findAllByProjection(Projection projection);
     Seat findOneByCordXAndCordYAndProjection(int x, int y, Projection projection);
 
 }

@@ -34,8 +34,8 @@ import com.isa.instaticketapi.repository.TicketRepository;
 import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.repository.VoteForPlaceRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
-import com.isa.instaticketapi.service.dto.StatisticDTO;
 import com.isa.instaticketapi.service.dto.ResponseStatistic;
+import com.isa.instaticketapi.service.dto.StatisticDTO;
 import com.isa.instaticketapi.service.dto.places.PlaceDTO;
 
 /**
@@ -269,6 +269,21 @@ public class PlaceService {
 		User logged = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).get();
 		reservationState.setUserIncludedInReservation(logged);
 		reservationStaterepository.save(reservationState);
+
+		Ticket ticket = new Ticket();
+		ticket.setReservation(reservation);
+		ticket.setSeat(seat);
+		String typeTicket = "";
+		if (seat.getSeatType().equals("QUICK")) {
+			typeTicket = "Quick Ticket";
+		} else if (seat.getSeatType().equals("VIP")) {
+			typeTicket = "VIP";
+		} else if (seat.getSeatType().equals("CLASSIC")) {
+			typeTicket = "Regular";
+		}
+
+		ticket.setTickeyType(typeTicket);
+		ticketRepository.save(ticket);
 
 	}
 
