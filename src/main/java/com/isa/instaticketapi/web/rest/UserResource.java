@@ -173,6 +173,12 @@ public class UserResource {
             reservationService.declineInvitation(responseDTO.getId());
     }
 
+    @PutMapping("/drop-reservation-state")
+    @ResponseStatus(HttpStatus.OK)
+    public void dropOutReservation(@RequestBody ReservationInvitationDTO responseDTO) {
+        reservationService.dropOutReservation(responseDTO.getId());
+    }
+
     @MessageMapping("/delete-friend-request")
     public void deleteFriendRequest(@RequestBody FriendRequestDTO friendRequestDTO) {
         Object object = null;

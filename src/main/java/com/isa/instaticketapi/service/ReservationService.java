@@ -185,4 +185,10 @@ public class ReservationService {
 		reservationInvitationRepository.save(resInv);
 	}
 
+	public void dropOutReservation(Long id) {
+		ReservationState rs = reservationStateRepository.findOne(id);
+		rs.setDropOut(true);
+		reservationStateRepository.save(rs);
+	}
+
 }
