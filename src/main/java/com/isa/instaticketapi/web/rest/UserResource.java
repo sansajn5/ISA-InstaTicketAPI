@@ -11,6 +11,7 @@ import com.isa.instaticketapi.service.AccountService;
 import com.isa.instaticketapi.service.ReservationService;
 import com.isa.instaticketapi.service.UserService;
 import com.isa.instaticketapi.service.dto.account.UserDTO;
+import com.isa.instaticketapi.service.dto.user.FriendEmail;
 import com.isa.instaticketapi.service.dto.user.FriendRequestDTO;
 import com.isa.instaticketapi.service.dto.user.ReservationInvitationDTO;
 import com.isa.instaticketapi.web.rest.vm.UserResource.*;
@@ -177,6 +178,12 @@ public class UserResource {
     @ResponseStatus(HttpStatus.OK)
     public void dropOutReservation(@RequestBody ReservationInvitationDTO responseDTO) {
         reservationService.dropOutReservation(responseDTO.getId());
+    }
+
+    @PostMapping("/delete-friend")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteFriend(@RequestBody FriendEmail friendEmail){
+        userService.deleteFriend(friendEmail.getEmail());
     }
 
     @MessageMapping("/delete-friend-request")

@@ -18,4 +18,5 @@ public interface FriendsRepository extends JpaRepository<Friends, FriendsIdentit
 
     List<Friends> findAllByUser(User u);
     Friends findOneByFriend(User u);
+    Friends findOneByFriendsIdentity(FriendsIdentity friendsIdentity);
 }

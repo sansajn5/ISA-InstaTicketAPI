@@ -78,8 +78,12 @@ public class UserService {
     public void deleteFriend(String email) {
         SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByUsername).ifPresent(user -> {
             userRepository.findOneByEmailIgnoreCase(email).ifPresent(friend -> {
-                Friends friends = friendsRepository.findOneByFriend(friend);
+                FriendsIdentity friendId = new FriendsIdentity(user.getId().toString(),friend.getId().toString());
+                FriendsIdentity friendId1 = new FriendsIdentity(friend.getId().toString(),user.getId().toString());
+                Friends friends = friendsRepository.findOneByFriendsIdentity(friendId);
+                Friends friends1 = friendsRepository.findOneByFriendsIdentity(friendId1);
                 friendsRepository.delete(friends);
+                friendsRepository.delete(friends1);
             });
         });
     }

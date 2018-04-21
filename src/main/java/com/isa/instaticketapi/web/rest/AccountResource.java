@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.isa.instaticketapi.service.dto.account.RequestPasswordDTO;
+import com.isa.instaticketapi.service.dto.account.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,6 @@ import com.isa.instaticketapi.security.DomainUserDetailsService;
 import com.isa.instaticketapi.security.jwt.TokenProvider;
 import com.isa.instaticketapi.service.MailService;
 import com.isa.instaticketapi.service.AccountService;
-import com.isa.instaticketapi.service.dto.account.ChangePasswordDTO;
-import com.isa.instaticketapi.service.dto.account.LoginDTO;
-import com.isa.instaticketapi.service.dto.account.UserDTO;
 import com.isa.instaticketapi.service.mapper.UserMapper;
 import com.isa.instaticketapi.web.rest.vm.AccountResource.JWTTokenResponse;
 
@@ -136,7 +133,14 @@ public class AccountResource {
 
 		boolean rememberMe = (loginDTO.isRememberMe() == null) ? false : loginDTO.isRememberMe();
 		String jwt = tokenProvider.generateToken(details);
-		return new ResponseEntity<>(new JWTTokenResponse(jwt, details.getUsername(), details.getAuthorities().toString()), HttpStatus.OK);
+
+		User user = userRepository.findOneByUsername(loginDTO.getUsername()).get();
+
+		if(user.isChangedRole()){
+			return new ResponseEntity<>(new JWTTokenResponse(null, details.getUsername(), null,"changed"), HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(new JWTTokenResponse(jwt, details.getUsername(), details.getAuthorities().toString(),null), HttpStatus.OK);
 	}
 
 	/**
@@ -229,6 +233,7 @@ public class AccountResource {
 			@ApiResponse(code = 400, message = "Link does not exist or passwords are not same")})
 	@PostMapping("/change-password")
 	@ResponseStatus(HttpStatus.OK)
+	@Transactional
 	public void changePassword(@RequestParam(value = "key") String key,
 							   @RequestBody ChangePasswordDTO changePasswordDTO) {
 		if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
@@ -274,6 +279,7 @@ public class AccountResource {
 	})
 	@PostMapping("/delete-account")
 	@ResponseStatus(HttpStatus.OK)
+	@Transactional
 	public void deleteAccount(@RequestBody ChangePasswordDTO changePasswordDTO) {
 		if (changePasswordDTO.getPassword().equals(changePasswordDTO.getRePassword())) {
 			accountService.deleteAccount(changePasswordDTO.getPassword());
@@ -300,6 +306,17 @@ public class AccountResource {
 		System.out.println(user.get().getAddress());
 		if(!user.isPresent())
 			throw new IllegalArgumentException("User updated failed,field validation");
+	}
+
+	@PutMapping("/changepassword")
+	@ResponseStatus(HttpStatus.OK)
+	@Transactional
+	public void changedRole(@RequestBody ChangedRoleDTO changedRoleDTO) {
+		User user = userRepository.findOneByUsername(changedRoleDTO.getUsername()).get();
+		String encryptedPassword = passwordEncoder.encode(changedRoleDTO.getPassword());
+		user.setPassword(encryptedPassword);
+		user.setChangedRole(false);
+		userRepository.save(user);
 	}
 
 }

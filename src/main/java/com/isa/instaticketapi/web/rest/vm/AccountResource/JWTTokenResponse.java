@@ -10,9 +10,10 @@ public class JWTTokenResponse {
     private String idToken;
     private String role;
     private String username;
+    private String message;
 
-    public JWTTokenResponse(String idToken,String username, String role) {
-        this.idToken = idToken; this.username = username; this.role = role;
+    public JWTTokenResponse(String idToken,String username, String role,String message) {
+        this.idToken = idToken; this.username = username; this.role = role; this.message = message;
     }
 
     @JsonProperty("id_token")
@@ -38,6 +39,14 @@ public class JWTTokenResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
 
