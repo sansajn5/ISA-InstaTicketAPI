@@ -117,6 +117,13 @@ public class FanZoneResource {
 	@DeleteMapping("/delete-item/{id}")
 	public ResponseEntity<ItemResponse> deleteItem(@PathVariable("id") Long id) {
 		
+		
+		if (itemRepository.findOneById(id) == null) {
+			throw new IllegalArgumentException("Invalid id!");
+		}
+		
+		
+		
 		Item item = fanZoneService.deleteItem(id);
 		
 		return new ResponseEntity<>(new ItemResponse(item),HttpStatus.OK);
