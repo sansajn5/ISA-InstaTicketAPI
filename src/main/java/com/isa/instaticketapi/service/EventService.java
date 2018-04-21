@@ -12,10 +12,13 @@ import com.isa.instaticketapi.domain.Event;
 import com.isa.instaticketapi.domain.Place;
 import com.isa.instaticketapi.domain.Projection;
 import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.domain.VoteForEvent;
+import com.isa.instaticketapi.domain.VoteForPlace;
 import com.isa.instaticketapi.repository.EventRepository;
 import com.isa.instaticketapi.repository.PlaceRepository;
 import com.isa.instaticketapi.repository.ProjectionRepository;
 import com.isa.instaticketapi.repository.UserRepository;
+import com.isa.instaticketapi.repository.VoteForEventRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.places.ChangeEventDTO;
 import com.isa.instaticketapi.service.dto.places.EventDTO;
@@ -42,6 +45,12 @@ public class EventService {
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
+	
+	@Autowired
+	private ProjectionService projectionService;
+	
+	@Autowired
+	private VoteForEventRepository voteForEventRepository;
 
 	/**
 	 * 
@@ -126,8 +135,13 @@ public class EventService {
 			return null;
 		}
 		ArrayList<Projection> projections = projectionRepository.findAllByEvent(event);
-		projectionRepository.delete(projections);
-
+		for(int i=0;i<projections.size();i++){
+			projectionService.deleteProjection(projections.get(i).getId());
+		}
+		
+		ArrayList<VoteForEvent> votes = voteForEventRepository.findAllByEvent(event);
+		voteForEventRepository.delete(votes);
+		
 		eventRepository.delete(event);
 		log.debug("Deleted event.");
 		return event;
