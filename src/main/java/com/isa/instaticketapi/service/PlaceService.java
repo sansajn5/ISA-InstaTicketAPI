@@ -82,6 +82,18 @@ public class PlaceService {
 	@Autowired
 	private TicketRepository ticketRepository;
 
+	@Autowired
+	private ProjectionService projectionService;
+
+	@Autowired
+	private HallService hallService;
+
+	@Autowired
+	private RepertoryService repertoryService;
+
+	@Autowired
+	private EventService eventService;
+
 	/**
 	 * 
 	 * @return list of all cinemas
@@ -162,15 +174,22 @@ public class PlaceService {
 		for (int i = 0; i < halls.size(); i++) {
 			ArrayList<Projection> projections = projectionRepository.findAllByHall(halls.get(i));
 			for (int j = 0; j < projections.size(); j++) {
-				projectionRepository.delete(projections.get(j));
+				projectionService.deleteProjection(projections.get(j).getId());
 			}
-			hallRepository.delete(halls.get(i));
+			hallService.deleteHall(halls.get(i).getId());
 		}
 		ArrayList<Repertory> reprtories = repertoryRepository.findAllByPlace(place);
-		repertoryRepository.delete(reprtories);
+		for (int i = 0; i < reprtories.size(); i++) {
+			repertoryService.deleteRepertory(reprtories.get(i).getId());
+		}
 
 		ArrayList<Event> events = eventRepository.findAllByPlace(place);
-		eventRepository.delete(events);
+		for (int i = 0; i < events.size(); i++) {
+			eventService.deleteEvent(events.get(i).getId());
+		}
+
+		ArrayList<VoteForPlace> votes = voteForPlaceRepository.findAllByPlace(place);
+		voteForPlaceRepository.delete(votes);
 
 		placeRepository.delete(place);
 		log.debug("Deleted place.");

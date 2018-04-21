@@ -3,7 +3,7 @@ package com.isa.instaticketapi.service.dto;
 public class ChangeOfferDTO {
 
 	
-private Long id;
+	private Long id;
 	
 	private String name;
 	
