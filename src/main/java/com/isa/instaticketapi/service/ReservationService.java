@@ -189,6 +189,10 @@ public class ReservationService {
 		ReservationState rs = reservationStateRepository.findOne(id);
 		rs.setDropOut(true);
 		reservationStateRepository.save(rs);
+		Ticket t = ticketRepository.findOneByReservation(rs.getReservation());
+		Seat seat = t.getSeat();
+		seat.setReserved(false);
+		seatRepository.save(seat);
 	}
 
 }
