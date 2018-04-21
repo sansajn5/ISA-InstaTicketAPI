@@ -163,6 +163,18 @@ public class AccountResource {
 		return new ResponseEntity<>(new JWTTokenResponse(jwt, details.getUsername(), details.getAuthorities().toString(),null), HttpStatus.OK);
 	}
 
+	@GetMapping("/guest")
+	public ResponseEntity<JWTTokenResponse> guestAuthorize() {
+		User u = accountService.singupGuest();
+		UserDetails details = domainUserDetailsService.loadUserByUsername(u.getUsername());
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+				u.getUsername(), "randomString");
+		Authentication authentication = authenticationManager.authenticate(authenticationToken);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = tokenProvider.generateToken(details);
+		return new ResponseEntity<>(new JWTTokenResponse(jwt, details.getUsername(), details.getAuthorities().toString(),null), HttpStatus.OK);
+	}
+
 	/**
 	 * GET /authenticate : check if the user is authenticated, and return its
 	 * login.
@@ -355,6 +367,11 @@ public class AccountResource {
 				reservationState.setDropOut(false);
 				reservationState.setUsed(true);
 				reservationStateRepository.save(reservationState);
+				User user = reservationState.getUserIncludedInReservation();
+				if(user != null) {
+					user.setPoints(user.getPoints() + 20);
+					userRepository.save(user);
+				}
 			}
 		}
 	}

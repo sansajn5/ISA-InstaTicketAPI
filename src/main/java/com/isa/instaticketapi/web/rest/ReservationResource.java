@@ -3,13 +3,17 @@ package com.isa.instaticketapi.web.rest;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.isa.instaticketapi.domain.ReservationInvitation;
 import com.isa.instaticketapi.domain.User;
+import com.isa.instaticketapi.repository.UserRepository;
 import com.isa.instaticketapi.security.SecurityUtils;
+import com.isa.instaticketapi.service.MailService;
 import com.isa.instaticketapi.service.dto.projection.ProjectionDTO;
 import com.isa.instaticketapi.service.dto.reservation.ReservationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import com.isa.instaticketapi.domain.ReservationState;
@@ -27,6 +31,12 @@ public class ReservationResource {
 
 	@Autowired
 	private ReservationService reservationService;
+
+	@Autowired
+	MailService mailService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@ApiOperation(value = "Get user reservations", response = FriendsResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Succesfully"),
@@ -55,9 +65,14 @@ public class ReservationResource {
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
+	@Transactional
 	@PostMapping("/{id}/projection/{projectionId}/reserve")
 	public void createReservation(@RequestBody ReservationDTO reservationDTO, @PathVariable("id") Long id, @PathVariable("projectionId") Long projectionId) {
 		reservationService.createReservation(reservationDTO.getInvatations(),reservationDTO.getSeats(),projectionId);
+		reservationDTO.getInvatations().forEach(email -> {
+			User invitedUser = userRepository.findOneByEmailIgnoreCase(email).get();
+			mailService.sendActivationEmail(invitedUser);
+		});
 	}
 
 }

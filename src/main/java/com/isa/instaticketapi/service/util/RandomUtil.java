@@ -37,4 +37,6 @@ public class RandomUtil {
     public static String generateResetKey() {
         return RandomStringUtils.randomNumeric(DEF_COUNT);
     }
+
+    public static String genereateEmail() { return RandomStringUtils.randomAlphanumeric(6);}
 }

@@ -8,6 +8,7 @@ import com.isa.instaticketapi.security.AuthoritiesConstants;
 import com.isa.instaticketapi.security.SecurityUtils;
 import com.isa.instaticketapi.service.dto.account.UserDTO;
 import com.isa.instaticketapi.service.util.RandomUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,26 @@ public class AccountService {
         userRepository.save(user);
 
         log.debug("Created Information for User: {}", user);
+    }
+
+    public User singupGuest() {
+        Authority authority = authorityRepository.findOne(AuthoritiesConstants.ANONYMOUS);
+        User u = new User();
+        u.setPassword(passwordEncoder.encode("randomString"));
+        u.setCity("none312");
+        u.setNumber("1424214142");
+        u.setAddress("fsafsafsafsa");
+        u.setImageUrl("none");
+        u.setActivated(true);
+        u.setFirstName("none");
+        u.setLastName("none");
+        u.setEmail(RandomUtil.genereateEmail()+ "@test.com");
+        u.setUsername(RandomUtil.genereateEmail());
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(authority);
+        u.setAuthorities(authorities);
+        u.setCreatedBy("SUPER");
+        return userRepository.save(u);
     }
 
     /**
