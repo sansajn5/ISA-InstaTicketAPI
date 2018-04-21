@@ -1,6 +1,8 @@
 package com.isa.instaticketapi.web.rest;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.ServletContext;
@@ -8,12 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.isa.instaticketapi.domain.Projection;
+import com.isa.instaticketapi.domain.Reservation;
+import com.isa.instaticketapi.domain.ReservationState;
+import com.isa.instaticketapi.repository.ProjectionRepository;
+import com.isa.instaticketapi.repository.ReservationRepository;
+import com.isa.instaticketapi.repository.ReservationStateRepository;
 import com.isa.instaticketapi.service.dto.account.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,6 +51,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * REST controller for managing the current user's account.
  */
+@EnableScheduling
 @RestController
 @RequestMapping("/api/auth")
 public class AccountResource {
@@ -73,6 +84,15 @@ public class AccountResource {
 
 	@Autowired
 	ServletContext servletContext;
+
+	@Autowired
+	private ProjectionRepository projectionRepository;
+
+	@Autowired
+	private ReservationRepository reservationRepository;
+
+	@Autowired
+	private ReservationStateRepository reservationStateRepository;
 
 	/**
 	 * POST /signup : register new user
@@ -317,6 +337,26 @@ public class AccountResource {
 		user.setPassword(encryptedPassword);
 		user.setChangedRole(false);
 		userRepository.save(user);
+	}
+
+	@Scheduled(cron ="*0 0/59 23 * * *")
+	public void update() {
+		log.info("Updating points and visits");
+		List<Projection> projections = projectionRepository.findAll();
+		for(Projection p : projections) {
+			String date = p.getDate();
+			String date1 = date.split("-")[0];
+			String date2 = date.split("-")[1];
+			String date3 = date.split("-")[2];
+			String dates = date3 + "-" +date2 + "-" + date1;
+			if(Instant.now().toString().contains(dates)){
+				Reservation r = reservationRepository.findOneByProjection(p);
+				ReservationState reservationState = reservationStateRepository.findOneByReservation(r);
+				reservationState.setDropOut(false);
+				reservationState.setUsed(true);
+				reservationStateRepository.save(reservationState);
+			}
+		}
 	}
 
 }
