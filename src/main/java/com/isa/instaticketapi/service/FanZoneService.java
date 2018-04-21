@@ -155,6 +155,7 @@ public class FanZoneService {
 				
 		offer.setCreatedBy(logged.getUsername());
 		
+		offer.setOwner(logged.getUsername());
 		offer.setName(offerDTO.getName());
 		offer.setDescription(offerDTO.getDescription());
 		offer.setImage(offerDTO.getImage());

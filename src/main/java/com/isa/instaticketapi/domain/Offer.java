@@ -42,6 +42,9 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 	
 	@Column
 	private String bestPrice;
+	
+	@Column
+	private String owner;
 
 
 	public Offer() {
@@ -144,6 +147,16 @@ public class Offer extends AbstractAuditingEntity implements Serializable{
 
 	public void setSold(Boolean sold) {
 		this.sold = sold;
+	}
+
+
+	public String getOwner() {
+		return owner;
+	}
+
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	
 	
